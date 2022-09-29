@@ -1,0 +1,85 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+
+entity User  {
+  + id (PK)
+  --
+  FirstName
+  LastName
+  DateOfBirth
+  Email
+  PasswordHash
+  Photo
+  IsTrainer (Bool)
+}
+
+entity Trainer  {
+  + id (PK)
+  --
+  HourlyRate
+  Description
+  UserId (FK)
+}
+
+entity TrainerPhoto {
+  + id (PK)
+  --
+  Path
+  TrainerId (FK)
+  Hide (Bool)
+}
+
+entity TrainerReview {
+  + id (PK)
+  --
+  Rating
+  Text
+  UserId (FK)
+  TrainerId (FK)
+  Hide (Bool)
+}
+
+entity Court {
+  + id (PK)
+  --
+  HourlyRate
+  CourtNumber
+}
+
+entity CourtReservation {
+  + id (PK)
+  --
+  CourtId (FK)
+  UserId (FK)
+  Created
+  From
+  To
+  Deleted (Bool)
+}
+
+entity TrainerReservation {
+  + id (PK)
+  --
+  CourtReservationId (FK)
+  TrainerId (FK)
+  TrainerReviewId (FK)
+  Deleted (Bool)
+}
+
+User ||--o{ TrainerReview
+User ||--o| Trainer
+User ||--o{ CourtReservation
+CourtReservation ||--o| TrainerReservation
+TrainerReservation }o--|| Trainer 
+Trainer ||--o{ TrainerPhoto
+Trainer ||--o{ TrainerReview
+Court ||--o{ CourtReservation
+TrainerReservation ||--o| TrainerReview
+
+@enduml
