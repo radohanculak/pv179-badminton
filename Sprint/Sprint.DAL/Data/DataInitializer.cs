@@ -17,33 +17,10 @@ namespace Sprint.DAL.Data
                 Id = 1,
                 FirstName = "Adam",
                 LastName = "Mydla",
-                DateOfBirth = new DateTime(31, 5, 1),
+                DateOfBirth = new DateTime(2001, 5, 31),
                 Email = "514329@mail.muni.cz",
                 PasswordHash = "tbd",
                 PhotoPath = "tbd",
-                IsTrainer = false
-            };
-            var Rado = new User
-            {
-                Id = 2,
-                FirstName = "Radovan",
-                LastName = "Hančuľák",
-                DateOfBirth = new DateTime(0, 0, 0),
-                Email = "rhanculak@mail.muni.cz",
-                PasswordHash = "tbd",
-                PhotoPath = "tbd",
-                IsTrainer = true
-            };
-            var Jitka = new User
-            {
-                Id = 3,
-                FirstName = "Jitka",
-                LastName = "Viceníková",
-                DateOfBirth = new DateTime(0, 0, 0),
-                Email = "493352@mail.muni.cz",
-                PasswordHash = "tbd",
-                PhotoPath = "tbd",
-                IsTrainer = true
             };
 
             var Petko = new User
@@ -51,11 +28,10 @@ namespace Sprint.DAL.Data
                 Id = 4,
                 FirstName = "Peter",
                 LastName = "Griffin",
-                DateOfBirth = new DateTime(5, 5, 1955),
+                DateOfBirth = new DateTime(1995, 5, 31),
                 Email = "pppeter@nonexistentmail.com",
                 PasswordHash = "tbd",
                 PhotoPath = "tbd",
-                IsTrainer = false
             };
 
             var Roman = new User
@@ -63,11 +39,10 @@ namespace Sprint.DAL.Data
                 Id = 5,
                 FirstName = "Roman",
                 LastName = "NieTenRoman",
-                DateOfBirth = new DateTime(1, 9, 1993),
+                DateOfBirth = new DateTime(1993, 9, 1),
                 Email = "rntr@nonexistentmail.com",
                 PasswordHash = "tbd",
                 PhotoPath = "tbd",
-                IsTrainer = false
             };
 
             var Monica = new User
@@ -75,57 +50,74 @@ namespace Sprint.DAL.Data
                 Id = 6,
                 FirstName = "Monica",
                 LastName = "Bellucci",
-                DateOfBirth = new DateTime(5, 5, 1955),
+                DateOfBirth = new DateTime(1955, 5, 5),
                 Email = "monic@nonexistentmail.com",
                 PasswordHash = "tbd",
                 PhotoPath = "tbd",
-                IsTrainer = false
             };
 
+            modelBuilder.Entity<User>().HasData(Adam);
+            modelBuilder.Entity<User>().HasData(Petko);
+            modelBuilder.Entity<User>().HasData(Monica);
+            modelBuilder.Entity<User>().HasData(Roman);
 
-            var RadoTrainer = new Trainer
+            var Rado = new Trainer
             {
                 Id = 1,
+                FirstName = "Radovan",
+                LastName = "Hančuľák",
+                Email = "rhanculak@mail.muni.cz",
+                PasswordHash = "tbd",
                 HourlyRate = 2000,
                 Description = "I know how to play, that's all",
-                UserId = 2,
             };
-
-            var JitkaTrainer = new Trainer
+            var Jitka = new Trainer
             {
                 Id = 2,
                 HourlyRate = 3485,
                 Description = "I know how to play even better, that's all",
-                UserId = 3,
+                FirstName = "Jitka",
+                LastName = "Viceníková",
+                Email = "493352@mail.muni.cz",
+                PasswordHash = "tbd",
             };
 
-            var court1 = new Court
+            modelBuilder.Entity<Trainer>().HasData(Rado);
+            modelBuilder.Entity<Trainer>().HasData(Jitka);
+
+
+            var courtA = new Court
             {
                 Id = 1,
                 HourlyRate = 1000,
                 CourtNumber = "A",
             };
 
-            var court2 = new Court
+            var courtB = new Court
             {
                 Id = 2,
                 HourlyRate = 800,
-                CourtNumber = "A",
+                CourtNumber = "B",
             };
 
-            var court3 = new Court
+            var courtC = new Court
             {
                 Id = 3,
                 HourlyRate = 800,
-                CourtNumber = "A",
+                CourtNumber = "C",
             };
 
-            var court4 = new Court
+            var courtD = new Court
             {
                 Id = 4,
                 HourlyRate = 500,
-                CourtNumber = "A",
+                CourtNumber = "D",
             };
+
+            modelBuilder.Entity<Court>().HasData(courtA);
+            modelBuilder.Entity<Court>().HasData(courtB);
+            modelBuilder.Entity<Court>().HasData(courtC);
+            modelBuilder.Entity<Court>().HasData(courtD);
 
             var RadoTrainerPhoto1 = new TrainerPhoto
             {
@@ -159,6 +151,10 @@ namespace Sprint.DAL.Data
                 TrainerId = 2,
             };
 
+            modelBuilder.Entity<TrainerPhoto>().HasData(RadoTrainerPhoto1);
+            modelBuilder.Entity<TrainerPhoto>().HasData(RadoTrainerPhoto2);
+            modelBuilder.Entity<TrainerPhoto>().HasData(JitkaTrainerPhoto1);
+            modelBuilder.Entity<TrainerPhoto>().HasData(JitkaTrainerPhoto2);
 
             var courtReservationAdam1 = new CourtReservation
             {
@@ -241,27 +237,38 @@ namespace Sprint.DAL.Data
             {
                 Id = 8,
                 Created = new DateTime(2022, 1, 1, 0, 0, 0),
-                From = new DateTime(2022, 31, 12, 10, 0, 0),
-                To = new DateTime(2022, 31, 12, 11, 0, 0),
+                From = new DateTime(2022, 12, 31, 10, 0, 0),
+                To = new DateTime(2022, 12, 31, 11, 0, 0),
                 IsDeleted = false,
                 UserId = 6,
                 CourtId = 4,
             };
 
-            var RadoRoman2 = new TrainerReservation
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationAdam1);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationAdam2);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationAdam3);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationPetko1);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationPetko2);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationRoman1);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationRoman2);
+            modelBuilder.Entity<CourtReservation>().HasData(courtReservationMonica1);
+
+            var RadoRoman1 = new TrainerReservation
             {
                 Id = 1,
                 IsDeleted = true,
                 CourtReservationId = 7,
                 TrainerId = 1,
+                TrainerReviewId = null,
             };
 
-            var RadoRoman1 = new TrainerReservation
+            var RadoRoman2 = new TrainerReservation
             {
                 Id = 2,
                 IsDeleted = false,
                 CourtReservationId = 6,
                 TrainerId = 1,
+                TrainerReviewId = null,
             };
 
             var JitkaMonicaReview = new TrainerReview
@@ -270,8 +277,6 @@ namespace Sprint.DAL.Data
                 Rating = 5,
                 Text = "tbd",
                 Hide = false,
-                UserId = 6,
-                TrainerId = 2,
             };
 
             var JitkaMonica = new TrainerReservation
@@ -282,6 +287,11 @@ namespace Sprint.DAL.Data
                 TrainerId = 2,
                 TrainerReviewId = 1,
             };
+
+            modelBuilder.Entity<TrainerReview>().HasData(JitkaMonicaReview);
+            modelBuilder.Entity<TrainerReservation>().HasData(RadoRoman1);
+            modelBuilder.Entity<TrainerReservation>().HasData(RadoRoman2);
+            modelBuilder.Entity<TrainerReservation>().HasData(JitkaMonica);
         }
     }
 }
