@@ -30,6 +30,7 @@ public class SprintDbContext : DbContext
             path = Path.Combine(
                 Directory.GetCurrentDirectory(), fileName); // update the path if necessary (Linux, Mac)
         }
+
         return path;
     }
 

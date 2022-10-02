@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace Sprint.DAL.Models;
 
-namespace Sprint.DAL.Models
+public class TrainerReview : BaseEntity
 {
-    public class TrainerReview : BaseEntity
-    {
-        public int Rating { get; set; }
+    public int Rating { get; set; }
 
-        public string Text { get; set; }
+    public string Text { get; set; }
 
-        public bool Hide { get; set; }
-    }
+    public bool Hide { get; set; }
 }
