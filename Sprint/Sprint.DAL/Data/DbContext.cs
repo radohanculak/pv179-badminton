@@ -17,21 +17,7 @@ public class SprintDbContext : DbContext
     private static string getDbPath()
     {
         var fileName = "sprint.db";
-        string path;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            path = Path.Combine(
-                Directory.GetParent(Directory.GetCurrentDirectory()
-                    )
-                    .Parent.Parent.Parent.FullName, fileName);
-        }
-        else
-        {
-            path = Path.Combine(
-                Directory.GetCurrentDirectory(), fileName); // update the path if necessary (Linux, Mac)
-        }
-
-        return path;
+        return Path.Combine(Directory.GetCurrentDirectory(), fileName);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
