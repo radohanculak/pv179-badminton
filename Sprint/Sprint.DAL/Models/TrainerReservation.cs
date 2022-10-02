@@ -16,7 +16,7 @@ namespace Sprint.DAL.Models
         [ForeignKey(nameof(TrainerId))]
         public virtual Trainer Trainer { get; set; }
 
-        public int TrainerReviewId { get; set; }
+        public int? TrainerReviewId { get; set; }
 
         [ForeignKey(nameof(TrainerReviewId))]
         public TrainerReview? TrainerReview { get; set; }
