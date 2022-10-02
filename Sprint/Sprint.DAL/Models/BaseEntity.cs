@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sprint.DAL.Models
+namespace Sprint.DAL.Models;
+
+public class BaseEntity
 {
-    public class BaseEntity
-    {
-        [Key]
-        public int Id { get; set; }
-    }
+    [Key] public int Id { get; set; }
 }
