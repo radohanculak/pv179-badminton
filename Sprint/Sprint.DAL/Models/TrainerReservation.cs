@@ -13,9 +13,11 @@ public class TrainerReservation : BaseEntity
 
     public int TrainerId { get; set; }
 
-    [ForeignKey(nameof(TrainerId))] public virtual Trainer Trainer { get; set; }
+    [ForeignKey(nameof(TrainerId))]
+    public virtual Trainer Trainer { get; set; }
 
     public int? TrainerReviewId { get; set; }
 
-    [ForeignKey(nameof(TrainerReviewId))] public TrainerReview? TrainerReview { get; set; }
+    [ForeignKey(nameof(TrainerReviewId))]
+    public TrainerReview? TrainerReview { get; set; }
 }

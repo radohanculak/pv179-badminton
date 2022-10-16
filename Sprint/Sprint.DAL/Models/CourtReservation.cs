@@ -14,11 +14,13 @@ public class CourtReservation : BaseEntity
 
     public int UserId { get; set; }
 
-    [ForeignKey(nameof(UserId))] public virtual User User { get; set; }
+    [ForeignKey(nameof(UserId))]
+    public virtual User User { get; set; }
 
     public int CourtId { get; set; }
 
-    [ForeignKey(nameof(CourtId))] public virtual Court Court { get; set; }
+    [ForeignKey(nameof(CourtId))]
+    public virtual Court Court { get; set; }
 
     public virtual TrainerReservation TrainerReservation { get; set; }
 }
