@@ -1,4 +1,6 @@
-﻿namespace Sprint.DAL.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Sprint.DAL.Models;
 
 public class TrainerPhoto : BaseEntity
 {
@@ -8,5 +10,6 @@ public class TrainerPhoto : BaseEntity
 
     public int TrainerId { get; set; }
 
+    [ForeignKey(nameof(TrainerId))]
     public Trainer Trainer { get; set; }
 }
