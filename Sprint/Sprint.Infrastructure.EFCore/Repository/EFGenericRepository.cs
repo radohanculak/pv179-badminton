@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sprint.DAL.Data;
+using Sprint.DAL.EFCore.Data;
 using Sprint.Infrastructure.Repository;
 
 namespace Sprint.Infrastructure.EFCore.Repository;

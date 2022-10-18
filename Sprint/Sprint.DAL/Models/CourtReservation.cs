@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sprint.DAL.Models;
+namespace Sprint.DAL.EFCore.Models;
 
 public class CourtReservation : BaseEntity
 {
@@ -12,12 +12,12 @@ public class CourtReservation : BaseEntity
 
     public bool IsDeleted { get; set; }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
     public virtual User User { get; set; }
 
-    public int CourtId { get; set; }
+    public Guid CourtId { get; set; }
 
     [ForeignKey(nameof(CourtId))]
     public virtual Court Court { get; set; }

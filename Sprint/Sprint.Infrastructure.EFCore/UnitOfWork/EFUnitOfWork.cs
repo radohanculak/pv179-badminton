@@ -1,5 +1,5 @@
-﻿using Sprint.DAL.Data;
-using Sprint.DAL.Models;
+﻿using Sprint.DAL.EFCore.Data;
+using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.EFCore.Repository;
 using Sprint.Infrastructure.Repository;
 using Sprint.Infrastructure.UnitOfWork;

@@ -1,8 +1,7 @@
-﻿using System.Runtime.InteropServices;
-using Microsoft.EntityFrameworkCore;
-using Sprint.DAL.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Sprint.DAL.EFCore.Models;
 
-namespace Sprint.DAL.Data;
+namespace Sprint.DAL.EFCore.Data;
 
 public class SprintDbContext : DbContext
 {
@@ -35,6 +34,7 @@ public class SprintDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Seeder();
     }
 }

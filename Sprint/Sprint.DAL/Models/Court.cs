@@ -1,4 +1,4 @@
-﻿namespace Sprint.DAL.Models;
+﻿namespace Sprint.DAL.EFCore.Models;
 
 public class Court : BaseEntity
 {

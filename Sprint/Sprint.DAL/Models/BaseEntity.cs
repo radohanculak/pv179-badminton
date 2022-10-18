@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sprint.DAL.Models;
+namespace Sprint.DAL.EFCore.Models;
 
 public class BaseEntity
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }
