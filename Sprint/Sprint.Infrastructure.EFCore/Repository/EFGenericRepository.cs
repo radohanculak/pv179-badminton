@@ -47,4 +47,19 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         var entityToDelete = await dbSet.FindAsync(id);
         Delete(entityToDelete);
     }
+
+    public virtual async Task<IEnumerable<TEntity>> GetAll()
+    {
+        return await dbSet.ToListAsync();
+    }
+
+    public virtual async Task Save()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public virtual TEntity GetOne()
+    {
+        return dbSet.First();
+    }
 }
