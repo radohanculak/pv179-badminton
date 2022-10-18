@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sprint.DAL.Models;
+namespace Sprint.DAL.EFCore.Models;
 
 public class TrainerPhoto : BaseEntity
 {
@@ -8,7 +8,7 @@ public class TrainerPhoto : BaseEntity
 
     public bool Hide { get; set; }
 
-    public int TrainerId { get; set; }
+    public Guid TrainerId { get; set; }
 
     [ForeignKey(nameof(TrainerId))]
     public Trainer Trainer { get; set; }

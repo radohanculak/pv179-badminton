@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sprint.DAL.Models;
+using Sprint.DAL.EFCore.Models;
 
-namespace Sprint.DAL.Data;
+namespace Sprint.DAL.EFCore.Data;
 
 public static class DataInitializer
 {
@@ -9,7 +9,7 @@ public static class DataInitializer
     {
         var Adam = new User
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             FirstName = "Adam",
             LastName = "Mydla",
             DateOfBirth = new DateTime(2001, 5, 31),
@@ -20,7 +20,7 @@ public static class DataInitializer
 
         var Petko = new User
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             FirstName = "Peter",
             LastName = "Griffin",
             DateOfBirth = new DateTime(1995, 5, 31),
@@ -31,7 +31,7 @@ public static class DataInitializer
 
         var Roman = new User
         {
-            Id = 5,
+            Id = Guid.NewGuid(),
             FirstName = "Roman",
             LastName = "NieTenRoman",
             DateOfBirth = new DateTime(1993, 9, 1),
@@ -42,7 +42,7 @@ public static class DataInitializer
 
         var Monica = new User
         {
-            Id = 6,
+            Id = Guid.NewGuid(),
             FirstName = "Monica",
             LastName = "Bellucci",
             DateOfBirth = new DateTime(1955, 5, 5),
@@ -58,7 +58,7 @@ public static class DataInitializer
 
         var Rado = new Trainer
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             FirstName = "Radovan",
             LastName = "Hančuľák",
             Email = "rhanculak@mail.muni.cz",
@@ -68,7 +68,7 @@ public static class DataInitializer
         };
         var Jitka = new Trainer
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             HourlyRate = 3485,
             Description = "I know how to play even better, that's all",
             FirstName = "Jitka",
@@ -83,28 +83,28 @@ public static class DataInitializer
 
         var courtA = new Court
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             HourlyRate = 1000,
             CourtNumber = "A",
         };
 
         var courtB = new Court
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             HourlyRate = 800,
             CourtNumber = "B",
         };
 
         var courtC = new Court
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             HourlyRate = 800,
             CourtNumber = "C",
         };
 
         var courtD = new Court
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             HourlyRate = 500,
             CourtNumber = "D",
         };
@@ -116,34 +116,34 @@ public static class DataInitializer
 
         var RadoTrainerPhoto1 = new TrainerPhoto
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Path = "tbd",
             Hide = false,
-            TrainerId = 1,
+            TrainerId = Rado.Id,
         };
 
         var RadoTrainerPhoto2 = new TrainerPhoto
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Path = "tbd",
             Hide = false,
-            TrainerId = 1,
+            TrainerId = Rado.Id,
         };
 
         var JitkaTrainerPhoto1 = new TrainerPhoto
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             Path = "tbd",
             Hide = true,
-            TrainerId = 2,
+            TrainerId = Jitka.Id,
         };
 
         var JitkaTrainerPhoto2 = new TrainerPhoto
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             Path = "tbd",
             Hide = true,
-            TrainerId = 2,
+            TrainerId = Jitka.Id,
         };
 
         modelBuilder.Entity<TrainerPhoto>().HasData(RadoTrainerPhoto1);
@@ -153,90 +153,90 @@ public static class DataInitializer
 
         var courtReservationAdam1 = new CourtReservation
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 20, 9, 53, 34),
             From = new DateTime(2022, 9, 29, 10, 0, 0),
             To = new DateTime(2022, 9, 29, 11, 0, 0),
             IsDeleted = false,
-            UserId = 1,
-            CourtId = 1,
+            UserId = Adam.Id,
+            CourtId = courtA.Id,
         };
 
         var courtReservationAdam2 = new CourtReservation
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 21, 6, 51, 34),
             From = new DateTime(2022, 9, 30, 8, 0, 0),
             To = new DateTime(2022, 9, 30, 13, 0, 0),
             IsDeleted = false,
-            UserId = 1,
-            CourtId = 3,
+            UserId = Adam.Id,
+            CourtId = courtC.Id,
         };
 
         var courtReservationAdam3 = new CourtReservation
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 5, 23, 59, 59),
             From = new DateTime(2022, 11, 17, 8, 0, 0),
             To = new DateTime(2022, 11, 17, 16, 0, 0),
             IsDeleted = true,
-            UserId = 1,
-            CourtId = 3,
+            UserId = Adam.Id,
+            CourtId = courtC.Id,
         };
 
         var courtReservationPetko1 = new CourtReservation
         {
-            Id = 4,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 20, 9, 53, 34),
             From = new DateTime(2022, 9, 29, 11, 0, 0),
             To = new DateTime(2022, 9, 29, 12, 0, 0),
             IsDeleted = false,
-            UserId = 4,
-            CourtId = 1,
+            UserId = Petko.Id,
+            CourtId = courtA.Id,
         };
 
         var courtReservationPetko2 = new CourtReservation
         {
-            Id = 5,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 28, 19, 19, 19),
             From = new DateTime(2022, 10, 1, 10, 0, 0),
             To = new DateTime(2022, 10, 1, 11, 0, 0),
             IsDeleted = false,
-            UserId = 4,
-            CourtId = 1,
+            UserId = Petko.Id,
+            CourtId = courtA.Id,
         };
 
         var courtReservationRoman1 = new CourtReservation
         {
-            Id = 6,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 15, 18, 4, 4),
             From = new DateTime(2022, 9, 16, 13, 0, 0),
             To = new DateTime(2022, 9, 16, 17, 0, 0),
             IsDeleted = false,
-            UserId = 5,
-            CourtId = 2,
+            UserId = Roman.Id,
+            CourtId = courtB.Id,
         };
 
         var courtReservationRoman2 = new CourtReservation
         {
-            Id = 7,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 9, 16, 9, 53, 34),
             From = new DateTime(2022, 9, 17, 10, 0, 0),
             To = new DateTime(2022, 9, 17, 11, 0, 0),
             IsDeleted = true,
-            UserId = 5,
-            CourtId = 2,
+            UserId = Roman.Id,
+            CourtId = courtB.Id,
         };
 
         var courtReservationMonica1 = new CourtReservation
         {
-            Id = 8,
+            Id = Guid.NewGuid(),
             Created = new DateTime(2022, 1, 1, 0, 0, 0),
             From = new DateTime(2022, 12, 31, 10, 0, 0),
             To = new DateTime(2022, 12, 31, 11, 0, 0),
             IsDeleted = false,
-            UserId = 6,
-            CourtId = 4,
+            UserId = Monica.Id,
+            CourtId = courtD.Id,
         };
 
         modelBuilder.Entity<CourtReservation>().HasData(courtReservationAdam1);
@@ -250,25 +250,25 @@ public static class DataInitializer
 
         var RadoRoman1 = new TrainerReservation
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             IsDeleted = true,
-            CourtReservationId = 7,
-            TrainerId = 1,
+            CourtReservationId = courtReservationRoman2.Id,
+            TrainerId = Rado.Id,
             TrainerReviewId = null,
         };
 
         var RadoRoman2 = new TrainerReservation
         {
-            Id = 2,
+            Id = Guid.NewGuid(),
             IsDeleted = false,
-            CourtReservationId = 6,
-            TrainerId = 1,
+            CourtReservationId = courtReservationRoman1.Id,
+            TrainerId = Rado.Id,
             TrainerReviewId = null,
         };
 
         var JitkaMonicaReview = new TrainerReview
         {
-            Id = 1,
+            Id = Guid.NewGuid(),
             Rating = 5,
             Text = "tbd",
             Hide = false,
@@ -276,11 +276,11 @@ public static class DataInitializer
 
         var JitkaMonica = new TrainerReservation
         {
-            Id = 3,
+            Id = Guid.NewGuid(),
             IsDeleted = false,
-            CourtReservationId = 8,
-            TrainerId = 2,
-            TrainerReviewId = 1,
+            CourtReservationId = courtReservationMonica1.Id,
+            TrainerId = Jitka.Id,
+            TrainerReviewId = JitkaMonicaReview.Id,
         };
 
         modelBuilder.Entity<TrainerReview>().HasData(JitkaMonicaReview);
