@@ -15,16 +15,18 @@ entity User  {
   DateOfBirth
   Email
   PasswordHash
-  Photo
-  IsTrainer (Bool)
+  PhotoPath
 }
 
 entity Trainer  {
   + id (PK)
   --
+  FirstName
+  LastName
+  Email
+  PasswordHash
   HourlyRate
   Description
-  UserId (FK)
 }
 
 entity TrainerPhoto {
@@ -40,8 +42,6 @@ entity TrainerReview {
   --
   Rating
   Text
-  UserId (FK)
-  TrainerId (FK)
   Hide (Bool)
 }
 
@@ -60,7 +60,7 @@ entity CourtReservation {
   Created
   From
   To
-  Deleted (Bool)
+  IsDeleted (Bool)
 }
 
 entity TrainerReservation {
@@ -69,16 +69,13 @@ entity TrainerReservation {
   CourtReservationId (FK)
   TrainerId (FK)
   TrainerReviewId (FK)
-  Deleted (Bool)
+  IsDeleted (Bool)
 }
 
-User ||--o{ TrainerReview
-User ||--o| Trainer
 User ||--o{ CourtReservation
 CourtReservation ||--o| TrainerReservation
-TrainerReservation }o--|| Trainer 
+Trainer ||--o{ TrainerReservation
 Trainer ||--o{ TrainerPhoto
-Trainer ||--o{ TrainerReview
 Court ||--o{ CourtReservation
 TrainerReservation ||--o| TrainerReview
 
