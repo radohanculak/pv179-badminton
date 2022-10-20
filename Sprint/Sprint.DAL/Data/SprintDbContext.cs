@@ -12,7 +12,15 @@ public class SprintDbContext : DbContext
     public DbSet<TrainerReservation> TrainerReservations { get; set; }
     public DbSet<TrainerReview> TrainerReviews { get; set; }
     public DbSet<TrainerPhoto> TrainerPhotos { get; set; }
+    
+    public SprintDbContext()
+    {
+    }
 
+    public SprintDbContext(DbContextOptions<SprintDbContext> options) : base(options)
+    {
+    }
+    
     private static string getDbPath()
     {
         var fileName = "sprint.db";

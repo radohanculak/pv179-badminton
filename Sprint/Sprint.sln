@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Infrastructure", "Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Infrastructure.EFCore", "Sprint.Infrastructure.EFCore\Sprint.Infrastructure.EFCore.csproj", "{9156E8AE-36DA-4625-A6AF-2F6ABF2FC597}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.DAL.UnitTest", "Sprint.DAL.UnitTest\Sprint.DAL.UnitTest.csproj", "{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9156E8AE-36DA-4625-A6AF-2F6ABF2FC597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9156E8AE-36DA-4625-A6AF-2F6ABF2FC597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9156E8AE-36DA-4625-A6AF-2F6ABF2FC597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
