@@ -30,7 +30,7 @@ public class SeederFunctions
         {
             courts.Add(new Court
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 HourlyRate = 1000 + 200 * (i % 5),
                 CourtNumber = i.ToString(),
             });
