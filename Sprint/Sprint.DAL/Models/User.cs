@@ -16,5 +16,9 @@ public class User : BaseEntity
 
     public string PhotoPath { get; set; }
 
+    public bool IsTrainer { get; set; }
+
     public virtual List<CourtReservation> CourtReservations { get; set; }
+
+    public virtual Trainer? Trainer { get; set; }
 }
