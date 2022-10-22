@@ -22,6 +22,5 @@ public class CourtReservation : BaseEntity
     [ForeignKey(nameof(CourtId))]
     public virtual Court Court { get; set; }
 
-    //TODO: Change to nullable after Guid migration is merged to master!
-    public virtual TrainerReservation TrainerReservation { get; set; }
+    public virtual TrainerReservation? TrainerReservation { get; set; }
 }
