@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Sprint.DAL.EFCore.Models.Base;
 
 namespace Sprint.DAL.EFCore.Models;
 
-public class CourtReservation : BaseEntity
+public class CourtReservation : DeletableEntity
 {
     public DateTime Created { get; set; }
 
     public DateTime From { get; set; }
 
     public DateTime To { get; set; }
-
-    public bool IsDeleted { get; set; }
 
     public Guid UserId { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sprint.DAL.EFCore.Models;
+namespace Sprint.DAL.EFCore.Models.Base;
 
 public class BaseEntity
 {
