@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Sprint.DAL.EFCore.Models.Base;
 
 namespace Sprint.DAL.EFCore.Models;
 
-public class TrainerReservation : BaseEntity
+public class TrainerReservation : DeletableEntity
 {
-    public bool IsDeleted { get; set; }
-
     public Guid CourtReservationId { get; set; }
 
     [ForeignKey(nameof(CourtReservationId))]

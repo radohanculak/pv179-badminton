@@ -1,4 +1,6 @@
-﻿namespace Sprint.DAL.EFCore.Models;
+﻿using Sprint.DAL.EFCore.Models.Base;
+
+namespace Sprint.DAL.EFCore.Models;
 
 public class TrainerReview : BaseEntity
 {

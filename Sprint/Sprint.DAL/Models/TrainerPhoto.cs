@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Sprint.DAL.EFCore.Models.Base;
 
 namespace Sprint.DAL.EFCore.Models;
 
