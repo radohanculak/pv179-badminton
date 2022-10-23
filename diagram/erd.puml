@@ -1,4 +1,4 @@
-@startuml
+@startuml SprintERD
 
 ' hide the spot
 hide circle
@@ -16,17 +16,15 @@ entity User  {
   Email
   PasswordHash
   PhotoPath
+  IsTrainer (Bool)
 }
 
 entity Trainer  {
   + id (PK)
   --
-  FirstName
-  LastName
-  Email
-  PasswordHash
   HourlyRate
   Description
+  UserId (FK)
 }
 
 entity TrainerPhoto {
