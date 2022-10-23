@@ -190,4 +190,34 @@ public class RepositoryTests
         Assert.True(updatedObj.HourlyRate == 0);
         Assert.True(updatedObj.CourtNumber == "E");
     }
+    
+    [Fact]
+    public async void Repository_DeleteById_MinusOneRow()
+    {
+        using var dbContext = new SprintDbContext(_options);
+        var repository = new EFGenericRepository<Court>(dbContext);
+        var guidToBeDeleted = _guids[0];
+
+        await repository.DeleteByIdAsync(guidToBeDeleted);
+        await repository.Save();
+        
+        var objToBeDeleted = repository.GetByID(guidToBeDeleted);
+        var result = (await repository.GetAll()).ToList();
+        Assert.True(result.Count == 3);
+        Assert.Null(repository.GetByID(guidToBeDeleted));
+        Assert.DoesNotContain(objToBeDeleted, result);
+    }
+    
+    [Fact]
+    public async void Repository_DeleteByIdWrongId_Nothing()
+    {
+        using var dbContext = new SprintDbContext(_options);
+        var repository = new EFGenericRepository<Court>(dbContext);
+
+        await repository.DeleteByIdAsync(Guid.NewGuid());
+        await repository.Save();
+        
+        var result = (await repository.GetAll()).ToList();
+        Assert.True(result.Count == 4);
+    }
 }
