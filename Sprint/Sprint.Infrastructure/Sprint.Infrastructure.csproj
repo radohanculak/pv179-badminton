@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sprint.DAL\Sprint.DAL.EFCore.csproj" />
+  </ItemGroup>
+
 </Project>

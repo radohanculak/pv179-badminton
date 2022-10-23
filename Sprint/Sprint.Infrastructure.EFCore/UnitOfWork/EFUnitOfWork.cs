@@ -10,19 +10,19 @@ public class EFUnitOfWork : IUnitOfWork
 {
     private readonly SprintDbContext _dbContext;
 
-    private IRepository<Court> CourtRepository { get; }
+    public IRepository<Court> CourtRepository { get; }
 
-    private IRepository<CourtReservation> CourtReservationRepository { get; }
+    public IRepository<CourtReservation> CourtReservationRepository { get; }
 
-    private IRepository<Trainer> TrainerRepository { get; }
+    public IRepository<Trainer> TrainerRepository { get; }
 
-    private IRepository<TrainerPhoto> TrainerPhotoRepository { get; }
+    public IRepository<TrainerPhoto> TrainerPhotoRepository { get; }
 
-    private IRepository<TrainerReservation> TrainerReservationRepository { get; }
+    public IRepository<TrainerReservation> TrainerReservationRepository { get; }
 
-    private IRepository<TrainerReview> TrainerReviewRepository { get; }
+    public IRepository<TrainerReview> TrainerReviewRepository { get; }
 
-    private IRepository<User> UserRepository { get; }
+    public IRepository<User> UserRepository { get; }
 
     public EFUnitOfWork(SprintDbContext dbDbContext)
     {

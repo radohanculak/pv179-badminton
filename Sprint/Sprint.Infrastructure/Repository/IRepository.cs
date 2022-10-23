@@ -6,7 +6,7 @@ public interface IRepository<TEntity> where TEntity : class
 
     void Insert(TEntity entity);
 
-    Task DeleteAsync(object id);
+    Task DeleteByIdAsync(object id);
 
     void Delete(TEntity entityToDelete);
 

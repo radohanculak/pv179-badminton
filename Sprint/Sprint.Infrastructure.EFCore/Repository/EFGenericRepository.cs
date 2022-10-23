@@ -42,10 +42,13 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
     }
 
-    public virtual async Task DeleteAsync(object id)
+    public virtual async Task DeleteByIdAsync(object id)
     {
         var entityToDelete = await dbSet.FindAsync(id);
-        Delete(entityToDelete);
+        if (entityToDelete is not null)
+        {
+            Delete(entityToDelete);
+        }
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAll()
