@@ -19,5 +19,5 @@ public interface IUnitOfWork : IDisposable
 
     public IRepository<User> UserRepository { get; }
     
-    Task Commit();
+    Task CommitAsync();
 }
