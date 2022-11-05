@@ -37,7 +37,7 @@ public class EFUnitOfWork : IUnitOfWork
         UserRepository = new EFGenericRepository<User>(_dbContext);
     }
 
-    public async Task Commit()
+    public async Task CommitAsync()
     {
         await _dbContext.SaveChangesAsync();
     }

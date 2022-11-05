@@ -45,10 +45,10 @@ public class UoWTests
         uow.CourtRepository.Insert(courtToAdd);
         var toBeDeleted = uow.CourtRepository.GetByID(guidToBeDeleted);
          uow.CourtRepository.Delete(toBeDeleted);
-        await uow.Commit();
+        await uow.CommitAsync();
         
         var repository = new EFGenericRepository<Court>(dbContext);
-        var all = (await repository.GetAll()).ToList();
+        var all = (await repository.GetAllAsync()).ToList();
         Assert.True(all.Count == 4);
         Assert.DoesNotContain(toBeDeleted, all);
         Assert.Contains(courtToAdd, all);
@@ -60,15 +60,15 @@ public class UoWTests
         using var dbContext = new SprintDbContext(_options);
         using var uow = new EFUnitOfWork(dbContext);
         
-        var allCourts = await uow.CourtRepository.GetAll();
+        var allCourts = await uow.CourtRepository.GetAllAsync();
         foreach (var court in allCourts)
         {
             uow.CourtRepository.Delete(court);
         }
-        await uow.Commit();
+        await uow.CommitAsync();
         
         var repository = new EFGenericRepository<Court>(dbContext);
-        var all = (await repository.GetAll()).ToList();
+        var all = (await repository.GetAllAsync()).ToList();
         Assert.True(all.Count == 0);
     }
     
@@ -78,14 +78,14 @@ public class UoWTests
         using var dbContext = new SprintDbContext(_options);
         using var uow = new EFUnitOfWork(dbContext);
         
-        var allCourts = await uow.CourtRepository.GetAll();
+        var allCourts = await uow.CourtRepository.GetAllAsync();
         foreach (var court in allCourts)
         {
             uow.CourtRepository.Delete(court);
         }
 
         var repository = new EFGenericRepository<Court>(dbContext);
-        var all = (await repository.GetAll()).ToList();
+        var all = (await repository.GetAllAsync()).ToList();
         Assert.True(all.Count == 4);
     }
     
@@ -95,16 +95,16 @@ public class UoWTests
         using var dbContext = new SprintDbContext(_options);
         using var uow = new EFUnitOfWork(dbContext);
         
-        var allCourts = await uow.CourtRepository.GetAll();
+        var allCourts = await uow.CourtRepository.GetAllAsync();
         foreach (var court in allCourts)
         {
             court.HourlyRate = 0;
             uow.CourtRepository.Update(court);
         }
-        await uow.Commit();
+        await uow.CommitAsync();
 
         var repository = new EFGenericRepository<Court>(dbContext);
-        var all = (await repository.GetAll()).ToList();
+        var all = (await repository.GetAllAsync()).ToList();
         Assert.True(all.Count(court => court.HourlyRate == 0) == 4);
     }
     
@@ -129,7 +129,7 @@ public class UoWTests
         var court = uow.CourtRepository.GetByID(courtGuidToUpdate);
         court.CourtNumber = "123";
         
-        await uow.Commit();
+        await uow.CommitAsync();
 
         
         var repositoryUser = new EFGenericRepository<User>(dbContext);

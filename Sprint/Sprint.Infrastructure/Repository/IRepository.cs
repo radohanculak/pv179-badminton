@@ -12,9 +12,9 @@ public interface IRepository<TEntity> where TEntity : class
 
     void Update(TEntity entityToUpdate);
 
-    Task<IEnumerable<TEntity>> GetAll();
+    Task<IEnumerable<TEntity>> GetAllAsync();
 
     TEntity GetOne();
 
-    Task Save();
+    Task SaveAsync();
 }

@@ -2,7 +2,7 @@
 
 namespace Sprint.DAL.EFCore.Models.Base;
 
-public class BaseEntity
+public abstract class BaseEntity
 {
     [Key]
     public Guid Id { get; set; }

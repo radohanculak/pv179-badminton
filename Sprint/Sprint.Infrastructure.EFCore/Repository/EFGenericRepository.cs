@@ -51,12 +51,12 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         }
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAll()
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await dbSet.ToListAsync();
     }
 
-    public virtual async Task Save()
+    public virtual async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();
     }
