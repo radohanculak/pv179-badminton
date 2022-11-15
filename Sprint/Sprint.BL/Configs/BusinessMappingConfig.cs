@@ -43,6 +43,6 @@ public class BusinessMappingConfig
      * UserDto type is not actually used in the function, but it has to be there
      */
     private static string GetPasswordHash(string password) =>
-        new PasswordHasher<UserDto>().HashPassword(null, password);
+        new PasswordHasher<UserDto>().HashPassword(null!, password);
 
 }
