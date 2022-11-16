@@ -21,4 +21,6 @@ public class User : BaseEntity
     public virtual List<CourtReservation> CourtReservations { get; set; }
 
     public virtual Trainer? Trainer { get; set; }
+
+    public UserRole Role { get; set; }
 }
