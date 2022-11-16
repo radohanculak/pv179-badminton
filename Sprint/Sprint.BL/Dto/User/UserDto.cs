@@ -1,4 +1,5 @@
 using Sprint.BL.Dto.CourtReservation;
+using Sprint.BL.Dto.Trainer;
 
 namespace Sprint.BL.Dto.User;
 
@@ -17,4 +18,8 @@ public class UserDto
     public int Age { get; set; }
     
     public string PhotoPath { get; set; } = null!;
+
+    public bool IsTrainer { get; set; }
+
+    public virtual TrainerDto Trainer { get; set; } = null!;
 }
