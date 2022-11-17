@@ -29,6 +29,8 @@ public class BusinessMappingConfig
         
         config.CreateMap<CourtReservation, CourtReservationDto>().ReverseMap();
 
+        config.CreateMap<CourtReservationCreateDto, CourtReservation>();
+
         config.CreateMap<TrainerReservation, TrainerReservationDto>().ReverseMap();
         
         config.CreateMap<TrainerReview, TrainerReviewDto>().ReverseMap();

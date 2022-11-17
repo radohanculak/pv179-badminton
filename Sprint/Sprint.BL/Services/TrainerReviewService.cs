@@ -1,6 +1,8 @@
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.TrainerReview;
 using Sprint.BL.Services.Interfaces;
+using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.Services;
@@ -9,16 +11,34 @@ public class TrainerReviewService : ITrainerReviewService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserService _userService;
+    private readonly ITrainerReservationService _trainerReservationService;
 
-    public TrainerReviewService(IUnitOfWork unitOfWork, IMapper mapper)
+    public TrainerReviewService(IUnitOfWork unitOfWork, IMapper mapper,
+        IUserService userService, ITrainerReservationService trainerReservationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _userService = userService;
+        _trainerReservationService = trainerReservationService;
     }
 
-    public async Task<bool> AddReview(Guid trainerReservationId, TrainerReviewDto review)
+    public async Task AddReviewAsync(Guid trainerReservationId, int rating, string text)
     {
-        throw new NotImplementedException();
+        Guard.Against.NullOrEmpty(text);
+        Guard.Against.OutOfRange(rating, nameof(rating), 0, 10);
+
+        var review = new TrainerReviewDto
+        {
+            Rating = rating,
+            Text = text
+        };
+
+        var reservation = await _trainerReservationService.GetReservationAsync(trainerReservationId);
+        reservation.TrainerReview = review;
+
+        _unitOfWork.CourtReservationRepository.Update(_mapper.Map<CourtReservation>(reservation));
+        await _unitOfWork.CommitAsync();
     }
 
     public async Task<List<TrainerReviewDto>> GetAllReviews()
@@ -26,37 +46,55 @@ public class TrainerReviewService : ITrainerReviewService
         return _mapper.Map<List<TrainerReviewDto>>(await _unitOfWork.TrainerReviewRepository.GetAllAsync());
     }
 
-    public async Task<List<TrainerReviewDto>> GetUserReviews(Guid userId)
+    public async Task<List<TrainerReviewDto>> GetUserReviewsAsync(Guid userId)
     {
-        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+        _ = await _userService.GetUserAsync(userId);
 
-        if (user == null)
+        var reservations = await _trainerReservationService.GetReservationsForUserAsync(userId, true);
+
+        return reservations.Where(r => r.TrainerReview != null).Select(r => r.TrainerReview).ToList();
+    }
+
+    public async Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId)
+    {
+        _ = await _userService.GetUserAsync(trainerId);
+
+        var reservations = await _trainerReservationService.GetReservationsForTrainerAsync(trainerId, true);
+
+        return reservations.Where(r => r.TrainerReview != null).Select(r => r.TrainerReview).ToList();
+    }
+
+    public async Task<TrainerReviewDto> GetReviewAsync(Guid reviewId)
+    {
+        var review = _unitOfWork.TrainerReviewRepository.GetByIdAsync(reviewId);
+
+        if (review == null)
         {
-            new InvalidOperationException($"User with id {userId} does not exist");
+            throw new InvalidOperationException($"Trainer review with id {reviewId} does not exist");
         }
 
-        //return _mapper.Map<List<TrainerReviewDto>>(user.CourtReservations?.Select(r => r.))
-        // get user a pak se zeptat na reviews
-        throw new NotImplementedException();
+        return _mapper.Map<TrainerReviewDto>(review);
     }
 
-    public async Task<List<TrainerReviewDto>> GetTrainerReviews(Guid trainerId)
+    public async Task<TrainerReviewDto?> GetReviewForReservationAsync(Guid reservationId)
     {
-        throw new NotImplementedException();
+        var reservation = await _trainerReservationService.GetReservationAsync(reservationId);
+
+        return reservation.TrainerReview;
     }
 
-    public async Task<TrainerReviewDto> GetReview(Guid reservationId)
+    public async Task<int> GetRatingAsync(Guid trainerId)
     {
-        throw new NotImplementedException();
+        var reviews = await GetTrainerReviewsAsync(trainerId);
+
+        var sum =  reviews.Select(r => r.Rating).Aggregate((r1, r2) => r1 + r2);
+        return sum / reviews.Count();
     }
 
-    public async Task<int> GetRating(Guid trainerId)
+    public async Task DeleteReviewAsync(Guid reviewId)
     {
-        throw new NotImplementedException();
-    }
+        var review = GetReviewAsync(reviewId);
 
-    public async Task<bool> DeleteReview(Guid reviewId)
-    {
-        throw new NotImplementedException();
+        await _unitOfWork.TrainerReviewRepository.DeleteByIdAsync(reviewId);
     }
 }

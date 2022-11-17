@@ -38,16 +38,7 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public async Task<UserDto> GetUser(Guid userId)
-    {
-        Guard.Against.Null(userId);
-
-        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
-
-        return _mapper.Map<UserDto>(user);
-    }
-
-    public async Task<UserDto> AddUser(string firstName, string lastName, string email, DateTime dateOfBirth)
+    public async Task<UserDto> AddUserAsync(string firstName, string lastName, string email, DateTime dateOfBirth)
     {
         Guard.Against.NullOrWhiteSpace(firstName);
         Guard.Against.NullOrWhiteSpace(lastName);
@@ -64,10 +55,21 @@ public class UserService : IUserService
         };
 
         var userId = await _unitOfWork.UserRepository.InsertAsync(_mapper.Map<User>(newUser));
-
         await _unitOfWork.CommitAsync();
 
+        return await GetUserAsync(userId);
+    }
+
+    public async Task<UserDto> GetUserAsync(Guid userId)
+    {
+        Guard.Against.Null(userId);
+
         var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new InvalidOperationException($"User with id {userId} does not exist");
+        }
 
         return _mapper.Map<UserDto>(user);
     }

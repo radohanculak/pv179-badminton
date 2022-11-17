@@ -1,5 +1,6 @@
 using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Dto.Trainer;
+using Sprint.BL.Dto.TrainerReview;
 
 namespace Sprint.BL.Dto.TrainerReservation;
 
@@ -9,5 +10,7 @@ public class TrainerReservationDto
     
     public TrainerDto Trainer { get; set; } = null!;
 
-    public bool IsDeleted { get; set; }
+    public TrainerReviewDto? TrainerReview { get; set; } = null;
+
+    public bool IsDeleted { get; set; } = false;
 }

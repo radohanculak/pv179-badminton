@@ -12,15 +12,24 @@ using (var scope = _ioc.Container.BeginLifetimeScope())
 
     var userService = scope.Resolve<IUserService>();
     var trainerService = scope.Resolve<ITrainerService>();
+    var courtService = scope.Resolve<ICourtService>();
+    var courtReservationService = scope.Resolve<ICourtReservationService>();
+    var trainerReservationService = scope.Resolve<ITrainerReservationService>();
+    var trainerReviewService = scope.Resolve<ITrainerReviewService>();
 
-    var user = await userService.AddUser("jitka", "vic", "ahoj@gmail.com", DateTime.Now);
+    var user = await userService.AddUserAsync("trener", "vic", "ahoj@gmail.com", DateTime.Now);
+    var trainer = await trainerService.AddTrainerAsync(user.Id, "jsem trener", 250);
 
-    var thisUser = await userService.GetUser(user.Id);
-    var nonExistentUser = await userService.GetUser(Guid.NewGuid());
+    var user2 = await userService.AddUserAsync("user", "vic", "ahoj@gmail.com", DateTime.Now);
 
-    var trainer = await trainerService.AddTrainer(user.Id, "jsem trener", 250);
-    var nullTrainer = await trainerService.AddTrainer(user.Id, "jsem trener", -50);
-    var nonTrainer = await trainerService.AddTrainer(Guid.NewGuid(), "jsem trener", 250);
+    var court = await courtService.AddCourtAsync("A", 250);
 
-    var trainers = await uow.TrainerRepository.GetAllAsync();
+    var courtReservation = await courtReservationService.AddReservationAsync(
+        user.Id, court.Id, DateTime.Now, DateTime.Now.AddMinutes(90));
+    var trainerReservation = await trainerReservationService.AddReservationAsync(
+        user.Id, trainer.Id, court.Id, DateTime.Now, DateTime.Now.AddMinutes(80));
+
+    var scheduleCourt = await courtService.GetDailyScheduleAsync(court.Id, DateTime.Now);
+    var scheduleTrainer = await trainerReservationService.GetTrainerDailyScheduleAsync(court.Id, DateTime.Now);
+    var userReservations = await courtReservationService.GetReservationAsync(user.Id);
 }

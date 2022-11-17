@@ -4,10 +4,11 @@ namespace Sprint.BL.Services.Interfaces;
 
 public interface ITrainerReviewService
 {
-    Task<bool> AddReview(Guid trainerReservationId, TrainerReviewDto review);
-    Task<List<TrainerReviewDto>> GetUserReviews(Guid userId);
-    Task<List<TrainerReviewDto>> GetTrainerReviews(Guid trainerId);
-    Task<TrainerReviewDto> GetReview(Guid reservationId);
-    Task<int> GetRating(Guid trainerId);
-    Task<bool> DeleteReview(Guid reviewId);
+    Task AddReviewAsync(Guid trainerReservationId, int rating, string text);
+    Task<List<TrainerReviewDto>> GetUserReviewsAsync(Guid userId);
+    Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId);
+    Task<TrainerReviewDto?> GetReviewAsync(Guid reviewId);
+    Task<TrainerReviewDto?> GetReviewForReservationAsync(Guid reservationId);
+    Task<int> GetRatingAsync(Guid trainerId);
+    Task DeleteReviewAsync(Guid reviewId);
 }

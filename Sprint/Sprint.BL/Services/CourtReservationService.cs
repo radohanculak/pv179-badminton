@@ -1,8 +1,6 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
-using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
-using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
@@ -13,32 +11,31 @@ public class CourtReservationService : ICourtReservationService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserService _userService;
+    private readonly ICourtService _courtService;
 
-    public CourtReservationService(IUnitOfWork unitOfWork, IMapper mapper)
+    public CourtReservationService(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService, ICourtService courtService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _userService = userService;
+        _courtService = courtService;
     }
 
-    public async Task<CourtReservationDto> AddReservation(Guid userId, Guid courtId, DateTime from, DateTime to)
+    public async Task<CourtReservationDto> AddReservationAsync(Guid userId, Guid courtId, DateTime from, DateTime to)
     {
-        Guard.Against.Null(userId);
-        Guard.Against.Null(courtId);
         Guard.Against.Null(from);
         Guard.Against.Null(to);
 
-        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
-        var userDto = _mapper.Map<UserDto>(user);
+        var user = await _userService.GetUserAsync(userId);
+        var court = await _courtService.GetCourtAsync(courtId);
 
-        var court = await _unitOfWork.CourtRepository.GetByIdAsync(courtId);
-        var courtDto =  _mapper.Map<CourtDto>(court);
-
-        var courtReservation = new CourtReservationDto
+        var courtReservation = new CourtReservationCreateDto
         {
             From = from,
             To = to,
-            User = userDto,
-            Court = courtDto,
+            User = user,
+            Court = court,
             Created = DateTime.Now // TODO - toto se musi nastavovat pri insertu do db
         };
 
@@ -47,33 +44,31 @@ public class CourtReservationService : ICourtReservationService
 
         await _unitOfWork.CommitAsync();
 
-        var reservation = await _unitOfWork.CourtReservationRepository.GetByIdAsync(reservationId);
-
-        return _mapper.Map<CourtReservationDto>(reservation);
+        return await GetReservationAsync(reservationId);
     }
 
-    public async Task<CourtReservationDto> GetReservation(Guid reservationId)
+    public async Task<CourtReservationDto> GetReservationAsync(Guid reservationId)
     {
         var reservation = await _unitOfWork.CourtReservationRepository.GetByIdAsync(reservationId);
 
         if (reservation == null)
         {
-            new InvalidOperationException($"Reservation with id {reservationId} does not exist");
+            throw new InvalidOperationException($"Reservation with id {reservationId} does not exist");
         }
 
         return _mapper.Map<CourtReservationDto>(reservation);
     }
 
-    public async Task<List<CourtReservationDto>> GetAllReservations()
+    public async Task<List<CourtReservationDto>> GetAllReservationsAsync()
     {
         var reservations = await _unitOfWork.CourtReservationRepository.GetAllAsync();
 
         return _mapper.Map<List<CourtReservationDto>>(reservations);
     }
 
-    public async Task<List<CourtReservationDto>> GetReservations(Guid userId, bool inPast)
+    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, bool inPast)
     {
-        var userReservations = (await GetAllReservations()).Where(r => r.User.Id == userId);
+        var userReservations = (await GetAllReservationsAsync()).Where(r => r.User.Id == userId);
 
         if (inPast)
         {
@@ -83,21 +78,21 @@ public class CourtReservationService : ICourtReservationService
         return userReservations.Where(r => r.From.Date >= DateTime.Now).ToList();
     }
 
-    public async Task<List<CourtReservationDto>> GetReservations(Guid userId, DateTime from, DateTime to)
+    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, DateTime from, DateTime to)
     {
-        return (await GetAllReservations())
+        return (await GetAllReservationsAsync())
             .Where(r => r.User.Id == userId && r.From >= from && r.To <= to)
             .ToList();
     }
 
-    public async Task DeleteReservation(Guid reservationId)
+    public async Task DeleteReservationAsync(Guid reservationId)
     {
         // if reservation does not exists method throws exception
-        var reservation = await GetReservation(reservationId);
+        var reservation = await GetReservationAsync(reservationId);
 
-        var a = _unitOfWork.CourtReservationRepository.GetByIdAsync(reservationId);
+        reservation.IsDeleted = true;
 
-        await _unitOfWork.CourtReservationRepository.DeleteByIdAsync(reservationId);
+        _unitOfWork.CourtReservationRepository.Update(_mapper.Map<CourtReservation>(reservation));
         await _unitOfWork.CommitAsync();
     }
 }

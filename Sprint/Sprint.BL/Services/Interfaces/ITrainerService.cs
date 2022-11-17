@@ -5,7 +5,7 @@ namespace Sprint.BL.Services.Interfaces;
 
 public interface ITrainerService
 {
-    Task<TrainerDto> AddTrainer(Guid userId, string description, decimal hourlyRate);
-    Task<TrainerDto?> GetTrainer(Guid userId);
-    Task<List<CourtReservationDto>?> GetDailySchedule(Guid trainerId);
+    Task<TrainerDto> AddTrainerAsync(Guid userId, string description, decimal hourlyRate);
+    Task<TrainerDto> GetTrainerAsync(Guid trainerId);
+    Task<TrainerDto> GetTrainerByUserIdAsync(Guid userId);
 }
