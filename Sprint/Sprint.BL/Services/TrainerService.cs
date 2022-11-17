@@ -1,7 +1,10 @@
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.TrainerReservation;
+using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
+using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.Services;
@@ -27,8 +30,24 @@ public class TrainerService : ITrainerService
         throw new NotImplementedException();
     }
 
-    public Task<bool> AddTrainer(Guid userId)
+    public async Task<TrainerDto> AddTrainer(Guid userId, string description, decimal hourlyRate)
     {
-        throw new NotImplementedException();
+        Guard.Against.NegativeOrZero(hourlyRate);
+
+        var newTrainer = new TrainerCreateDto
+        {
+            UserId = userId,
+            Description = description,
+            HourlyRate = hourlyRate
+        };
+
+
+        var trainerId = await _unitOfWork.TrainerRepository.InsertAsync(_mapper.Map<Trainer>(newTrainer));
+
+        await _unitOfWork.CommitAsync();
+
+        var trainer = await _unitOfWork.TrainerRepository.GetByIdAsync(trainerId);
+
+        return _mapper.Map<TrainerDto>(trainer);
     }
 }
