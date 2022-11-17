@@ -42,8 +42,8 @@ public class UoWTests
         var courtToAdd = SeederFunctions.GetNewCourt(courtGuidToAdd);
         var guidToBeDeleted = _courtGuids[0];
         
-        uow.CourtRepository.Insert(courtToAdd);
-        var toBeDeleted = uow.CourtRepository.GetByID(guidToBeDeleted);
+        await uow.CourtRepository.InsertAsync(courtToAdd);
+        var toBeDeleted = await uow.CourtRepository.GetByIdAsync(guidToBeDeleted);
          uow.CourtRepository.Delete(toBeDeleted);
         await uow.CommitAsync();
         
@@ -119,14 +119,14 @@ public class UoWTests
         var userToAdd = SeederFunctions.GetNewUser(userGuidToAdd);
         var courtGuidToUpdate = _courtGuids[0];
         var userGuidToUpdate = _userGuids[0];
-        
-        
-        uow.UserRepository.Insert(userToAdd);
-        var user = uow.UserRepository.GetByID(userGuidToUpdate);
+
+
+        await uow.UserRepository.InsertAsync(userToAdd);
+        var user = await uow.UserRepository.GetByIdAsync(userGuidToUpdate);
         user.FirstName = "Mike";
-        
-        uow.CourtRepository.Insert(courtToAdd);
-        var court = uow.CourtRepository.GetByID(courtGuidToUpdate);
+
+        await uow.CourtRepository.InsertAsync(courtToAdd);
+        var court = await uow.CourtRepository.GetByIdAsync(courtGuidToUpdate);
         court.CourtNumber = "123";
         
         await uow.CommitAsync();
@@ -134,9 +134,9 @@ public class UoWTests
         
         var repositoryUser = new EFGenericRepository<User>(dbContext);
         var repositoryCourt = new EFGenericRepository<Court>(dbContext);
-        Assert.Equal(repositoryUser.GetByID(userGuidToAdd), userToAdd);
-        Assert.True(repositoryUser.GetByID(userGuidToUpdate).FirstName == "Mike");
-        Assert.Equal(repositoryCourt.GetByID(courtGuidToAdd), courtToAdd);
-        Assert.True(repositoryCourt.GetByID(courtGuidToUpdate).CourtNumber == "123");
+        Assert.Equal(await repositoryUser.GetByIdAsync(userGuidToAdd), userToAdd);
+        Assert.True((await repositoryUser.GetByIdAsync(userGuidToUpdate)).FirstName == "Mike");
+        Assert.Equal(await repositoryCourt.GetByIdAsync(courtGuidToAdd), courtToAdd);
+        Assert.True((await repositoryCourt.GetByIdAsync(courtGuidToUpdate)).CourtNumber == "123");
     }
 }

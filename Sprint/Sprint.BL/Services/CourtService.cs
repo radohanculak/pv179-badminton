@@ -17,7 +17,7 @@ public class CourtService : ICourtService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid court)
+    public async Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid courtId)
     {
         throw new NotImplementedException();
     }

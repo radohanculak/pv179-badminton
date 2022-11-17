@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sprint.DAL.EFCore.Data;
+using Sprint.DAL.EFCore.Models;
+using Sprint.DAL.EFCore.Models.Base;
 using Sprint.Infrastructure.Repository;
 
 namespace Sprint.Infrastructure.EFCore.Repository;
 
-public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
     internal SprintDbContext _dbContext;
 
@@ -16,14 +18,16 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         dbSet = _dbContext.Set<TEntity>();
     }
 
-    public virtual TEntity GetByID(object id)
+    public async virtual Task<TEntity> GetByIdAsync(Guid id)
     {
-        return dbSet.Find(id);
+        return await dbSet.FindAsync(id);
     }
 
-    public virtual void Insert(TEntity entity)
+    public async virtual Task<Guid> InsertAsync(TEntity entity)
     {
-        dbSet.Add(entity);
+        var entry = await dbSet.AddAsync(entity);
+
+        return entry.Entity.Id;
     }
 
     public virtual void Delete(TEntity entityToDelete)
@@ -42,7 +46,7 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
     }
 
-    public virtual async Task DeleteByIdAsync(object id)
+    public virtual async Task DeleteByIdAsync(Guid id)
     {
         var entityToDelete = await dbSet.FindAsync(id);
         if (entityToDelete is not null)

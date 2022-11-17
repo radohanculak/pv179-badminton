@@ -1,4 +1,5 @@
-﻿using Sprint.DAL.EFCore.Models.Base;
+﻿using Sprint.Common.Enums;
+using Sprint.DAL.EFCore.Models.Base;
 
 namespace Sprint.DAL.EFCore.Models;
 
