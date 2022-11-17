@@ -1,5 +1,6 @@
 using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Dto.Trainer;
+using Sprint.DAL.EFCore.Models;
 
 namespace Sprint.BL.Dto.User;
 
@@ -22,4 +23,6 @@ public class UserCreateDto
     public bool IsTrainer { get; set; } = false;
     
     public virtual TrainerDto Trainer { get; set; } = null!;
+
+    public UserRole Role { get; set; }
 }
