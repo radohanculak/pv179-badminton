@@ -19,4 +19,6 @@ public class CourtReservationDto
     public CourtDto Court { get; set; } = null!;
     
     public TrainerReservationDto? TrainerReservation { get; set; }
+
+    public bool IsDeleted { get; set; }
 }

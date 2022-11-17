@@ -8,4 +8,6 @@ public class TrainerReservationDto
     public CourtReservationDto CourtReservation { get; set; } = null!;
     
     public TrainerDto Trainer { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
 }
