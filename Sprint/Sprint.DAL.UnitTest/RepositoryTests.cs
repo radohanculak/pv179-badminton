@@ -127,7 +127,7 @@ public class RepositoryTests
         var guidToAdd = Guid.NewGuid();
         var objToAdd = SeederFunctions.GetNewCourt(guidToAdd);
         
-        repository.Insert(objToAdd);
+        repository.InsertAsync(objToAdd);
         await repository.SaveAsync();
 
         var testedObj = repository.GetByID(guidToAdd);
@@ -145,7 +145,7 @@ public class RepositoryTests
         var objToAdd = SeederFunctions.GetNewCourt(guidToAdd);
         ClearDb(dbContext);
         
-        repository.Insert(objToAdd);
+        repository.InsertAsync(objToAdd);
         await repository.SaveAsync();
 
         var testedObj = repository.GetByID(guidToAdd);

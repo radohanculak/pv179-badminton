@@ -4,7 +4,6 @@ using Sprint.BL.Dto.TrainerReservation;
 using Sprint.BL.Services.Interfaces;
 using Sprint.Infrastructure.UnitOfWork;
 
-
 namespace Sprint.BL.Services;
 
 public class TrainerService : ITrainerService
@@ -24,6 +23,11 @@ public class TrainerService : ITrainerService
     }
 
     public async Task<List<TrainerReservationDto>> GetDailySchedule(Guid trainerId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> AddTrainer(Guid userId)
     {
         throw new NotImplementedException();
     }

@@ -5,13 +5,15 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.DAL.EFCore", "Sprint.DAL\Sprint.DAL.EFCore.csproj", "{27EF8450-ECE8-4FA7-B845-39880ADC72AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Infrastructure", "Sprint.Infrastructure\Sprint.Infrastructure.csproj", "{CE475DC7-6AA8-4664-A2AC-022AB6F1AACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.Infrastructure", "Sprint.Infrastructure\Sprint.Infrastructure.csproj", "{CE475DC7-6AA8-4664-A2AC-022AB6F1AACE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Infrastructure.EFCore", "Sprint.Infrastructure.EFCore\Sprint.Infrastructure.EFCore.csproj", "{9156E8AE-36DA-4625-A6AF-2F6ABF2FC597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.Infrastructure.EFCore", "Sprint.Infrastructure.EFCore\Sprint.Infrastructure.EFCore.csproj", "{9156E8AE-36DA-4625-A6AF-2F6ABF2FC597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.DAL.UnitTest", "Sprint.DAL.UnitTest\Sprint.DAL.UnitTest.csproj", "{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.DAL.UnitTest", "Sprint.DAL.UnitTest\Sprint.DAL.UnitTest.csproj", "{2DCB9CF0-1169-4589-862D-8F3F57FC8E26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.BL", "Sprint.BL\Sprint.BL.csproj", "{14E2859D-3F9E-4C75-AA87-31CA8D5D367E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.BL", "Sprint.BL\Sprint.BL.csproj", "{14E2859D-3F9E-4C75-AA87-31CA8D5D367E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint", "Sprint\Sprint.csproj", "{E10A6B5A-90C8-433F-8909-95C574FFA0BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{14E2859D-3F9E-4C75-AA87-31CA8D5D367E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14E2859D-3F9E-4C75-AA87-31CA8D5D367E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14E2859D-3F9E-4C75-AA87-31CA8D5D367E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

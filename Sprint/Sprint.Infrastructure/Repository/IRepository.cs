@@ -2,11 +2,11 @@
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    TEntity GetByID(object id);
+    Task<TEntity> GetByIdAsync(Guid id);
 
-    void Insert(TEntity entity);
+    Task<Guid> InsertAsync(TEntity entity);
 
-    Task DeleteByIdAsync(object id);
+    Task DeleteByIdAsync(Guid id);
 
     void Delete(TEntity entityToDelete);
 

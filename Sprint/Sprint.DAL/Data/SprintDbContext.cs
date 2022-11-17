@@ -15,10 +15,12 @@ public class SprintDbContext : DbContext
     
     public SprintDbContext()
     {
+        Database.EnsureCreated();
     }
 
     public SprintDbContext(DbContextOptions<SprintDbContext> options) : base(options)
     {
+        Database.EnsureCreated();
     }
     
     private static string getDbPath()
