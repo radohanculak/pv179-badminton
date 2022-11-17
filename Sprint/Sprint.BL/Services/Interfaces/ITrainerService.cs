@@ -1,5 +1,4 @@
-﻿using Sprint.BL.Dto.CourtReservation;
-using Sprint.BL.Dto.Trainer;
+﻿using Sprint.BL.Dto.Trainer;
 
 namespace Sprint.BL.Services.Interfaces;
 

@@ -6,6 +6,7 @@ public interface ITrainerReviewService
 {
     Task<TrainerReviewDto> AddReviewAsync(Guid trainerReservationId, int rating, string text);
     Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId);
+    Task<List<TrainerReviewDto>> GetAllReviewsAsync();
     Task<TrainerReviewDto?> GetReviewAsync(Guid reviewId);
     Task<TrainerReviewDto?> GetReviewForReservationAsync(Guid reservationId);
     Task<int> GetRatingAsync(Guid trainerId);

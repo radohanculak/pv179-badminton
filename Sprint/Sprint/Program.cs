@@ -8,7 +8,6 @@ using var _ioc = new Bootstrapper();
 
 using (var scope = _ioc.Container.BeginLifetimeScope())
 {
-    using var uow = scope.Resolve<IUnitOfWork>();
 
     var userService = scope.Resolve<IUserService>();
     var trainerService = scope.Resolve<ITrainerService>();
@@ -36,9 +35,10 @@ using (var scope = _ioc.Container.BeginLifetimeScope())
     var allCourtUserReservations = await courtReservationService.GetReservationsAsync(user2Id, true);
 
     var rev = await trainerReviewService.AddReviewAsync(trainerReservation.Id, 9, "ano");
+    var reviewRes = await trainerReviewService.GetReviewForReservationAsync(trainerReservation.Id);
 
-    var revs = await uow.TrainerReviewRepository.GetAllAsync();
-    var rezvs = await uow.TrainerReservationRepository.GetAllAsync();
+    //var revs = await uow.TrainerReviewRepository.GetAllAsync();
+    //var rezvs = await uow.TrainerReservationRepository.GetAllAsync();
 
     var reviews = await trainerReviewService.GetTrainerReviewsAsync(trainerId);
     var rating = await trainerReviewService.GetRatingAsync(trainerId);

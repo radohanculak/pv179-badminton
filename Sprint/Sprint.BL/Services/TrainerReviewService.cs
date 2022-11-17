@@ -46,7 +46,7 @@ public class TrainerReviewService : ITrainerReviewService
         return await GetReviewAsync(reviewId);
     }
 
-    public async Task<List<TrainerReviewDto>> GetAllReviews()
+    public async Task<List<TrainerReviewDto>> GetAllReviewsAsync()
     {
         return _mapper.Map<List<TrainerReviewDto>>(await _unitOfWork.TrainerReviewRepository.GetAllAsync());
     }
@@ -78,8 +78,11 @@ public class TrainerReviewService : ITrainerReviewService
     public async Task<TrainerReviewDto?> GetReviewForReservationAsync(Guid reservationId)
     {
         var reservation = await _trainerReservationService.GetReservationAsync(reservationId);
+        var reviews = await _unitOfWork.TrainerReviewRepository.GetAllAsync();
 
-        return reservation.TrainerReview;
+        var review = reviews.FirstOrDefault(r => r.ReservationId == reservationId);
+
+        return _mapper.Map<TrainerReviewDto>(review);
     }
 
     public async Task<int> GetRatingAsync(Guid trainerId)
