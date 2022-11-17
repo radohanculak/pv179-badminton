@@ -1,8 +1,7 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
+using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Dto.Trainer;
-using Sprint.BL.Dto.TrainerReservation;
-using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
@@ -20,14 +19,33 @@ public class TrainerService : ITrainerService
         _mapper = mapper;
     }
 
-    public async Task<TrainerDto> GetTrainer(Guid user)
+    public async Task<TrainerDto?> GetTrainer(Guid userId)
     {
-        throw new NotImplementedException();
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new InvalidOperationException($"User with id {userId} does not exist");
+        }
+
+        if (!user.IsTrainer)
+        {
+            throw new InvalidOperationException($"User with id {userId} is not trainer");
+        }
+
+        return _mapper.Map<TrainerDto>(user?.Trainer);
     }
 
-    public async Task<List<TrainerReservationDto>> GetDailySchedule(Guid trainerId)
+    public async Task<List<CourtReservationDto>?> GetDailySchedule(Guid trainerId)
     {
-        throw new NotImplementedException();
+        var trainer = await _unitOfWork.TrainerRepository.GetByIdAsync(trainerId);
+
+        if (trainer == null || !trainer.Reservations.Any())
+        {
+            return null;
+        }
+
+        return _mapper.Map<List<CourtReservationDto>>(trainer.Reservations.Select(r => r.CourtReservation));
     }
 
     public async Task<TrainerDto> AddTrainer(Guid userId, string description, decimal hourlyRate)
@@ -41,9 +59,19 @@ public class TrainerService : ITrainerService
             HourlyRate = hourlyRate
         };
 
-
         var trainerId = await _unitOfWork.TrainerRepository.InsertAsync(_mapper.Map<Trainer>(newTrainer));
         var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new InvalidOperationException($"User with id {userId} does not exist");
+        }
+
+        if (user.Role == Common.Enums.UserRole.Trainer)
+        {
+            throw new InvalidOperationException($"User with id {userId} is already a trainer");
+        }
+
         user.Role = Common.Enums.UserRole.Trainer;
 
         _unitOfWork.UserRepository.Update(user);

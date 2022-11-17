@@ -4,5 +4,5 @@ namespace Sprint.BL.Services.Interfaces;
 
 public interface ICourtService
 {
-    Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid courtId);
+    Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid courtId, DateTime date);
 }

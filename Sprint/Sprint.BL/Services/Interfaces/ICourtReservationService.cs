@@ -4,8 +4,10 @@ namespace Sprint.BL.Services.Interfaces;
 
 public interface ICourtReservationService
 {
-    Task<bool> AddReservation(CourtReservationDto reservation);
-    Task<List<CourtReservationDto>> GetReservations(Guid userId, bool all);
+    Task<CourtReservationDto> AddReservation(Guid userId, Guid courtId, DateTime from, DateTime to);
+    Task<List<CourtReservationDto>> GetAllReservations();
+    Task<CourtReservationDto> GetReservation(Guid reservationId);
+    Task<List<CourtReservationDto>> GetReservations(Guid userId, bool inPast);
     Task<List<CourtReservationDto>> GetReservations(Guid userId, DateTime from, DateTime to);
-    Task<bool> DeleteReservation(Guid reservationId);
+    Task DeleteReservation(Guid reservationId);
 }

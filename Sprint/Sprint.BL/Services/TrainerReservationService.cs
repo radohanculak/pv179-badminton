@@ -16,7 +16,7 @@ public class TrainerReservationService : ITrainerReservationService
         _mapper = mapper;
     }
 
-    public async Task<bool> AddReservation(TrainerReservationDto trainerReservation)
+    public async Task<TrainerReservationDto> AddReservation(TrainerReservationDto trainerReservation)
     {
         throw new NotImplementedException();
     }

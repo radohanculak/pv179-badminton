@@ -40,7 +40,11 @@ public class UserService : IUserService
 
     public async Task<UserDto> GetUser(Guid userId)
     {
-        throw new NotImplementedException();
+        Guard.Against.Null(userId);
+
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+
+        return _mapper.Map<UserDto>(user);
     }
 
     public async Task<UserDto> AddUser(string firstName, string lastName, string email, DateTime dateOfBirth)
@@ -58,7 +62,6 @@ public class UserService : IUserService
             DateOfBirth = dateOfBirth,
             Password = "v autentizaci budeme resit"
         };
-
 
         var userId = await _unitOfWork.UserRepository.InsertAsync(_mapper.Map<User>(newUser));
 

@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
@@ -17,8 +18,14 @@ public class CourtService : ICourtService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid courtId)
+    public async Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid courtId, DateTime date)
     {
-        throw new NotImplementedException();
+        Guard.Against.Null(courtId);
+
+        var reservations = await _unitOfWork.CourtReservationRepository.GetAllAsync();
+
+        var selectedReservations = reservations.Where(r => r.CourtId == courtId && r.From.Date == date);
+
+        return _mapper.Map<List<CourtReservationDto>>(selectedReservations);
     }
 }
