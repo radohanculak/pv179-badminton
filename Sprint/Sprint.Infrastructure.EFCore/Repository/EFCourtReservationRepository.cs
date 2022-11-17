@@ -1,35 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sprint.DAL.EFCore.Data;
-using Sprint.DAL.EFCore.Models.Base;
+using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.Repository;
 
 namespace Sprint.Infrastructure.EFCore.Repository;
 
-public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+public class EFCourtReservationRepository : ICourtReservationRepository
 {
     internal SprintDbContext _dbContext;
 
-    internal DbSet<TEntity> dbSet;
+    internal DbSet<CourtReservation> dbSet;
 
-    public EFGenericRepository(SprintDbContext dbContext)
+    public EFCourtReservationRepository(SprintDbContext dbContext)
     {
         _dbContext = dbContext;
-        dbSet = _dbContext.Set<TEntity>();
+        dbSet = _dbContext.Set<CourtReservation>();
     }
 
-    public async virtual Task<TEntity?> GetByIdAsync(Guid id)
+    public async virtual Task<CourtReservation?> GetByIdAsync(Guid id)
     {
         return await dbSet.FindAsync(id);
     }
 
-    public async virtual Task<Guid> InsertAsync(TEntity entity)
+    public async virtual Task<Guid> InsertAsync(CourtReservation entity)
     {
         var entry = await dbSet.AddAsync(entity);
 
         return entry.Entity.Id;
     }
 
-    public virtual void Delete(TEntity entityToDelete)
+    public virtual void Delete(CourtReservation entityToDelete)
     {
         if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
         {
@@ -39,7 +39,7 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         dbSet.Remove(entityToDelete);
     }
 
-    public virtual void Update(TEntity entityToUpdate)
+    public virtual void Update(CourtReservation entityToUpdate)
     {
         dbSet.Attach(entityToUpdate);
         _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
@@ -54,13 +54,22 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         }
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-    {
-        return await dbSet.ToListAsync();
-    }
-
     public virtual async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();
+    }
+
+    public virtual CourtReservation GetOne()
+    {
+        return dbSet.First();
+    }
+
+    public async Task<IEnumerable<CourtReservation>> GetAllAsync()
+    {
+        return await dbSet
+            .Include(r => r.User)
+            .Include(r => r.Court)
+            .Include(r => r.TrainerReservation)
+            .ToListAsync();
     }
 }

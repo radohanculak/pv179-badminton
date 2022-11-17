@@ -27,15 +27,15 @@ public class CourtReservationService : ICourtReservationService
         Guard.Against.Null(from);
         Guard.Against.Null(to);
 
-        var user = await _userService.GetUserAsync(userId);
-        var court = await _courtService.GetCourtAsync(courtId);
+        _ = await _userService.GetUserAsync(userId);
+        _ = await _courtService.GetCourtAsync(courtId);
 
-        var courtReservation = new CourtReservationCreateDto
+        var courtReservation = new CourtReservationDto
         {
             From = from,
             To = to,
-            User = user,
-            Court = court,
+            UserId = userId,
+            CourtId = courtId,
             Created = DateTime.Now // TODO - toto se musi nastavovat pri insertu do db
         };
 
@@ -68,20 +68,22 @@ public class CourtReservationService : ICourtReservationService
 
     public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, bool inPast)
     {
-        var userReservations = (await GetAllReservationsAsync()).Where(r => r.User.Id == userId);
+        var userReservations = (await _userService.GetUserAsync(userId)).CourtReservations;
 
         if (inPast)
         {
             return userReservations.ToList();
         }
 
-        return userReservations.Where(r => r.From.Date >= DateTime.Now).ToList();
+        return userReservations.Where(r => r.From.Date >= DateTime.Now.Date).ToList();
     }
 
     public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, DateTime from, DateTime to)
     {
-        return (await GetAllReservationsAsync())
-            .Where(r => r.User.Id == userId && r.From >= from && r.To <= to)
+        var userReservations = (await _userService.GetUserAsync(userId)).CourtReservations;
+
+        return userReservations
+            .Where(r => r.UserId == userId && r.From >= from && r.To <= to)
             .ToList();
     }
 

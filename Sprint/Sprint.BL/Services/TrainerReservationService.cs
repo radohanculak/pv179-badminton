@@ -13,14 +13,16 @@ public class TrainerReservationService : ITrainerReservationService
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITrainerService _trainerService;
     private readonly ICourtReservationService _courtReservationService;
+    private readonly IUserService _userService;
 
     public TrainerReservationService(IUnitOfWork unitOfWork, IMapper mapper,
-        ICourtReservationService courtService, ITrainerService trainerService)
+        ICourtReservationService courtService, ITrainerService trainerService, IUserService userService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _courtReservationService = courtService;
         _trainerService = trainerService;
+        _userService = userService;
     }
 
     public async Task<TrainerReservationDto> AddReservationAsync(Guid userId, Guid trainerId, Guid courtId, DateTime from, DateTime to)
@@ -28,13 +30,13 @@ public class TrainerReservationService : ITrainerReservationService
         Guard.Against.Null(from);
         Guard.Against.Null(to);
 
-        var trainer = await _trainerService.GetTrainerAsync(trainerId);
-        var reservation = await _courtReservationService.AddReservationAsync(userId, courtId, from, to);
+        _ = await _trainerService.GetTrainerAsync(trainerId);
+        var courtReservation = await _courtReservationService.AddReservationAsync(userId, courtId, from, to);
 
-        var newTrainerReservation = new TrainerReservationDto
+        var newTrainerReservation = new TrainerReservationCreateDto
         {
-            Trainer = trainer,
-            CourtReservation = reservation
+            TrainerId = trainerId,
+            CourtReservationId = courtReservation.Id
         };
 
         var trainerReservationId = await _unitOfWork.TrainerReservationRepository
@@ -65,33 +67,34 @@ public class TrainerReservationService : ITrainerReservationService
 
     public async Task<List<TrainerReservationDto>> GetReservationsForTrainerAsync(Guid trainerId, bool inPast)
     {
-        var reservations = (await GetAllReservationsAsync()).Where(r => r.Trainer.Id == trainerId);
+        var reservations = (await _trainerService.GetTrainerAsync(trainerId)).Reservations;
 
         if (inPast)
         {
             return reservations.ToList();
         }
 
-        return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now).ToList();
+        return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now.Date).ToList();
     }
 
+    // nefunguje - asi se pro to bude muset napsat repo, ve kterem se da Include na rezervace trenera
     public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast)
     {
-        var reservations = (await GetAllReservationsAsync()).Where(r => r.CourtReservation.User.Id == userId);
+        var reservations = (await GetAllReservationsAsync()).Where(r => r.CourtReservation.UserId == userId);
 
         if (inPast)
         {
             return reservations.ToList();
         }
 
-        return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now).ToList();
+        return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now.Date).ToList();
     }
 
     public async Task<List<TrainerReservationDto>?> GetTrainerDailyScheduleAsync(Guid trainerId, DateTime date)
     {
-        var reservations = await GetAllReservationsAsync();
+        var trainer = await _trainerService.GetTrainerAsync(trainerId);
 
-        return reservations.Where(r => r.Trainer.Id == trainerId && r.CourtReservation.From.Date == date).ToList();
+        return trainer.Reservations.Where(r => r.CourtReservation.From.Date == date.Date).ToList();
     }
 
     public async Task DeleteReservationAsync(Guid reservationId, bool keepCourtReservation)

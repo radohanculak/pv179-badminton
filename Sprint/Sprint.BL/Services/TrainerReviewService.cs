@@ -37,7 +37,7 @@ public class TrainerReviewService : ITrainerReviewService
         var reservation = await _trainerReservationService.GetReservationAsync(trainerReservationId);
         reservation.TrainerReview = review;
 
-        _unitOfWork.CourtReservationRepository.Update(_mapper.Map<CourtReservation>(reservation));
+        _unitOfWork.TrainerReservationRepository.Update(_mapper.Map<TrainerReservation>(reservation));
         await _unitOfWork.CommitAsync();
     }
 

@@ -51,10 +51,8 @@ public class CourtService : ICourtService
 
     public async Task<IEnumerable<CourtReservationDto>> GetDailyScheduleAsync(Guid courtId, DateTime date)
     {
-        Guard.Against.Null(courtId);
-
         var reservations = await _unitOfWork.CourtReservationRepository.GetAllAsync();
-        var selectedReservations = reservations.Where(r => r.CourtId == courtId && r.From.Date == date);
+        var selectedReservations = reservations.Where(r => r.CourtId == courtId && r.From.Date == date.Date);
 
         return _mapper.Map<List<CourtReservationDto>>(selectedReservations);
     }

@@ -14,9 +14,9 @@ public class CourtReservationDto
 
     public DateTime To { get; set; }
 
-    public UserDto User { get; set; } = null!;
+    public Guid UserId { get; set; }
     
-    public CourtDto Court { get; set; } = null!;
+    public Guid CourtId { get; set; }
     
     public TrainerReservationDto? TrainerReservation { get; set; }
 

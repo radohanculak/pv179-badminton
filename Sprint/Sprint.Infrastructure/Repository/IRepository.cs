@@ -2,7 +2,7 @@
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<TEntity> GetByIdAsync(Guid id);
+    Task<TEntity?> GetByIdAsync(Guid id);
 
     Task<Guid> InsertAsync(TEntity entity);
 
@@ -13,8 +13,6 @@ public interface IRepository<TEntity> where TEntity : class
     void Update(TEntity entityToUpdate);
 
     Task<IEnumerable<TEntity>> GetAllAsync();
-
-    TEntity GetOne();
 
     Task SaveAsync();
 }

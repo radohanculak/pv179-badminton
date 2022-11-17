@@ -45,6 +45,6 @@ public class SprintDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Seeder();
+        //modelBuilder.Seeder();
     }
 }

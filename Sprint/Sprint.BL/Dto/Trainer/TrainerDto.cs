@@ -1,4 +1,5 @@
 using Sprint.BL.Dto.TrainerPhoto;
+using Sprint.BL.Dto.TrainerReservation;
 using Sprint.BL.Dto.User;
 
 namespace Sprint.BL.Dto.Trainer;
@@ -14,4 +15,7 @@ public class TrainerDto
     public UserDto User { get; set; } = null!;
     
     public List<TrainerPhotoDto> TrainerPhotos { get; set; } = null!;
+
+    public List<TrainerReservationDto> Reservations { get; set; } = null!;
+
 }

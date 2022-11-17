@@ -1,35 +1,46 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sprint.DAL.EFCore.Data;
-using Sprint.DAL.EFCore.Models.Base;
+using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.Repository;
 
 namespace Sprint.Infrastructure.EFCore.Repository;
 
-public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+public class EFTrainerRepository : ITrainerRepository
 {
     internal SprintDbContext _dbContext;
 
-    internal DbSet<TEntity> dbSet;
+    internal DbSet<Trainer> dbSet;
 
-    public EFGenericRepository(SprintDbContext dbContext)
+    public EFTrainerRepository(SprintDbContext dbContext)
     {
         _dbContext = dbContext;
-        dbSet = _dbContext.Set<TEntity>();
+        dbSet = _dbContext.Set<Trainer>();
     }
 
-    public async virtual Task<TEntity?> GetByIdAsync(Guid id)
+    public async virtual Task<Trainer?> GetByIdAsync(Guid id)
     {
-        return await dbSet.FindAsync(id);
+        return dbSet
+            .Include(t => t.User)
+            .Include(t => t.Reservations)
+            .FirstOrDefault(t => t.Id == id);
     }
 
-    public async virtual Task<Guid> InsertAsync(TEntity entity)
+    public async Task<IEnumerable<Trainer>> GetAllAsync()
+    {
+        return await dbSet
+            .Include(t => t.User)
+            .Include(t => t.Reservations)
+            .ToListAsync();
+    }
+
+    public async virtual Task<Guid> InsertAsync(Trainer entity)
     {
         var entry = await dbSet.AddAsync(entity);
 
         return entry.Entity.Id;
     }
 
-    public virtual void Delete(TEntity entityToDelete)
+    public virtual void Delete(Trainer entityToDelete)
     {
         if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
         {
@@ -39,7 +50,7 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         dbSet.Remove(entityToDelete);
     }
 
-    public virtual void Update(TEntity entityToUpdate)
+    public virtual void Update(Trainer entityToUpdate)
     {
         dbSet.Attach(entityToUpdate);
         _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
@@ -52,11 +63,6 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         {
             Delete(entityToDelete);
         }
-    }
-
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-    {
-        return await dbSet.ToListAsync();
     }
 
     public virtual async Task SaveAsync()

@@ -15,9 +15,23 @@ public class AutofacInfrastructureConfig : Module
             .As<IUnitOfWork>()
             .InstancePerLifetimeScope();
 
+        builder.RegisterType<EFCourtReservationRepository>()
+            .As<ICourtReservationRepository>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<EFTrainerRepository>()
+            .As<ITrainerRepository>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<EFUserRepository>()
+            .As<IUserRepository>()
+            .InstancePerLifetimeScope();
+
         builder.RegisterGeneric(typeof(EFGenericRepository<>))
             .As(typeof(IRepository<>))
             .InstancePerDependency();
+
+       
 
         builder.RegisterType<SprintDbContext>()
             .AsSelf()

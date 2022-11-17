@@ -23,15 +23,15 @@ public class BusinessMappingConfig
         
         config.CreateMap<TrainerCreateDto, Trainer>();
         
-        config.CreateMap<Trainer, TrainerDto>();
+        config.CreateMap<Trainer, TrainerDto>().ReverseMap();
         
         config.CreateMap<Court, CourtDto>().ReverseMap();
         
         config.CreateMap<CourtReservation, CourtReservationDto>().ReverseMap();
 
-        config.CreateMap<CourtReservationCreateDto, CourtReservation>();
-
         config.CreateMap<TrainerReservation, TrainerReservationDto>().ReverseMap();
+
+        config.CreateMap<TrainerReservation, TrainerReservationCreateDto>().ReverseMap();
         
         config.CreateMap<TrainerReview, TrainerReviewDto>().ReverseMap();
         
