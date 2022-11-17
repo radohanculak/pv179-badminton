@@ -15,7 +15,7 @@ public class User : BaseEntity
 
     public DateTime DateOfBirth { get; set; }
 
-    public string PhotoPath { get; set; }
+    public string? PhotoPath { get; set; }
 
     public bool IsTrainer { get; set; }
 

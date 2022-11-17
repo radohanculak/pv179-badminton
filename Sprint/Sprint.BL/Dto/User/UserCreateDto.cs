@@ -17,8 +17,6 @@ public class UserCreateDto
     
     public DateTime DateOfBirth { get; set; }
     
-    public string PhotoPath { get; set; } = null!;
-    
     public bool IsTrainer { get; set; } = false;
 
     public virtual TrainerDto Trainer { get; set; } = null!;
