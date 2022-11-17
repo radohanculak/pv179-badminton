@@ -1,11 +1,9 @@
-using System.Text;
 using AutoMapper;
-using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.TrainerPhoto;
-using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
-using Sprint.Infrastructure.UnitOfWork;
 using Sprint.DAL.EFCore.Models;
+using Sprint.Infrastructure.UnitOfWork;
+using System.Text;
 
 namespace Sprint.BL.Services;
 
@@ -24,36 +22,19 @@ public class PhotoService : IPhotoService
         _userService = userService;
     }
 
-    private async Task<UserDto?> GetUserAsync(Guid userId)
+    public async Task AddProfilePhotoAsync(Guid userId, string path)
     {
-        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
-        return _mapper.Map<UserDto?>(user);
-    }
-
-    private async Task<TrainerDto?> GetTrainerAsync(Guid trainerId)
-    {
-        var trainer = await _unitOfWork.TrainerRepository.GetByIdAsync(trainerId);
-        return _mapper.Map<TrainerDto?>(trainer);
-    }
-
-    public async Task<bool> AddProfilePhotoAsync(Guid userId, string path)
-    {
-        var user = await GetUserAsync(userId);
-        if (user == null)
-        {
-            return false;
-        }
+        var user = await _userService.GetUserAsync(userId);
 
         user.PhotoPath = path;
-        await _unitOfWork.UserRepository.InsertAsync(_mapper.Map<User>(user));
+        _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
-        return true;
     }
 
     public async Task<bool> AddTrainerPhotoAsync(Guid trainerId, List<string> paths)
     {
-        var trainer = await GetTrainerAsync(trainerId);
-        if (trainer == null || !paths.Any())
+        var trainer = await _trainerService.GetTrainerAsync(trainerId);
+        if (!paths.Any())
         {
             return false;
         }
@@ -81,17 +62,14 @@ public class PhotoService : IPhotoService
 
     public async Task<byte[]> GetProfilePhotoAsync(Guid userId)
     {
-        var user = await GetUserAsync(userId);
-        return user == null ? Array.Empty<byte>() : Encoding.ASCII.GetBytes(user.PhotoPath);
+        var user = await _userService.GetUserAsync(userId);
+
+        return user?.PhotoPath == null ? Array.Empty<byte>() : Encoding.ASCII.GetBytes(user.PhotoPath);
     }
 
     public async Task<List<byte[]>> GetTrainerPhotosAsync(Guid trainerId)
     {
-        var trainer = await GetTrainerAsync(trainerId);
-        if (trainer == null)
-        {
-            return new List<byte[]>();
-        }
+        var trainer = await _trainerService.GetTrainerAsync(trainerId);
 
         return trainer.TrainerPhotos
             .Where(x => !x.Hide)
@@ -100,28 +78,18 @@ public class PhotoService : IPhotoService
             .ToList();
     }
 
-    public async Task<bool> DeleteProfilePhotoAsync(Guid userId)
+    public async Task DeleteProfilePhotoAsync(Guid userId)
     {
-        var user = await GetUserAsync(userId);
-        if (user == null)
-        {
-            return false;
-        }
+        var user = await _userService.GetUserAsync(userId);
 
         user.PhotoPath = null;
         _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
-
-        return true;
     }
 
-    public async Task<bool> DeleteTrainerPhotosAsync(Guid trainerId)
+    public async Task DeleteTrainerPhotosAsync(Guid trainerId)
     {
-        var trainer = await GetTrainerAsync(trainerId);
-        if (trainer == null)
-        {
-            return false;
-        }
+        var trainer = await _trainerService.GetTrainerAsync(trainerId);
 
         foreach (var photo in trainer.TrainerPhotos)
         {
@@ -136,6 +104,5 @@ public class PhotoService : IPhotoService
         // trainer.TrainerPhotos will still contain them, but as hidden
 
         await _unitOfWork.CommitAsync();
-        return true;
     }
 }
