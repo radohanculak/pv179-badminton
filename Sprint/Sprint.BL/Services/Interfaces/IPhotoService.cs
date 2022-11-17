@@ -2,10 +2,10 @@
 
 public interface IPhotoService
 {
-    Task<bool> AddProfilePhoto(Guid userId, string path);
-    Task<bool> AddTrainerPhoto(Guid trainerId, List<string> paths);
-    Task<byte[]> GetProfilePhoto(Guid userId);
-    Task<List<byte[]>> GetTrainerPhotos(Guid trainerId);
-    Task<bool> DeleteProfilePhoto(Guid userId);
-    Task<bool> DeleteTrainerPhotos(Guid trainerId);
+    Task<bool> AddProfilePhotoAsync(Guid userId, string path);
+    Task<bool> AddTrainerPhotoAsync(Guid trainerId, List<string> paths);
+    Task<byte[]> GetProfilePhotoAsync(Guid userId);
+    Task<List<byte[]>> GetTrainerPhotosAsync(Guid trainerId);
+    Task<bool> DeleteProfilePhotoAsync(Guid userId);
+    Task<bool> DeleteTrainerPhotosAsync(Guid trainerId);
 }
