@@ -1,8 +1,8 @@
-﻿using Sprint.DAL.EFCore.Models;
+﻿using Sprint.BL.Dto.CourtReservation;
 
 namespace Sprint.BL.Services.Interfaces;
 
 public interface ICourtService
 {
-    Task<IEnumerable<CourtReservation>> GetDailySchedule(Guid court);
+    Task<IEnumerable<CourtReservationDto>> GetDailySchedule(Guid court);
 }

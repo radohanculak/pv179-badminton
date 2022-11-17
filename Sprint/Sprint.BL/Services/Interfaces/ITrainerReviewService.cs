@@ -7,6 +7,6 @@ public interface ITrainerReviewService
     Task<bool> AddReview(Guid trainerReservationId, TrainerReviewDto review);
     Task<List<TrainerReviewDto>> GetReviews(Guid trainerId);
     Task<TrainerReviewDto> GetReview(Guid reservationId);
-    Task<int> GetRaiting(Guid trainerId);
+    Task<int> GetRating(Guid trainerId);
     Task<bool> DeleteReview(Guid reviewId);
 }
