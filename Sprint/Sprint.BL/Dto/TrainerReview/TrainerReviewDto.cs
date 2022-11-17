@@ -1,3 +1,5 @@
+using Sprint.BL.Dto.TrainerReservation;
+
 namespace Sprint.BL.Dto.TrainerReview;
 
 public class TrainerReviewDto
@@ -9,4 +11,6 @@ public class TrainerReviewDto
     public string Text { get; set; } = null!;
 
     public bool Hide { get; set; } = false;
+
+    public Guid ReservationId { get; set; } 
 }

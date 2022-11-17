@@ -15,18 +15,18 @@ public class SprintDbContext : DbContext
     
     public SprintDbContext()
     {
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
     }
 
     public SprintDbContext(DbContextOptions<SprintDbContext> options) : base(options)
     {
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
     }
     
     private static string getDbPath()
     {
         var fileName = "sprint.db";
-        return Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        return Path.Combine(@"C:\WORKSPACE\skola\badminton\pv179-badminton\Sprint\Sprint.DAL", fileName);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)

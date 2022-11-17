@@ -1,6 +1,4 @@
-using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.TrainerReservation;
-using Sprint.BL.Dto.User;
 
 namespace Sprint.BL.Dto.CourtReservation;
 

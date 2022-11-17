@@ -13,32 +13,37 @@ public class TrainerReviewService : ITrainerReviewService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserService _userService;
     private readonly ITrainerReservationService _trainerReservationService;
+    private readonly ITrainerService _trainerService;
 
-    public TrainerReviewService(IUnitOfWork unitOfWork, IMapper mapper,
+    public TrainerReviewService(IUnitOfWork unitOfWork, IMapper mapper, ITrainerService trainerService,
         IUserService userService, ITrainerReservationService trainerReservationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _userService = userService;
         _trainerReservationService = trainerReservationService;
+        _trainerService = trainerService;
     }
 
-    public async Task AddReviewAsync(Guid trainerReservationId, int rating, string text)
+    public async Task<TrainerReviewDto> AddReviewAsync(Guid trainerReservationId, int rating, string text)
     {
         Guard.Against.NullOrEmpty(text);
         Guard.Against.OutOfRange(rating, nameof(rating), 0, 10);
 
-        var review = new TrainerReviewDto
+        var reservation = await _trainerReservationService.GetReservationAsync(trainerReservationId);
+
+        var newReview = new TrainerReviewDto
         {
             Rating = rating,
-            Text = text
+            Text = text,
+            ReservationId = reservation.Id
         };
 
-        var reservation = await _trainerReservationService.GetReservationAsync(trainerReservationId);
-        reservation.TrainerReview = review;
-
-        _unitOfWork.TrainerReservationRepository.Update(_mapper.Map<TrainerReservation>(reservation));
+        var reviewId = await _unitOfWork.TrainerReviewRepository.InsertAsync(_mapper.Map<TrainerReview>(newReview));
+        
         await _unitOfWork.CommitAsync();
+
+        return await GetReviewAsync(reviewId);
     }
 
     public async Task<List<TrainerReviewDto>> GetAllReviews()
@@ -46,27 +51,21 @@ public class TrainerReviewService : ITrainerReviewService
         return _mapper.Map<List<TrainerReviewDto>>(await _unitOfWork.TrainerReviewRepository.GetAllAsync());
     }
 
-    public async Task<List<TrainerReviewDto>> GetUserReviewsAsync(Guid userId)
-    {
-        _ = await _userService.GetUserAsync(userId);
-
-        var reservations = await _trainerReservationService.GetReservationsForUserAsync(userId, true);
-
-        return reservations.Where(r => r.TrainerReview != null).Select(r => r.TrainerReview).ToList();
-    }
-
     public async Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId)
     {
-        _ = await _userService.GetUserAsync(trainerId);
+        _ = await _trainerService.GetTrainerAsync(trainerId);
 
-        var reservations = await _trainerReservationService.GetReservationsForTrainerAsync(trainerId, true);
+        var reviews = await _unitOfWork.TrainerReviewRepository.GetAllAsync();
 
-        return reservations.Where(r => r.TrainerReview != null).Select(r => r.TrainerReview).ToList();
+        var a = reviews.Where(t => t.Reservation.TrainerId == trainerId);
+
+        return _mapper.Map<List<TrainerReviewDto>>(a);
+
     }
 
     public async Task<TrainerReviewDto> GetReviewAsync(Guid reviewId)
     {
-        var review = _unitOfWork.TrainerReviewRepository.GetByIdAsync(reviewId);
+        var review = await _unitOfWork.TrainerReviewRepository.GetByIdAsync(reviewId);
 
         if (review == null)
         {

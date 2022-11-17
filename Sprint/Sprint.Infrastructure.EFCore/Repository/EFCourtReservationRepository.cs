@@ -19,7 +19,22 @@ public class EFCourtReservationRepository : ICourtReservationRepository
 
     public async virtual Task<CourtReservation?> GetByIdAsync(Guid id)
     {
-        return await dbSet.FindAsync(id);
+        return dbSet
+            .Include(r => r.User)
+            .Include(r => r.Court)
+            .Include(r => r.TrainerReservation)
+            .AsNoTracking()
+            .FirstOrDefault(r => r.Id == id);
+    }
+
+    public async Task<IEnumerable<CourtReservation>> GetAllAsync()
+    {
+        return await dbSet
+            .Include(r => r.User)
+            .Include(r => r.Court)
+            .Include(r => r.TrainerReservation)
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async virtual Task<Guid> InsertAsync(CourtReservation entity)
@@ -62,14 +77,5 @@ public class EFCourtReservationRepository : ICourtReservationRepository
     public virtual CourtReservation GetOne()
     {
         return dbSet.First();
-    }
-
-    public async Task<IEnumerable<CourtReservation>> GetAllAsync()
-    {
-        return await dbSet
-            .Include(r => r.User)
-            .Include(r => r.Court)
-            .Include(r => r.TrainerReservation)
-            .ToListAsync();
     }
 }

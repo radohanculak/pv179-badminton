@@ -11,8 +11,9 @@ public class TrainerReview : BaseEntity
 
     public bool Hide { get; set; }
 
-    public Guid TrainerId { get; set; }
+    public Guid ReservationId { get; set; }
 
-    [ForeignKey(nameof(TrainerId))]
-    public Trainer Trainer { get; set; }
+    [ForeignKey(nameof(ReservationId))]
+
+    public TrainerReservation Reservation { get; set; } = null!;
 }

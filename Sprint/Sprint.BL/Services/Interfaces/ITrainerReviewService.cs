@@ -4,8 +4,7 @@ namespace Sprint.BL.Services.Interfaces;
 
 public interface ITrainerReviewService
 {
-    Task AddReviewAsync(Guid trainerReservationId, int rating, string text);
-    Task<List<TrainerReviewDto>> GetUserReviewsAsync(Guid userId);
+    Task<TrainerReviewDto> AddReviewAsync(Guid trainerReservationId, int rating, string text);
     Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId);
     Task<TrainerReviewDto?> GetReviewAsync(Guid reviewId);
     Task<TrainerReviewDto?> GetReviewForReservationAsync(Guid reservationId);

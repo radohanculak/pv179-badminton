@@ -19,12 +19,20 @@ public class AutofacInfrastructureConfig : Module
             .As<ICourtReservationRepository>()
             .InstancePerLifetimeScope();
 
+        builder.RegisterType<EFTrainerReservationRepository>()
+            .As<ITrainerReservationRepository>()
+            .InstancePerLifetimeScope();
+
         builder.RegisterType<EFTrainerRepository>()
             .As<ITrainerRepository>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<EFUserRepository>()
             .As<IUserRepository>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<EFTrainerReviewRepository>()
+            .As<ITrainerReviewRepository>()
             .InstancePerLifetimeScope();
 
         builder.RegisterGeneric(typeof(EFGenericRepository<>))

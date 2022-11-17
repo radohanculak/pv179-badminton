@@ -3,69 +3,68 @@ using Sprint.DAL.EFCore.Data;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.Repository;
 
-namespace Sprint.Infrastructure.EFCore.Repository
+namespace Sprint.Infrastructure.EFCore.Repository;
+
+public class EFUserRepository : IUserRepository
 {
-    public class EFUserRepository : IUserRepository
+    internal SprintDbContext _dbContext;
+
+    internal DbSet<User> dbSet;
+
+    public EFUserRepository(SprintDbContext dbContext)
     {
-        internal SprintDbContext _dbContext;
+        _dbContext = dbContext;
+        dbSet = _dbContext.Set<User>();
+    }
 
-        internal DbSet<User> dbSet;
+    public async virtual Task<User?> GetByIdAsync(Guid id)
+    {
+        return dbSet
+            .Include(t => t.CourtReservations)
+            .FirstOrDefault(t => t.Id == id);
+    }
 
-        public EFUserRepository(SprintDbContext dbContext)
+    public async Task<IEnumerable<User>> GetAllAsync()
+    {
+        return await dbSet
+            .Include(t => t.CourtReservations)
+            .ToListAsync();
+    }
+
+    public async virtual Task<Guid> InsertAsync(User entity)
+    {
+        var entry = await dbSet.AddAsync(entity);
+
+        return entry.Entity.Id;
+    }
+
+    public virtual void Delete(User entityToDelete)
+    {
+        if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
         {
-            _dbContext = dbContext;
-            dbSet = _dbContext.Set<User>();
+            dbSet.Attach(entityToDelete);
         }
 
-        public async virtual Task<User?> GetByIdAsync(Guid id)
+        dbSet.Remove(entityToDelete);
+    }
+
+    public virtual void Update(User entityToUpdate)
+    {
+        dbSet.Attach(entityToUpdate);
+        _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
+    }
+
+    public virtual async Task DeleteByIdAsync(Guid id)
+    {
+        var entityToDelete = await dbSet.FindAsync(id);
+        if (entityToDelete is not null)
         {
-            return dbSet
-                .Include(t => t.CourtReservations)
-                .FirstOrDefault(t => t.Id == id);
+            Delete(entityToDelete);
         }
+    }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await dbSet
-                .Include(t => t.CourtReservations)
-                .ToListAsync();
-        }
-
-        public async virtual Task<Guid> InsertAsync(User entity)
-        {
-            var entry = await dbSet.AddAsync(entity);
-
-            return entry.Entity.Id;
-        }
-
-        public virtual void Delete(User entityToDelete)
-        {
-            if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                dbSet.Attach(entityToDelete);
-            }
-
-            dbSet.Remove(entityToDelete);
-        }
-
-        public virtual void Update(User entityToUpdate)
-        {
-            dbSet.Attach(entityToUpdate);
-            _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
-        }
-
-        public virtual async Task DeleteByIdAsync(Guid id)
-        {
-            var entityToDelete = await dbSet.FindAsync(id);
-            if (entityToDelete is not null)
-            {
-                Delete(entityToDelete);
-            }
-        }
-
-        public virtual async Task SaveAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
+    public virtual async Task SaveAsync()
+    {
+        await _dbContext.SaveChangesAsync();
     }
 }

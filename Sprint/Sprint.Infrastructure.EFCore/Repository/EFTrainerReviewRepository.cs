@@ -5,44 +5,42 @@ using Sprint.Infrastructure.Repository;
 
 namespace Sprint.Infrastructure.EFCore.Repository;
 
-public class EFTrainerReservationRepository : ITrainerReservationRepository
+public class EFTrainerReviewRepository : ITrainerReviewRepository
 {
     internal SprintDbContext _dbContext;
 
-    internal DbSet<TrainerReservation> dbSet;
+    internal DbSet<TrainerReview> dbSet;
 
-    public EFTrainerReservationRepository(SprintDbContext dbContext)
+    public EFTrainerReviewRepository(SprintDbContext dbContext)
     {
         _dbContext = dbContext;
-        dbSet = _dbContext.Set<TrainerReservation>();
+        dbSet = _dbContext.Set<TrainerReview>();
     }
 
-    public async virtual Task<TrainerReservation?> GetByIdAsync(Guid id)
+    public async virtual Task<TrainerReview?> GetByIdAsync(Guid id)
     {
         return dbSet
-            .Include(t => t.Trainer)
-            .Include(t => t.CourtReservation)
-            .Include(t => t.TrainerReview)
+            .Include(t => t.Reservation)
+                .ThenInclude(r => r.Trainer)
             .FirstOrDefault(t => t.Id == id);
     }
 
-    public async Task<IEnumerable<TrainerReservation>> GetAllAsync()
+    public async Task<IEnumerable<TrainerReview>> GetAllAsync()
     {
         return await dbSet
-            .Include(t => t.Trainer)
-            .Include(t => t.CourtReservation)
-            .Include(t => t.TrainerReview)
+            .Include(t => t.Reservation)
+                .ThenInclude(r => r.Trainer)
             .ToListAsync();
     }
 
-    public async virtual Task<Guid> InsertAsync(TrainerReservation entity)
+    public async virtual Task<Guid> InsertAsync(TrainerReview entity)
     {
         var entry = await dbSet.AddAsync(entity);
 
         return entry.Entity.Id;
     }
 
-    public virtual void Delete(TrainerReservation entityToDelete)
+    public virtual void Delete(TrainerReview entityToDelete)
     {
         if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
         {
@@ -52,7 +50,7 @@ public class EFTrainerReservationRepository : ITrainerReservationRepository
         dbSet.Remove(entityToDelete);
     }
 
-    public virtual void Update(TrainerReservation entityToUpdate)
+    public virtual void Update(TrainerReview entityToUpdate)
     {
         dbSet.Attach(entityToUpdate);
         _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
@@ -70,14 +68,5 @@ public class EFTrainerReservationRepository : ITrainerReservationRepository
     public virtual async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task<IEnumerable<TrainerReservation>> GetReservationsForTrainer(Guid trainerId)
-    {
-        return dbSet
-           .Include(t => t.Trainer)
-           .Include(t => t.CourtReservation)
-           .Include(t => t.TrainerReview)
-           .Where(r => r.TrainerId == trainerId);
     }
 }

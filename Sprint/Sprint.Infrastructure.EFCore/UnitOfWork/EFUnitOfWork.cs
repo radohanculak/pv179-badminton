@@ -29,11 +29,11 @@ public class EFUnitOfWork : IUnitOfWork
         _dbContext = dbDbContext;
 
         CourtRepository = new EFGenericRepository<Court>(_dbContext);
-        CourtReservationRepository = new EFGenericRepository<CourtReservation>(_dbContext);
+        CourtReservationRepository = new EFCourtReservationRepository(_dbContext);
         TrainerRepository = new EFTrainerRepository(_dbContext);
         TrainerPhotoRepository = new EFGenericRepository<TrainerPhoto>(_dbContext);
-        TrainerReservationRepository = new EFGenericRepository<TrainerReservation>(_dbContext);
-        TrainerReviewRepository = new EFGenericRepository<TrainerReview>(_dbContext);
+        TrainerReservationRepository = new EFTrainerReservationRepository(_dbContext);
+        TrainerReviewRepository = new EFTrainerReviewRepository(_dbContext);
         UserRepository = new EFUserRepository(_dbContext);
     }
 
