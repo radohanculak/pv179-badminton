@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.DAL.UnitTest", "Spri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.BL", "Sprint.BL\Sprint.BL.csproj", "{14E2859D-3F9E-4C75-AA87-31CA8D5D367E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint", "Sprint\Sprint.csproj", "{E10A6B5A-90C8-433F-8909-95C574FFA0BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint", "Sprint\Sprint.csproj", "{E10A6B5A-90C8-433F-8909-95C574FFA0BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Common", "Sprint.Common\Sprint.Common.csproj", "{7E422E9E-73BF-4E8F-B3E5-356D4E6B8ABD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E10A6B5A-90C8-433F-8909-95C574FFA0BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E422E9E-73BF-4E8F-B3E5-356D4E6B8ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E422E9E-73BF-4E8F-B3E5-356D4E6B8ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E422E9E-73BF-4E8F-B3E5-356D4E6B8ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E422E9E-73BF-4E8F-B3E5-356D4E6B8ABD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Dto.Trainer;
+using Sprint.Common.Enums;
 using Sprint.DAL.EFCore.Models;
 
 namespace Sprint.BL.Dto.User;

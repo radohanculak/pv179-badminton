@@ -47,7 +47,7 @@ public class RepositoryTests
         using var dbContext = new SprintDbContext(_options);
         var repository = new EFGenericRepository<Court>(dbContext);
 
-        var result = repository.GetByID(_guids[2]);
+        var result = await repository.GetByIdAsync(_guids[2]);
         Assert.True(result.HourlyRate == 800);
         Assert.True(result.CourtNumber == "C");
     }
@@ -58,7 +58,7 @@ public class RepositoryTests
         using var dbContext = new SprintDbContext(_options);
         var repository = new EFGenericRepository<Court>(dbContext);
 
-        var result = repository.GetByID(Guid.NewGuid());
+        var result = await repository.GetByIdAsync(Guid.NewGuid());
         Assert.True(result == null);
     }
     
@@ -68,7 +68,7 @@ public class RepositoryTests
     {
         using var dbContext = new SprintDbContext(_options);
         var repository = new EFGenericRepository<Court>(dbContext);
-        var testObj = repository.GetByID(_guids[2]);
+        var testObj = await repository.GetByIdAsync(_guids[2]);
 
         var result = (await repository.GetAllAsync()).ToList();
         
@@ -86,14 +86,14 @@ public class RepositoryTests
         using var dbContext = new SprintDbContext(_options);
         var repository = new EFGenericRepository<Court>(dbContext);
         var guidToBeDeleted = _guids[0];
-        var objToBeDeleted = repository.GetByID(guidToBeDeleted);
+        var objToBeDeleted = await repository.GetByIdAsync(guidToBeDeleted);
 
         repository.Delete(objToBeDeleted);
         await repository.SaveAsync();
 
         var result = (await repository.GetAllAsync()).ToList();
         Assert.True(result.Count == 3);
-        Assert.Null(repository.GetByID(guidToBeDeleted));
+        Assert.Null(await repository.GetByIdAsync(guidToBeDeleted));
         Assert.DoesNotContain(objToBeDeleted, result);
     }
 
@@ -127,10 +127,10 @@ public class RepositoryTests
         var guidToAdd = Guid.NewGuid();
         var objToAdd = SeederFunctions.GetNewCourt(guidToAdd);
         
-        repository.InsertAsync(objToAdd);
+        await repository.InsertAsync(objToAdd);
         await repository.SaveAsync();
 
-        var testedObj = repository.GetByID(guidToAdd);
+        var testedObj = await repository.GetByIdAsync(guidToAdd);
         Assert.True(testedObj != null);
         Assert.Equal(testedObj, objToAdd);
         Assert.True((await repository.GetAllAsync()).Count() == 5);
@@ -145,10 +145,10 @@ public class RepositoryTests
         var objToAdd = SeederFunctions.GetNewCourt(guidToAdd);
         ClearDb(dbContext);
         
-        repository.InsertAsync(objToAdd);
+        await repository.InsertAsync(objToAdd);
         await repository.SaveAsync();
 
-        var testedObj = repository.GetByID(guidToAdd);
+        var testedObj = await repository.GetByIdAsync(guidToAdd);
         Assert.True(testedObj != null);
         Assert.Equal(testedObj, objToAdd);
         Assert.True((await repository.GetAllAsync()).Count() == 1);
@@ -160,13 +160,13 @@ public class RepositoryTests
         using var _dbContext = new SprintDbContext(_options);
         var repository = new EFGenericRepository<Court>(_dbContext);
         var guidToBeUpdated = _guids[3];
-        var objToBeUpdated = repository.GetByID(guidToBeUpdated);
+        var objToBeUpdated = await repository.GetByIdAsync(guidToBeUpdated);
 
         objToBeUpdated.HourlyRate = 10000;
         repository.Update(objToBeUpdated);
         await repository.SaveAsync();
         
-        var updatedObj = repository.GetByID(guidToBeUpdated);
+        var updatedObj = await repository.GetByIdAsync(guidToBeUpdated);
         Assert.Equal(updatedObj, objToBeUpdated);
         Assert.True(updatedObj.HourlyRate == 10000);
         Assert.True(updatedObj.CourtNumber == "D");
@@ -178,14 +178,14 @@ public class RepositoryTests
         using var _dbContext = new SprintDbContext(_options);
         var repository = new EFGenericRepository<Court>(_dbContext);
         var guidToBeUpdated = _guids[0];
-        var objToBeUpdated = repository.GetByID(guidToBeUpdated);
+        var objToBeUpdated = await repository.GetByIdAsync(guidToBeUpdated);
 
         objToBeUpdated.HourlyRate = 0;
         objToBeUpdated.CourtNumber = "E";
         repository.Update(objToBeUpdated);
         await repository.SaveAsync();
         
-        var updatedObj = repository.GetByID(guidToBeUpdated);
+        var updatedObj = await repository.GetByIdAsync(guidToBeUpdated);
         Assert.Equal(updatedObj, objToBeUpdated);
         Assert.True(updatedObj.HourlyRate == 0);
         Assert.True(updatedObj.CourtNumber == "E");
@@ -201,10 +201,10 @@ public class RepositoryTests
         await repository.DeleteByIdAsync(guidToBeDeleted);
         await repository.SaveAsync();
         
-        var objToBeDeleted = repository.GetByID(guidToBeDeleted);
+        var objToBeDeleted = await repository.GetByIdAsync(guidToBeDeleted);
         var result = (await repository.GetAllAsync()).ToList();
         Assert.True(result.Count == 3);
-        Assert.Null(repository.GetByID(guidToBeDeleted));
+        Assert.Null(await repository.GetByIdAsync(guidToBeDeleted));
         Assert.DoesNotContain(objToBeDeleted, result);
     }
     

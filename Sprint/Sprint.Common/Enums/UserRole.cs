@@ -1,4 +1,4 @@
-namespace Sprint.DAL.EFCore.Models;
+namespace Sprint.Common.Enums;
 
 public enum UserRole
 {
