@@ -43,6 +43,10 @@ public class TrainerService : ITrainerService
 
 
         var trainerId = await _unitOfWork.TrainerRepository.InsertAsync(_mapper.Map<Trainer>(newTrainer));
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+        user.Role = Common.Enums.UserRole.Trainer;
+
+        _unitOfWork.UserRepository.Update(user);
 
         await _unitOfWork.CommitAsync();
 

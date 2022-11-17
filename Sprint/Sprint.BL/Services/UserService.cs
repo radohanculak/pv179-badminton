@@ -56,8 +56,7 @@ public class UserService : IUserService
             LastName = lastName,
             Email = email,
             DateOfBirth = dateOfBirth,
-            Password = "v autentizaci budeme resit",
-            PhotoPath = "musi byt nullable"
+            Password = "v autentizaci budeme resit"
         };
 
 
