@@ -1,5 +1,3 @@
-using Sprint.BL.Dto.TrainerReservation;
-
 namespace Sprint.BL.Dto.TrainerReview;
 
 public class TrainerReviewDto
