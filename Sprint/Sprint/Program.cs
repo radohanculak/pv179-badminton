@@ -46,7 +46,7 @@ using (var scope = _ioc.Container.BeginLifetimeScope())
     var scheduleCourt = await courtService.GetDailyScheduleAsync(courtId, DateTime.Now);
     var scheduleTrainer = await trainerReservationService.GetTrainerDailyScheduleAsync(trainerId, DateTime.Now);
     var res1 = await trainerReservationService.GetReservationsForTrainerAsync(trainerId, true);
-    var res2 = await trainerReservationService.GetReservationsForTrainerAsync(trainerId, false);
+    var res2 = await trainerReservationService.GetReservationsForUserAsync(user2Id, true);
 
     await courtReservationService.DeleteReservationAsync(courtReservation.Id);
     await trainerReservationService.DeleteReservationAsync(courtReservation.Id, false);

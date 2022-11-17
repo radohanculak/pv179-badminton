@@ -39,8 +39,6 @@ public class AutofacInfrastructureConfig : Module
             .As(typeof(IRepository<>))
             .InstancePerDependency();
 
-       
-
         builder.RegisterType<SprintDbContext>()
             .AsSelf()
             .InstancePerLifetimeScope();

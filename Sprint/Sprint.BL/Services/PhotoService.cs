@@ -13,11 +13,15 @@ public class PhotoService : IPhotoService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserService _userService;
+    private readonly ITrainerService _trainerService;
 
-    public PhotoService(IUnitOfWork unitOfWork, IMapper mapper)
+    public PhotoService(IUnitOfWork unitOfWork, IMapper mapper, ITrainerService trainerService, IUserService userService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _trainerService = trainerService;
+        _userService = userService;
     }
 
     private async Task<UserDto?> GetUserAsync(Guid userId)

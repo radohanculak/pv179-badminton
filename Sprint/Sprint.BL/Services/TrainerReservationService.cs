@@ -13,16 +13,14 @@ public class TrainerReservationService : ITrainerReservationService
     private readonly IUnitOfWork _unitOfWork;
     private readonly ITrainerService _trainerService;
     private readonly ICourtReservationService _courtReservationService;
-    private readonly IUserService _userService;
 
     public TrainerReservationService(IUnitOfWork unitOfWork, IMapper mapper,
-        ICourtReservationService courtService, ITrainerService trainerService, IUserService userService)
+        ICourtReservationService courtService, ITrainerService trainerService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _courtReservationService = courtService;
         _trainerService = trainerService;
-        _userService = userService;
     }
 
     public async Task<TrainerReservationDto> AddReservationAsync(Guid userId, Guid trainerId, Guid courtId, DateTime from, DateTime to)
@@ -77,7 +75,6 @@ public class TrainerReservationService : ITrainerReservationService
         return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now.Date).ToList();
     }
 
-    // nefunguje - asi se pro to bude muset napsat repo, ve kterem se da Include na rezervace trenera
     public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast)
     {
         var reservations = (await GetAllReservationsAsync()).Where(r => r.CourtReservation.UserId == userId);
