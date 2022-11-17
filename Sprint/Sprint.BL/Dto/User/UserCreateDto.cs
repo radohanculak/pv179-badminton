@@ -18,8 +18,6 @@ public class UserCreateDto
 
     public virtual List<CourtReservationDto> CourtReservations { get; set; } = null!;
     
-    public string PhotoPath { get; set; } = null!;
-    
     public bool IsTrainer { get; set; } = false;
     
     public virtual TrainerDto Trainer { get; set; } = null!;
