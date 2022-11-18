@@ -1,6 +1,8 @@
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.TrainerReview;
 using Sprint.BL.Services.Interfaces;
+using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.Services;
@@ -9,35 +11,92 @@ public class TrainerReviewService : ITrainerReviewService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserService _userService;
+    private readonly ITrainerReservationService _trainerReservationService;
+    private readonly ITrainerService _trainerService;
 
-    public TrainerReviewService(IUnitOfWork unitOfWork, IMapper mapper)
+    public TrainerReviewService(IUnitOfWork unitOfWork, IMapper mapper, ITrainerService trainerService,
+        IUserService userService, ITrainerReservationService trainerReservationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _userService = userService;
+        _trainerReservationService = trainerReservationService;
+        _trainerService = trainerService;
     }
 
-    public async Task<bool> AddReview(Guid trainerReservationId, TrainerReviewDto review)
+    public async Task<TrainerReviewDto> AddReviewAsync(Guid trainerReservationId, int rating, string text)
     {
-        throw new NotImplementedException();
+        Guard.Against.NullOrEmpty(text);
+        Guard.Against.OutOfRange(rating, nameof(rating), 0, 10);
+
+        var reservation = await _trainerReservationService.GetReservationAsync(trainerReservationId);
+
+        var newReview = new TrainerReviewDto
+        {
+            Rating = rating,
+            Text = text,
+            ReservationId = reservation.Id
+        };
+
+        var reviewId = await _unitOfWork.TrainerReviewRepository.InsertAsync(_mapper.Map<TrainerReview>(newReview));
+        
+        await _unitOfWork.CommitAsync();
+
+        return await GetReviewAsync(reviewId);
     }
 
-    public async Task<List<TrainerReviewDto>> GetReviews(Guid trainerId)
+    public async Task<List<TrainerReviewDto>> GetAllReviewsAsync()
     {
-        throw new NotImplementedException();
+        return _mapper.Map<List<TrainerReviewDto>>(await _unitOfWork.TrainerReviewRepository.GetAllAsync());
     }
 
-    public async Task<TrainerReviewDto> GetReview(Guid reservationId)
+    public async Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId)
     {
-        throw new NotImplementedException();
+        _ = await _trainerService.GetTrainerAsync(trainerId);
+
+        var reviews = await _unitOfWork.TrainerReviewRepository.GetAllAsync();
+
+        var a = reviews.Where(t => t.Reservation.TrainerId == trainerId);
+
+        return _mapper.Map<List<TrainerReviewDto>>(a);
+
     }
 
-    public async Task<int> GetRating(Guid trainerId)
+    public async Task<TrainerReviewDto> GetReviewAsync(Guid reviewId)
     {
-        throw new NotImplementedException();
+        var review = await _unitOfWork.TrainerReviewRepository.GetByIdAsync(reviewId);
+
+        if (review == null)
+        {
+            throw new InvalidOperationException($"Trainer review with id {reviewId} does not exist");
+        }
+
+        return _mapper.Map<TrainerReviewDto>(review);
     }
 
-    public async Task<bool> DeleteReview(Guid reviewId)
+    public async Task<TrainerReviewDto?> GetReviewForReservationAsync(Guid reservationId)
     {
-        throw new NotImplementedException();
+        var reservation = await _trainerReservationService.GetReservationAsync(reservationId);
+        var reviews = await _unitOfWork.TrainerReviewRepository.GetAllAsync();
+
+        var review = reviews.FirstOrDefault(r => r.ReservationId == reservationId);
+
+        return _mapper.Map<TrainerReviewDto>(review);
+    }
+
+    public async Task<int> GetRatingAsync(Guid trainerId)
+    {
+        var reviews = await GetTrainerReviewsAsync(trainerId);
+
+        var sum =  reviews.Select(r => r.Rating).Aggregate((r1, r2) => r1 + r2);
+        return sum / reviews.Count();
+    }
+
+    public async Task DeleteReviewAsync(Guid reviewId)
+    {
+        var review = GetReviewAsync(reviewId);
+
+        await _unitOfWork.TrainerReviewRepository.DeleteByIdAsync(reviewId);
     }
 }

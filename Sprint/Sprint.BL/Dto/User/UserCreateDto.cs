@@ -21,5 +21,5 @@ public class UserCreateDto
 
     public virtual TrainerDto Trainer { get; set; } = null!;
 
-    public UserRole Role { get; set; }
+    public UserRole Role { get; set; } = UserRole.User;
 }

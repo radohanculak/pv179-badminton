@@ -8,5 +8,7 @@ public class TrainerReviewDto
 
     public string Text { get; set; } = null!;
 
-    public bool Hide { get; set; }
+    public bool Hide { get; set; } = false;
+
+    public Guid ReservationId { get; set; } 
 }

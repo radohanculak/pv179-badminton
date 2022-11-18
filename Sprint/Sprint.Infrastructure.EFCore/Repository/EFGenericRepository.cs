@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sprint.DAL.EFCore.Data;
-using Sprint.DAL.EFCore.Models;
 using Sprint.DAL.EFCore.Models.Base;
 using Sprint.Infrastructure.Repository;
 
@@ -18,7 +17,7 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         dbSet = _dbContext.Set<TEntity>();
     }
 
-    public async virtual Task<TEntity> GetByIdAsync(Guid id)
+    public async virtual Task<TEntity?> GetByIdAsync(Guid id)
     {
         return await dbSet.FindAsync(id);
     }
@@ -63,10 +62,5 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
     public virtual async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();
-    }
-
-    public virtual TEntity GetOne()
-    {
-        return dbSet.First();
     }
 }
