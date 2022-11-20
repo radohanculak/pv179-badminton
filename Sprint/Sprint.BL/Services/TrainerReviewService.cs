@@ -27,7 +27,7 @@ public class TrainerReviewService : ITrainerReviewService
 
     public async Task<TrainerReviewDto> AddReviewAsync(Guid trainerReservationId, int rating, string text)
     {
-        Guard.Against.NullOrEmpty(text);
+        Guard.Against.NullOrWhiteSpace(text);   
         Guard.Against.OutOfRange(rating, nameof(rating), 0, 10);
 
         var reservation = await _trainerReservationService.GetReservationAsync(trainerReservationId);
@@ -57,9 +57,9 @@ public class TrainerReviewService : ITrainerReviewService
 
         var reviews = await _unitOfWork.TrainerReviewRepository.GetAllAsync();
 
-        var a = reviews.Where(t => t.Reservation.TrainerId == trainerId);
+        reviews = reviews.Where(review => review.Reservation.TrainerId == trainerId).ToList();
 
-        return _mapper.Map<List<TrainerReviewDto>>(a);
+        return _mapper.Map<List<TrainerReviewDto>>(reviews);
 
     }
 
@@ -85,11 +85,16 @@ public class TrainerReviewService : ITrainerReviewService
         return _mapper.Map<TrainerReviewDto>(review);
     }
 
-    public async Task<int> GetRatingAsync(Guid trainerId)
+    public async Task<int?> GetRatingAsync(Guid trainerId)
     {
         var reviews = await GetTrainerReviewsAsync(trainerId);
 
-        var sum =  reviews.Select(r => r.Rating).Aggregate((r1, r2) => r1 + r2);
+        if (reviews.Count == 0)
+        {
+            return null;
+        }
+
+        var sum =  reviews.Select(r => r.Rating).Aggregate(0, (r1, r2) => r1 + r2);
         return sum / reviews.Count();
     }
 
