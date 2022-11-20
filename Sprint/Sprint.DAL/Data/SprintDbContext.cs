@@ -26,7 +26,8 @@ public class SprintDbContext : DbContext
     private static string getDbPath()
     {
         var fileName = "sprint.db";
-        return Path.Combine(@"C:\WORKSPACE\skola\badminton\pv179-badminton\Sprint\Sprint.DAL", fileName);
+        return Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        // return Path.Combine(@"C:\WORKSPACE\skola\badminton\pv179-badminton\Sprint\Sprint.DAL", fileName);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
