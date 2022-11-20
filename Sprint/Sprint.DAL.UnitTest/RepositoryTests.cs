@@ -27,19 +27,6 @@ public class RepositoryTests
         using var dbContext = new SprintDbContext(_options);
         _guids = TestDbSeeder.SeedCourtsDb(dbContext);
     }
-
-    [Fact]
-    public async void Repository_GetOne_FirstRow()
-    {
-        using var dbContext = new SprintDbContext(_options);
-        var repository = new EFGenericRepository<Court>(dbContext);
-
-        var result = repository.GetOne();
-        Assert.True(result.HourlyRate == 1000);
-        Assert.True(result.CourtNumber == "A");
-        Assert.True(result.Id == _guids[0]);
-    }
-    
     
     [Fact]
     public async void Repository_GetById_OneExactRow()

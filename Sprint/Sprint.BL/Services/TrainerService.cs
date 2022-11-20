@@ -75,6 +75,6 @@ public class TrainerService : ITrainerService
             throw new InvalidOperationException($"User with id {userId} is not trainer");
         }
 
-        return _mapper.Map<TrainerDto>(user?.Trainer);
+        return user.Trainer;
     }
 }

@@ -23,7 +23,8 @@ public class TrainerReservationService : ITrainerReservationService
         _trainerService = trainerService;
     }
 
-    public async Task<TrainerReservationDto> AddReservationAsync(Guid userId, Guid trainerId, Guid courtId, DateTime from, DateTime to)
+    public async Task<TrainerReservationDto> AddReservationAsync(Guid userId, Guid trainerId,
+        Guid courtId, DateTime from, DateTime to)
     {
         Guard.Against.Null(from);
         Guard.Against.Null(to);
