@@ -1,0 +1,38 @@
+@model SprintMVC.Models.User.UserIndexViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<h2>Users</h2>
+@* <a class="btn btn-primary" href="@Url.Action("Add")">Add</a> *@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width:70%">Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.FirstName @user.LastName</td>
+                <td>
+                    @* @using (Html.BeginForm("Delete", "User", new { id = user.Id }, FormMethod.Post, true, new { @class = "form-inline" })) *@
+                    @* { *@
+                    @*     <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { Id = user.Id })">Edit</a> *@
+                    @*     <input class="btn btn-secondary my-1" type="submit" value="Delete" /> *@
+                    @* } *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+</html>

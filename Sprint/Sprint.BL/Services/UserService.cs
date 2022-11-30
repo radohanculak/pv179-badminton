@@ -73,4 +73,10 @@ public class UserService : IUserService
 
         return _mapper.Map<UserDto>(user);
     }
+
+    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    {
+        var res = await _unitOfWork.UserRepository.GetAllAsync();
+        return _mapper.Map<IEnumerable<UserDto>>(res);
+    }
 }

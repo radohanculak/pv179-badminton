@@ -31,4 +31,9 @@ public class UserFacade : IUserFacade
 
         return (userDto, trainerDto);
     }
+
+    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    {
+        return await _userService.GetAllUsersAsync();
+    }
 }
