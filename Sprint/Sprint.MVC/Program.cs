@@ -1,24 +1,30 @@
-using AutoMapper;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Sprint.BL.Facades;
 using Sprint.DAL.EFCore.Data;
-using Sprint.Infrastructure.EFCore.UnitOfWork;
-using Sprint.Infrastructure.Repository;
-using Sprint.Infrastructure.UnitOfWork;
+using Sprint.BL.Configs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<SprintDbContext>(builder => builder.UseSqlite("Data Source=/home/rado/School/pv179-badminton/Sprint/Sprint.DAL/sprint.db;Cache=Shared"));
+builder.Services.AddDbContext<SprintDbContext>(context => context.UseSqlite(
+    builder.Configuration.GetConnectionString("SprintDatabase")));
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBLConfig()));
+
+var app = builder.Build();
+/*
+// Add services to the container.
+
+builder.Configuration.GetConnectionString("SprintDatabase");
+builder.Services.AddDbContext<SprintDbContext>(context => context.UseSqlite(
+    builder.Configuration.GetConnectionString("SprintDatabase")));
 builder.Services.AddTransient<DbContext>(x => x.GetRequiredService<SprintDbContext>());
 builder.Services.AddTransient<IUserFacade, UserFacade>();
 builder.Services.AddTransient<IUnitOfWork, EFUnitOfWork>();
 builder.Services.AddTransient<IMapper, >();
-
-var app = builder.Build();
-
-
+*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
