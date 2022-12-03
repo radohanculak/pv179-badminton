@@ -10,4 +10,5 @@ public interface IUserService
     Task<bool> ChangePassword(Guid userId, string hash);
     Task<UserDto> GetUserAsync(Guid userId);
     Task<UserDto> AddUserAsync(string name, string lastName, string email, DateTime dateOfBirth);
+    Task<IEnumerable<UserDto>> GetAllUsersAsync();
 }

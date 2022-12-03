@@ -290,13 +290,7 @@ public static class DataInitializer
             TrainerReviewId = null,
         };
 
-        var JitkaMonicaReview = new TrainerReview
-        {
-            Id = Guid.NewGuid(),
-            Rating = 5,
-            Text = "tbd",
-            Hide = false,
-        };
+        
 
         var JitkaMonica = new TrainerReservation
         {
@@ -304,12 +298,22 @@ public static class DataInitializer
             IsDeleted = false,
             CourtReservationId = courtReservationMonica1.Id,
             TrainerId = JitkaTrainer.Id,
-            TrainerReviewId = JitkaMonicaReview.Id,
+            TrainerReviewId = null,
         };
-
-        modelBuilder.Entity<TrainerReview>().HasData(JitkaMonicaReview);
+        
         modelBuilder.Entity<TrainerReservation>().HasData(RadoRoman1);
         modelBuilder.Entity<TrainerReservation>().HasData(RadoRoman2);
         modelBuilder.Entity<TrainerReservation>().HasData(JitkaMonica);
+        
+        var JitkaMonicaReview = new TrainerReview
+        {
+            Id = Guid.NewGuid(),
+            Rating = 5,
+            Text = "tbd",
+            Hide = false,
+            ReservationId = JitkaMonica.Id,
+        };
+        
+        modelBuilder.Entity<TrainerReview>().HasData(JitkaMonicaReview);
     }
 }
