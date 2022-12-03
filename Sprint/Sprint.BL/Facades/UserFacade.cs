@@ -12,22 +12,23 @@ public class UserFacade : IUserFacade
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserService _userService;
+    private readonly ITrainerService _trainerService;
     
-    public UserFacade(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+    public UserFacade(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService,
+        ITrainerService trainerService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _userService = userService;
+        _trainerService = trainerService;
     }
 
     public async Task<(UserDto, TrainerDto)> AddTrainerAsync(string firstName, string lastName,
         string email, DateTime dateOfBirth, string description, decimal hourlyRate)
     {
-        UserService userService = new UserService(_unitOfWork, _mapper);
-        var userDto = await userService.AddUserAsync(firstName, lastName, email, dateOfBirth);
+        var userDto = await _userService.AddUserAsync(firstName, lastName, email, dateOfBirth);
         
-        TrainerService trainerService = new TrainerService(_unitOfWork, _mapper, _userService);
-        var trainerDto = await trainerService.AddTrainerAsync(userDto.Id, description, hourlyRate);
+        var trainerDto = await _trainerService.AddTrainerAsync(userDto.Id, description, hourlyRate);
 
         return (userDto, trainerDto);
     }

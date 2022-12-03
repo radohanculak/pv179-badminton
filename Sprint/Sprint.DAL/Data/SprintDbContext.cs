@@ -23,11 +23,13 @@ public class SprintDbContext : DbContext
     public SprintDbContext(DbContextOptions<SprintDbContext> options) : base(options)
     {
     }
+
     
     public SprintDbContext(string connectionString)
     {
         _connectionString = connectionString;
     }
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -35,9 +37,9 @@ public class SprintDbContext : DbContext
         {
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             _connectionString = config.GetConnectionString("SprintDatabase");
+            
+            options.UseSqlite(_connectionString);
         }
-        
-        options.UseSqlite(_connectionString);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

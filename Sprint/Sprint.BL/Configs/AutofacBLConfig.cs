@@ -20,6 +20,11 @@ public class AutofacBLConfig : Module
             .Where(t => t.Namespace == "Sprint.BL.Services")
             .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name)!)
             .InstancePerDependency();
+        
+        builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+            .Where(t => t.Namespace == "Sprint.BL.Facades")
+            .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name)!)
+            .InstancePerDependency();
 
         builder.RegisterInstance(new Mapper(new MapperConfiguration(BusinessMappingConfig.ConfigureMapping)))
             .As<IMapper>()
@@ -39,6 +44,11 @@ public class AutofacBLConfig : Module
 
         builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
             .Where(t => t.Namespace == "Sprint.BL.Services")
+            .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name)!)
+            .InstancePerDependency();
+        
+        builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+            .Where(t => t.Namespace == "Sprint.BL.Facades")
             .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name)!)
             .InstancePerDependency();
 
