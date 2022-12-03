@@ -39,4 +39,11 @@ public class SprintDbContext : DbContext
         
         options.UseSqlite(_connectionString);
     }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Seeder();
+    }
+
 }
