@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Sprint.DAL.EFCore.Models;
 
 namespace Sprint.DAL.EFCore.Data;
@@ -17,40 +18,25 @@ public class SprintDbContext : DbContext
     
     public SprintDbContext()
     {
-        //Database.EnsureCreated();
     }
 
     public SprintDbContext(DbContextOptions<SprintDbContext> options) : base(options)
     {
-        //Database.EnsureCreated();
     }
     
-    
-    private static string getDbPath()
+    public SprintDbContext(string connectionString)
     {
-        var fileName = "sprint.db";
-        return Path.Combine(Directory.GetCurrentDirectory(), fileName);
-        // return Path.Combine(@"C:\WORKSPACE\skola\badminton\pv179-badminton\Sprint\Sprint.DAL", fileName);
+        _connectionString = connectionString;
     }
-    
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        //options.UseSqlite(_connectionString);
-        options.UseSqlite($"Data Source={getDbPath()}");
-    }
-
-    /*
-    public SprintDbContext(string connectionString)
-    {
-        this._connectionString = connectionString;
-    }
-    */
-    
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        //modelBuilder.Seeder();
+        if(options.IsConfigured == false)
+        {
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            _connectionString = config.GetConnectionString("SprintDatabase");
+        }
+        
+        options.UseSqlite(_connectionString);
     }
 }
