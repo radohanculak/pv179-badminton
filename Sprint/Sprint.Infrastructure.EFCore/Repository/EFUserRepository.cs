@@ -13,7 +13,7 @@ public class EFUserRepository : EFGenericRepository<User>, IUserRepository
 
     public async override Task<User?> GetByIdAsync(Guid id)
     {
-        return dbSet
+        return dbSet.AsNoTracking()
             .Include(t => t.CourtReservations)
             .FirstOrDefault(t => t.Id == id);
     }
