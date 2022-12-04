@@ -4,6 +4,7 @@ using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 
 namespace Sprint.BL.Services;
 
@@ -78,5 +79,23 @@ public class UserService : IUserService
     {
         var res = await _unitOfWork.UserRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<UserDto>>(res);
+    }
+    
+    public async Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password)
+    {
+        Guard.Against.Null(userId);
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            throw new InvalidOperationException($"User with id {userId} does not exist");
+        }
+
+        user.FirstName = firstName;
+        user.LastName = lastName;
+        user.Email = email;
+        user.PasswordHash = new PasswordHasher<UserDto>().HashPassword(null!, password);
+        
+        _unitOfWork.UserRepository.Update(user);
+        await _unitOfWork.CommitAsync();
     }
 }

@@ -23,11 +23,10 @@
             <tr>
                 <td>@user.FirstName @user.LastName</td>
                 <td>
-                    @* @using (Html.BeginForm("Delete", "User", new { id = user.Id }, FormMethod.Post, true, new { @class = "form-inline" })) *@
-                    @* { *@
-                    @*     <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { Id = user.Id })">Edit</a> *@
-                    @*     <input class="btn btn-secondary my-1" type="submit" value="Delete" /> *@
-                    @* } *@
+                    @using (Html.BeginForm("Delete", "User", new { id = user.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+                    {
+                        <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { Id = user.Id })">Edit</a>
+                    }
                 </td>
             </tr>
         }
