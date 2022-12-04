@@ -1,9 +1,9 @@
 ﻿using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
 
-namespace Sprint.BL.Services.Interfaces;
+namespace Sprint.BL.Facades.Interfaces;
 
-public interface ICourtService
+public interface ICourtFacade
 {
     Task<CourtDto> AddCourtAsync(string courtNumber, decimal hourlyRate);
     Task<CourtDto> GetCourtAsync(Guid courtId);

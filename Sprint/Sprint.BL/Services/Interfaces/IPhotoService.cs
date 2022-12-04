@@ -1,11 +1,14 @@
-﻿namespace Sprint.BL.Services.Interfaces;
+﻿using Sprint.BL.Dto.Trainer;
+using Sprint.BL.Dto.User;
+
+namespace Sprint.BL.Services.Interfaces;
 
 public interface IPhotoService
 {
-    Task AddProfilePhotoAsync(Guid userId, string path);
-    Task<bool> AddTrainerPhotoAsync(Guid trainerId, List<string> paths);
-    Task<byte[]> GetProfilePhotoAsync(Guid userId);
-    Task<List<byte[]>> GetTrainerPhotosAsync(Guid trainerId);
-    Task DeleteProfilePhotoAsync(Guid userId);
-    Task DeleteTrainerPhotosAsync(Guid trainerId);
+    Task AddProfilePhotoAsync(UserDto user, string path);
+    Task<bool> AddTrainerPhotosAsync(TrainerDto trainer, List<string> paths);
+    byte[] GetProfilePhoto(UserDto user);
+    List<byte[]> GetTrainerPhotos(TrainerDto trainer);
+    Task DeleteProfilePhotoAsync(UserDto user);
+    Task DeleteTrainerPhotosAsync(TrainerDto trainer);
 }

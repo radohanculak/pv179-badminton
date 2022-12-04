@@ -1,6 +1,7 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.CourtReservation;
+using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
@@ -11,15 +12,11 @@ public class CourtReservationService : ICourtReservationService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserService _userService;
-    private readonly ICourtService _courtService;
 
-    public CourtReservationService(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService, ICourtService courtService)
+    public CourtReservationService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _userService = userService;
-        _courtService = courtService;
     }
 
     public async Task<CourtReservationDto> AddReservationAsync(Guid userId, Guid courtId, DateTime from, DateTime to)
@@ -27,16 +24,13 @@ public class CourtReservationService : ICourtReservationService
         Guard.Against.Null(from);
         Guard.Against.Null(to);
 
-        _ = await _userService.GetUserAsync(userId);
-        _ = await _courtService.GetCourtAsync(courtId);
-
         var courtReservation = new CourtReservationDto
         {
             From = from,
             To = to,
             UserId = userId,
             CourtId = courtId,
-            Created = DateTime.Now // TODO - toto se musi nastavovat pri insertu do db
+            Created = DateTime.Now
         };
 
         var reservationId = await _unitOfWork.CourtReservationRepository
@@ -66,9 +60,9 @@ public class CourtReservationService : ICourtReservationService
         return _mapper.Map<List<CourtReservationDto>>(reservations);
     }
 
-    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, bool inPast)
+    public List<CourtReservationDto> GetReservations(UserDto user, bool inPast)
     {
-        var userReservations = (await _userService.GetUserAsync(userId)).CourtReservations;
+        var userReservations = user.CourtReservations;
 
         if (inPast)
         {
@@ -78,12 +72,12 @@ public class CourtReservationService : ICourtReservationService
         return userReservations.Where(r => r.From.Date >= DateTime.Now.Date).ToList();
     }
 
-    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, DateTime from, DateTime to)
+    public List<CourtReservationDto> GetReservations(UserDto user, DateTime from, DateTime to)
     {
-        var userReservations = (await _userService.GetUserAsync(userId)).CourtReservations;
+        var userReservations = user.CourtReservations;
 
         return userReservations
-            .Where(r => r.UserId == userId && r.From >= from && r.To <= to)
+            .Where(r => r.From >= from && r.To <= to)
             .ToList();
     }
 

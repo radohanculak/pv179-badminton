@@ -2,6 +2,7 @@ using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Dto.Trainer;
+using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
@@ -12,13 +13,11 @@ public class TrainerService : ITrainerService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserService _userService;
 
-    public TrainerService(IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+    public TrainerService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _userService = userService;
     }
 
     public async Task<TrainerDto> AddTrainerAsync(Guid userId, string description, decimal hourlyRate)
@@ -66,13 +65,11 @@ public class TrainerService : ITrainerService
         return _mapper.Map<TrainerDto>(trainer);
     }
 
-    public async Task<TrainerDto> GetTrainerByUserIdAsync(Guid userId)
+    public TrainerDto GetTrainerByUser(UserDto user)
     {
-        var user = await _userService.GetUserAsync(userId);
-
         if (user.Role != Common.Enums.UserRole.Trainer)
         {
-            throw new InvalidOperationException($"User with id {userId} is not trainer");
+            throw new InvalidOperationException($"User with id {user.Id} is not trainer");
         }
 
         return user.Trainer;

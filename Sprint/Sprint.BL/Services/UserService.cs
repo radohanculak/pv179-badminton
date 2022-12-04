@@ -84,6 +84,7 @@ public class UserService : IUserService
     public async Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password)
     {
         Guard.Against.Null(userId);
+
         var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
         if (user == null)
         {
@@ -96,6 +97,7 @@ public class UserService : IUserService
         user.PasswordHash = new PasswordHasher<UserDto>().HashPassword(null!, password);
         
         _unitOfWork.UserRepository.Update(user);
+
         await _unitOfWork.CommitAsync();
     }
 }
