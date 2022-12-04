@@ -1,30 +1,22 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Sprint.DAL.EFCore.Data;
 using Sprint.BL.Configs;
+using Sprint.DAL.EFCore.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<SprintDbContext>(context => context.UseSqlite(
-    builder.Configuration.GetConnectionString("SprintDatabase")));
+
+var connectionString = builder.Configuration.GetConnectionString("SprintDatabase");
+builder.Services.AddDbContext<SprintDbContext>(options => options.UseSqlite(connectionString));
+
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBLConfig()));
+builder.Host.ConfigureContainer<ContainerBuilder>(options => options.RegisterModule(new AutofacBLConfig()));
 
 var app = builder.Build();
-/*
-// Add services to the container.
-
-builder.Configuration.GetConnectionString("SprintDatabase");
-builder.Services.AddDbContext<SprintDbContext>(context => context.UseSqlite(
-    builder.Configuration.GetConnectionString("SprintDatabase")));
-builder.Services.AddTransient<DbContext>(x => x.GetRequiredService<SprintDbContext>());
-builder.Services.AddTransient<IUserFacade, UserFacade>();
-builder.Services.AddTransient<IUnitOfWork, EFUnitOfWork>();
-builder.Services.AddTransient<IMapper, >();
-*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
