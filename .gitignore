@@ -524,4 +524,5 @@ fabric.properties
 
 # Local Database
 sprint.db*
-
+*appsettings.json
+*appsettings.Development.json
