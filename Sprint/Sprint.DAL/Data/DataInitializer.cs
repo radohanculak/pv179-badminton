@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sprint.Common.Enums;
 using Sprint.DAL.EFCore.Models;
 
 namespace Sprint.DAL.EFCore.Data;
@@ -16,7 +17,8 @@ public static class DataInitializer
             Email = "514329@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            Role = UserRole.User
         };
 
         var Petko = new User
@@ -28,7 +30,8 @@ public static class DataInitializer
             Email = "pppeter@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            Role = UserRole.User
         };
 
         var Roman = new User
@@ -40,7 +43,8 @@ public static class DataInitializer
             Email = "rntr@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            Role = UserRole.User
         };
 
         var Monica = new User
@@ -52,7 +56,8 @@ public static class DataInitializer
             Email = "monic@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            Role = UserRole.User
         };
 
         var Rado = new User
@@ -64,7 +69,8 @@ public static class DataInitializer
             Email = "rhanculak@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = true
+            IsTrainer = true,
+            Role = UserRole.Trainer
         };
 
         var Jitka = new User
@@ -76,7 +82,8 @@ public static class DataInitializer
             Email = "493352@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = true
+            IsTrainer = true,
+            Role = UserRole.Trainer
         };
 
         modelBuilder.Entity<User>().HasData(Adam);

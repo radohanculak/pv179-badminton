@@ -77,4 +77,10 @@ public class TrainerService : ITrainerService
 
         return user.Trainer;
     }
+    
+    public async Task<IEnumerable<TrainerDto>> GetAllTrainersAsync()
+    {
+        var res = await _unitOfWork.TrainerRepository.GetAllAsync();
+        return _mapper.Map<IEnumerable<TrainerDto>>(res);
+    }
 }

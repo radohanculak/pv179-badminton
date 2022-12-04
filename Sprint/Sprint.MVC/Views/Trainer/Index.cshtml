@@ -1,0 +1,30 @@
+﻿@model Sprint.MVC.Models.Trainer.TrainerIndexViewModel
+
+<h4>Students</h4>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width:70%">Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var trainer in Model.Trainers)
+    {
+        <tr>
+            <td>@trainer.User.FirstName @trainer.User.LastName</td>
+            <td>
+                @using (Html.BeginForm("Delete", "Trainer", new { id = trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+                {
+                    <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = trainer.Id })">Edit</a>
+                }
+                
+                @using (Html.BeginForm("Delete", "Trainer", new { id = trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+                {
+                    <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

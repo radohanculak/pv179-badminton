@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Sprint.BL.Facades;
+using Sprint.BL.Facades.Interfaces;
 using Sprint.BL.Services.Interfaces;
-using SprintMVC.Models.User;
+using Sprint.MVC.Models.User;
 
-namespace SprintMVC.Controllers;
+namespace Sprint.MVC.Controllers;
 
 public class UserController : Controller
 {
@@ -23,6 +23,18 @@ public class UserController : Controller
         {
             Users = await _userFacade.GetAllUsersAsync()
         };
+        return View(model);
+    }
+    
+    public async Task<IActionResult> Info(Guid id)
+    {
+        var dto = await _userService.GetUserAsync(id);
+        if (dto == null)
+        {
+            return NotFound();
+        }
+
+        var model = new UserInfoViewModel(dto);
         return View(model);
     }
     
