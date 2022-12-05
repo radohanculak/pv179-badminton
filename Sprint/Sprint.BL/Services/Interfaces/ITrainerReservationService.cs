@@ -1,14 +1,16 @@
-﻿using Sprint.BL.Dto.TrainerReservation;
+﻿using Sprint.BL.Dto.CourtReservation;
+using Sprint.BL.Dto.Trainer;
+using Sprint.BL.Dto.TrainerReservation;
 
 namespace Sprint.BL.Services.Interfaces;
 
 public interface ITrainerReservationService
 {
-    Task<TrainerReservationDto> AddReservationAsync(Guid userId, Guid trainerId, Guid courtId, DateTime from, DateTime to);
+    Task<TrainerReservationDto> AddReservationAsync(CourtReservationDto courtReservation, Guid trainerId);
     Task<TrainerReservationDto> GetReservationAsync(Guid reservationId);
     Task<List<TrainerReservationDto>> GetAllReservationsAsync();
-    Task<List<TrainerReservationDto>> GetReservationsForTrainerAsync(Guid trainerId, bool inPast);
+    List<TrainerReservationDto> GetReservationsForTrainer(TrainerDto trainer, bool inPast);
     Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast);
-    Task<List<TrainerReservationDto>?> GetTrainerDailyScheduleAsync(Guid trainerId, DateTime date);
-    Task DeleteReservationAsync(Guid reservationId, bool keepCourtReservation);
+    List<TrainerReservationDto>? GetTrainerDailySchedule(TrainerDto trainer, DateTime date);
+    Task DeleteReservationAsync(TrainerReservationDto reservation);
 }

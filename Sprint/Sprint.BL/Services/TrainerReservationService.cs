@@ -1,5 +1,6 @@
-using Ardalis.GuardClauses;
 using AutoMapper;
+using Sprint.BL.Dto.CourtReservation;
+using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.TrainerReservation;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
@@ -11,27 +12,15 @@ public class TrainerReservationService : ITrainerReservationService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ITrainerService _trainerService;
-    private readonly ICourtReservationService _courtReservationService;
 
-    public TrainerReservationService(IUnitOfWork unitOfWork, IMapper mapper,
-        ICourtReservationService courtService, ITrainerService trainerService)
+    public TrainerReservationService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _courtReservationService = courtService;
-        _trainerService = trainerService;
     }
 
-    public async Task<TrainerReservationDto> AddReservationAsync(Guid userId, Guid trainerId,
-        Guid courtId, DateTime from, DateTime to)
+    public async Task<TrainerReservationDto> AddReservationAsync(CourtReservationDto courtReservation, Guid trainerId)
     {
-        Guard.Against.Null(from);
-        Guard.Against.Null(to);
-
-        _ = await _trainerService.GetTrainerAsync(trainerId);
-        var courtReservation = await _courtReservationService.AddReservationAsync(userId, courtId, from, to);
-
         var newTrainerReservation = new TrainerReservationCreateDto
         {
             TrainerId = trainerId,
@@ -41,7 +30,8 @@ public class TrainerReservationService : ITrainerReservationService
         var trainerReservationId = await _unitOfWork.TrainerReservationRepository
             .InsertAsync(_mapper.Map<TrainerReservation>(newTrainerReservation));
         await _unitOfWork.CommitAsync();
-
+        await _unitOfWork.TrainerReservationRepository.Detach(trainerReservationId);
+        
         return await GetReservationAsync(trainerReservationId);
     }
 
@@ -64,9 +54,9 @@ public class TrainerReservationService : ITrainerReservationService
         return _mapper.Map<List<TrainerReservationDto>>(reservations);
     }
 
-    public async Task<List<TrainerReservationDto>> GetReservationsForTrainerAsync(Guid trainerId, bool inPast)
+    public List<TrainerReservationDto> GetReservationsForTrainer(TrainerDto trainer, bool inPast)
     {
-        var reservations = (await _trainerService.GetTrainerAsync(trainerId)).Reservations;
+        var reservations = trainer.Reservations;
 
         if (inPast)
         {
@@ -88,24 +78,16 @@ public class TrainerReservationService : ITrainerReservationService
         return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now.Date).ToList();
     }
 
-    public async Task<List<TrainerReservationDto>?> GetTrainerDailyScheduleAsync(Guid trainerId, DateTime date)
+    public List<TrainerReservationDto>? GetTrainerDailySchedule(TrainerDto trainer, DateTime date)
     {
-        var trainer = await _trainerService.GetTrainerAsync(trainerId);
-
-        return trainer.Reservations.Where(r => r.CourtReservation.From.Date == date.Date).ToList();
+        return trainer.Reservations?.Where(r => r.CourtReservation.From.Date == date.Date).ToList();
     }
 
-    public async Task DeleteReservationAsync(Guid reservationId, bool keepCourtReservation)
+    public async Task DeleteReservationAsync(TrainerReservationDto reservation)
     {
-        var reservation = await GetReservationAsync(reservationId);
         reservation.IsDeleted = true;
 
-        if (!keepCourtReservation)
-        {
-            await _courtReservationService.DeleteReservationAsync(reservation.CourtReservation.Id);
-        }
-
-        _unitOfWork.CourtReservationRepository.Update(_mapper.Map<CourtReservation>(reservation));
+        _unitOfWork.TrainerReservationRepository.Update(_mapper.Map<TrainerReservation>(reservation));
         await _unitOfWork.CommitAsync();
     }
 }

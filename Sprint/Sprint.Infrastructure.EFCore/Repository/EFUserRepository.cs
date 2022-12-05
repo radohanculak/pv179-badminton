@@ -21,6 +21,7 @@ public class EFUserRepository : EFGenericRepository<User>, IUserRepository
     public async override Task<IEnumerable<User>> GetAllAsync()
     {
         return await dbSet
+            .AsNoTracking()
             .Include(t => t.CourtReservations)
             .ToListAsync();
     }

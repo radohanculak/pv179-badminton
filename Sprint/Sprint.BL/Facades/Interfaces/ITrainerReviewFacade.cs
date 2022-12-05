@@ -1,11 +1,10 @@
-﻿using Sprint.BL.Dto.TrainerReservation;
-using Sprint.BL.Dto.TrainerReview;
+﻿using Sprint.BL.Dto.TrainerReview;
 
-namespace Sprint.BL.Services.Interfaces;
+namespace Sprint.BL.Facades.Interfaces;
 
-public interface ITrainerReviewService
+public interface ITrainerReviewFacade
 {
-    Task<TrainerReviewDto> AddReviewAsync(TrainerReservationDto trainerReservation, int rating, string text);
+    Task<TrainerReviewDto> AddReviewAsync(Guid trainerReservationId, int rating, string text);
     Task<List<TrainerReviewDto>> GetTrainerReviewsAsync(Guid trainerId);
     Task<List<TrainerReviewDto>> GetAllReviewsAsync();
     Task<TrainerReviewDto?> GetReviewAsync(Guid reviewId);

@@ -178,8 +178,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.TrainerReviewRepository.GetByIdAsync(_reviewGuid))
             .ReturnsAsync((TrainerReview)null);
 
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var action = () => service.GetReviewAsync(_reviewGuid);
         await action.Should().ThrowAsync<InvalidOperationException>()
@@ -198,8 +197,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.Map<TrainerReviewDto>(_trainerReview))
             .Returns(_trainerReviewDto);
 
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var result = await service.GetReviewAsync(_reviewGuid);
         result.Should().Be(_trainerReviewDto);
@@ -209,10 +207,9 @@ public class TrainerReviewServiceTests
     [Fact]
     public async Task AddReviewAsync_InvalidText_ArgumentException()
     {
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
-        var action = () => service.AddReviewAsync(_trainerReservationGuid, 1, "\t\t");
+        var action = () => service.AddReviewAsync(_trainerReservationDto, 1, "\t\t");
         await action.Should().ThrowAsync<ArgumentException>();
     }
     
@@ -220,10 +217,9 @@ public class TrainerReviewServiceTests
     [Fact]
     public async Task AddReviewAsync_InvalidRatingUnder_ArgumentException()
     {
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
-        var action = () => service.AddReviewAsync(_trainerReservationGuid, -1, "text");
+        var action = () => service.AddReviewAsync(_trainerReservationDto, -1, "text");
         await action.Should().ThrowAsync<ArgumentException>();
     }
     
@@ -251,10 +247,9 @@ public class TrainerReviewServiceTests
             .Setup(x => x.GetReservationAsync(_trainerReservationGuid))
             .ReturnsAsync(_trainerReservationDto);
 
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
-        var action = () => service.AddReviewAsync(_trainerReservationGuid, -1, "text");
+        var action = () => service.AddReviewAsync(_trainerReservationDto, -1, "text");
         await action.Should().ThrowAsync<ArgumentException>();
     }
     
@@ -273,8 +268,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.Map<TrainerReviewDto>(_trainerReview))
             .Returns(_trainerReviewDto);
         
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var result = await service.GetReviewForReservationAsync(_trainerReservationGuid);
         result.Should().Be(_trainerReviewDto);
@@ -287,8 +281,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.GetTrainerAsync(_trainerGuid))
             .ThrowsAsync(new InvalidOperationException());
         
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var action = () => service.GetTrainerReviewsAsync(_trainerGuid);
         await action.Should().ThrowAsync<InvalidOperationException>();
@@ -306,8 +299,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.Map<List<TrainerReviewDto>>(It.Is<List<TrainerReview>>(x => x.Count == 3)))
             .Returns(new List<TrainerReviewDto> {_reviewsDto[1], _reviewsDto[2], _reviewsDto[3]});
         
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var result = await service.GetTrainerReviewsAsync(_trainerGuid);
         result.Should().HaveCount(3);
@@ -327,8 +319,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.Map<List<TrainerReviewDto>>(It.Is<List<TrainerReview>>(x => x.Count == 0)))
             .Returns(new List<TrainerReviewDto> ());
         
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         // we avoid id control by mocking into null (real function will throw exception)
         var result = await service.GetTrainerReviewsAsync(Guid.NewGuid());
@@ -346,8 +337,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.Map<List<TrainerReviewDto>>(It.Is<List<TrainerReview>>(x => x.Count == 0)))
             .Returns(new List<TrainerReviewDto>());
         
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var result = await service.GetRatingAsync(Guid.NewGuid());
         result.Should().Be(null);
@@ -364,8 +354,7 @@ public class TrainerReviewServiceTests
             .Setup(x => x.Map<List<TrainerReviewDto>>(It.Is<List<TrainerReview>>(x => x.Count == 3)))
             .Returns(new List<TrainerReviewDto> {_reviewsDto[1], _reviewsDto[2], _reviewsDto[3]});
         
-        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object,
-            _trainerServiceMock.Object, _userServiceMock.Object, _trainerReservationMock.Object);
+        var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
         var result = await service.GetRatingAsync(_trainerGuid);
         result.Should().Be(13 / 3);

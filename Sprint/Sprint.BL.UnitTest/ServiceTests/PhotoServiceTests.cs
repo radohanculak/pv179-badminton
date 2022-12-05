@@ -106,14 +106,11 @@ public class PhotoServiceTests
 
         var service = new PhotoService(
             _unitOfWorkMock.Object,
-            _mapperMock.Object,
-            _trainerServiceMock.Object,
-            _userServiceMock.Object
+            _mapperMock.Object
         );
 
-        var path = service.GetProfilePhotoAsync(_userGuid);
-        await path;
-        path.Result.Should().Equal(Encoding.ASCII.GetBytes(_profilePhotoPath));
+        var path = service.GetProfilePhoto(_userDto);
+        path.Should().Equal(Encoding.ASCII.GetBytes(_profilePhotoPath));
     }
 
     [Fact]
@@ -132,17 +129,15 @@ public class PhotoServiceTests
 
         var service = new PhotoService(
             _unitOfWorkMock.Object,
-            _mapperMock.Object,
-            _trainerServiceMock.Object,
-            _userServiceMock.Object
+            _mapperMock.Object
         );
 
-        var action = () => service.AddProfilePhotoAsync(_userGuid, _profilePhotoPath);
+        var action = () => service.AddProfilePhotoAsync(_userDto, _profilePhotoPath);
         await action.Should().NotThrowAsync();
 
-        var path = service.GetProfilePhotoAsync(_userGuid);
-        await path;
-        path.Result.Should().Equal(Encoding.ASCII.GetBytes(_profilePhotoPath));
+        var path = service.GetProfilePhoto(_userDto);
+          
+        path.Should().Equal(Encoding.ASCII.GetBytes(_profilePhotoPath));
     }
 
     [Fact]
@@ -163,17 +158,15 @@ public class PhotoServiceTests
 
         var service = new PhotoService(
             _unitOfWorkMock.Object,
-            _mapperMock.Object,
-            _trainerServiceMock.Object,
-            _userServiceMock.Object
+            _mapperMock.Object
         );
 
-        var action = () => service.DeleteProfilePhotoAsync(_userGuid);
+        var action = () => service.DeleteProfilePhotoAsync(_userDto);
         await action.Should().NotThrowAsync();
 
-        var path = service.GetProfilePhotoAsync(_userGuid);
-        await path;
-        path.Result.Should().Equal(Array.Empty<byte>());
+        var path = service.GetProfilePhoto(_userDto);
+
+        path.Should().Equal(Array.Empty<byte>());
     }
 
     [Fact]
@@ -185,12 +178,10 @@ public class PhotoServiceTests
 
         var service = new PhotoService(
             _unitOfWorkMock.Object,
-            _mapperMock.Object,
-            _trainerServiceMock.Object,
-            _userServiceMock.Object
+            _mapperMock.Object
         );
 
-        var result = await service.GetTrainerPhotosAsync(_trainerGuid);
+        var result = service.GetTrainerPhotos(_trainerDto);
         // trainer has 3 photos but 1 is marked as hidden
         _trainerDto.TrainerPhotos.Should().HaveCount(3);
         result.Should().HaveCount(2);

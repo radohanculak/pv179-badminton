@@ -117,8 +117,8 @@ public class TrainerReservationServiceTests
             .Setup(x => x.TrainerReservationRepository.GetByIdAsync(_trainerResGuid))
             .ReturnsAsync((TrainerReservation?) null);
 
-        TrainerReservationService service = new TrainerReservationService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _courtReservationServiceMock.Object, _trainerServiceMock.Object);
+        TrainerReservationService service = new TrainerReservationService(
+            _unitOfWorkMock.Object, _mapperMock.Object);
 
         var action = () => service.GetReservationAsync(_trainerResGuid);
         await action.Should()
@@ -138,8 +138,8 @@ public class TrainerReservationServiceTests
             .Setup(x => x.Map<TrainerReservationDto>(_trainerRes))
             .Returns(_trainerResDto);
 
-        TrainerReservationService service = new TrainerReservationService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _courtReservationServiceMock.Object, _trainerServiceMock.Object);
+        TrainerReservationService service = new TrainerReservationService(
+            _unitOfWorkMock.Object, _mapperMock.Object);
 
         var result = await service.GetReservationAsync(_trainerResGuid);
         result.Should().Be(_trainerResDto);
@@ -153,11 +153,10 @@ public class TrainerReservationServiceTests
             .Setup(x => x.GetTrainerAsync(It.IsAny<Guid>()))
             .ThrowsAsync(new InvalidOperationException());
         
-        TrainerReservationService service = new TrainerReservationService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _courtReservationServiceMock.Object, _trainerServiceMock.Object);
+        TrainerReservationService service = new TrainerReservationService(
+            _unitOfWorkMock.Object, _mapperMock.Object);
 
-        var action = () => service.AddReservationAsync(new Guid(), new Guid(), new Guid(),
-            DateTime.Now, DateTime.Now);
+        var action = () => service.AddReservationAsync(_courtResDtos.First(), new Guid());
         await action.Should()
             .ThrowAsync<InvalidOperationException>();
     }
@@ -191,11 +190,10 @@ public class TrainerReservationServiceTests
             .Returns(_trainerResDto);
         
         
-        TrainerReservationService service = new TrainerReservationService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _courtReservationServiceMock.Object, _trainerServiceMock.Object);
+        TrainerReservationService service = new TrainerReservationService(
+            _unitOfWorkMock.Object, _mapperMock.Object);
 
-        var result = await service.AddReservationAsync(Guid.NewGuid(), _trainerGuid,
-            Guid.NewGuid(), DateTime.Now, DateTime.Now);
+        var result = await service.AddReservationAsync(_courtResDtos.First(), _trainerGuid);
 
         result.Should().Be(_trainerResDto);
     }

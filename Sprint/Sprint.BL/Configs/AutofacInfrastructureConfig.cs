@@ -38,5 +38,11 @@ public class AutofacInfrastructureConfig : Module
         builder.RegisterGeneric(typeof(EFGenericRepository<>))
             .As(typeof(IRepository<>))
             .InstancePerDependency();
+        
+        /////////////////////////////////////////////////////////////////////////////////////////
+        // delete before deploy
+        builder.RegisterType<SprintDbContext>()
+            .AsSelf()
+            .InstancePerLifetimeScope();
     }
 }

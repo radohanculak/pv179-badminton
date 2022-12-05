@@ -70,8 +70,7 @@ public class TrainerServiceTests
     [Fact]
     public async Task AddTrainerAsync_InvalidRate_ArgumentException()
     {
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
         var action = () => service.AddTrainerAsync(Guid.NewGuid(), _descrtiption, 0);
         await action.Should().ThrowAsync<ArgumentException>();
@@ -84,8 +83,7 @@ public class TrainerServiceTests
             .Setup(x => x.UserRepository.GetByIdAsync(_userGuid))
             .ReturnsAsync((User)null);
         
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
         var action = () => service.AddTrainerAsync(_userGuid, _descrtiption, _hourlyRate);
         await action.Should()
@@ -106,8 +104,7 @@ public class TrainerServiceTests
             .Setup(x => x.UserRepository.GetByIdAsync(_userGuid))
             .ReturnsAsync(userTrainer);
         
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
         var action = () => service.AddTrainerAsync(_userGuid, _descrtiption, _hourlyRate);
         await action.Should()
@@ -140,8 +137,7 @@ public class TrainerServiceTests
             .Setup(x => x.Map<TrainerDto>(_trainer))
             .Returns(_trainerDto);
         
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
         var returnTrainer = await service.AddTrainerAsync(_userGuid, _descrtiption, _hourlyRate);
         returnTrainer.Should().Be(_trainerDto);
@@ -154,8 +150,7 @@ public class TrainerServiceTests
             .Setup(x => x.TrainerRepository.GetByIdAsync(_trainerGuid))
             .ReturnsAsync((Trainer)null);
         
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
         var action = () => service.GetTrainerAsync(_trainerGuid);
         await action.Should()
@@ -175,8 +170,7 @@ public class TrainerServiceTests
             .Setup(x => x.Map<TrainerDto>(_trainer))
             .Returns(_trainerDto);
 
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
         var returnDto = await service.GetTrainerAsync(_trainerGuid);
         returnDto.Should().Be(_trainerDto);
@@ -197,12 +191,11 @@ public class TrainerServiceTests
             .Setup(x => x.GetUserAsync(_userGuid))
             .ReturnsAsync(userNotTrainer);
         
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
-        var action = () => service.GetTrainerByUserIdAsync(_userGuid);
-        await action.Should()
-            .ThrowAsync<InvalidOperationException>()
+        var action = () => service.GetTrainerByUser(_userDto);
+        action.Should()
+            .Throw<InvalidOperationException>()
             .WithMessage($"User with id {_userGuid} is not trainer");
     }
     
@@ -213,10 +206,9 @@ public class TrainerServiceTests
             .Setup(x => x.GetUserAsync(_userGuid))
             .ReturnsAsync(_userDto);
 
-        TrainerService service = new TrainerService(_unitOfWorkMock.Object,
-            _mapperMock.Object, _userServiceMock.Object);
+        TrainerService service = new TrainerService(_unitOfWorkMock.Object, _mapperMock.Object);
     
-        var returnDto = await service.GetTrainerByUserIdAsync(_userGuid);
+        var returnDto = service.GetTrainerByUser(_userDto);
         returnDto.Should().Be(_trainerDto);
     }
 }

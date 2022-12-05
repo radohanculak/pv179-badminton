@@ -14,6 +14,7 @@ public class EFTrainerRepository : EFGenericRepository<Trainer>, ITrainerReposit
     public async virtual Task<Trainer?> GetByIdAsync(Guid id)
     {
         return dbSet
+            .AsNoTracking()
             .Include(t => t.User)
             .Include(t => t.Reservations)
             .FirstOrDefault(t => t.Id == id);
@@ -22,6 +23,7 @@ public class EFTrainerRepository : EFGenericRepository<Trainer>, ITrainerReposit
     public async Task<IEnumerable<Trainer>> GetAllAsync()
     {
         return await dbSet
+            .AsNoTracking()
             .Include(t => t.User)
             .Include(t => t.Reservations)
             .ToListAsync();
