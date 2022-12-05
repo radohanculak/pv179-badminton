@@ -17,6 +17,7 @@ public class EFTrainerRepository : EFGenericRepository<Trainer>, ITrainerReposit
             .AsNoTracking()
             .Include(t => t.User)
             .Include(t => t.Reservations)
+            .ThenInclude(reservations => reservations.CourtReservation)
             .FirstOrDefault(t => t.Id == id);
     }
 
@@ -26,6 +27,7 @@ public class EFTrainerRepository : EFGenericRepository<Trainer>, ITrainerReposit
             .AsNoTracking()
             .Include(t => t.User)
             .Include(t => t.Reservations)
+            .ThenInclude(reservations => reservations.CourtReservation)
             .ToListAsync();
     }
 }
