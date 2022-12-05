@@ -58,6 +58,15 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
     {
         return await dbSet.ToListAsync();
     }
+    
+    public virtual async Task Detach(Guid id)
+    {
+        var entity = await dbSet.FindAsync(id);
+        if (entity is not null)
+        {
+            _dbContext.Entry(entity).State = EntityState.Detached;
+        }
+    }
 
     public virtual async Task SaveAsync()
     {
