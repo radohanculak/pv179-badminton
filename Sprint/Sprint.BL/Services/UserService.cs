@@ -57,7 +57,8 @@ public class UserService : IUserService
 
         var userId = await _unitOfWork.UserRepository.InsertAsync(_mapper.Map<User>(newUser));
         await _unitOfWork.CommitAsync();
-
+        await _unitOfWork.UserRepository.Detach(userId);
+        
         return await GetUserAsync(userId);
     }
 
@@ -99,5 +100,6 @@ public class UserService : IUserService
         _unitOfWork.UserRepository.Update(user);
 
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.UserRepository.Detach(userId);
     }
 }

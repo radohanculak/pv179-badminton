@@ -34,6 +34,7 @@ public class TrainerReviewService : ITrainerReviewService
         var reviewId = await _unitOfWork.TrainerReviewRepository.InsertAsync(_mapper.Map<TrainerReview>(newReview));
         
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.TrainerReviewRepository.Detach(reviewId);
 
         return await GetReviewAsync(reviewId);
     }

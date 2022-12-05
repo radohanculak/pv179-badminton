@@ -37,6 +37,7 @@ public class CourtReservationService : ICourtReservationService
             .InsertAsync(_mapper.Map<CourtReservation>(courtReservation));
 
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.CourtReservationRepository.Detach(reservationId);
 
         return await GetReservationAsync(reservationId);
     }

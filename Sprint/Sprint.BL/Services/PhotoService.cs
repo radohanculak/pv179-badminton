@@ -26,6 +26,7 @@ public class PhotoService : IPhotoService
 
         _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.UserRepository.Detach(user.Id);
     }
 
     public async Task<bool> AddTrainerPhotosAsync(TrainerDto trainer, List<string> paths)
@@ -52,6 +53,8 @@ public class PhotoService : IPhotoService
 
         _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         await _unitOfWork.CommitAsync();
+        //await _unitOfWork.TrainerPhotoRepository.Detach();
+        await _unitOfWork.TrainerRepository.Detach(trainer.Id);
 
         return true;
     }

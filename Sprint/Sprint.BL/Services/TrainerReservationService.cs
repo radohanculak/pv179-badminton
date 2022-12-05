@@ -30,7 +30,8 @@ public class TrainerReservationService : ITrainerReservationService
         var trainerReservationId = await _unitOfWork.TrainerReservationRepository
             .InsertAsync(_mapper.Map<TrainerReservation>(newTrainerReservation));
         await _unitOfWork.CommitAsync();
-
+        await _unitOfWork.TrainerReservationRepository.Detach(trainerReservationId);
+        
         return await GetReservationAsync(trainerReservationId);
     }
 

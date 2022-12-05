@@ -49,6 +49,8 @@ public class TrainerService : ITrainerService
         _unitOfWork.UserRepository.Update(user);
 
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.UserRepository.Detach(userId);
+        await _unitOfWork.TrainerRepository.Detach(trainerId);
 
         return await GetTrainerAsync(trainerId);
     }
