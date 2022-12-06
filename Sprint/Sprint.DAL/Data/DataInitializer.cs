@@ -16,7 +16,8 @@ public static class DataInitializer
             Email = "514329@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            SecurityStamp = "1abcdef"
         };
 
         var Petko = new User
@@ -28,7 +29,8 @@ public static class DataInitializer
             Email = "pppeter@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            SecurityStamp = "2abcdef"
         };
 
         var Roman = new User
@@ -40,7 +42,8 @@ public static class DataInitializer
             Email = "rntr@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            SecurityStamp = "3abcdef"
         };
 
         var Monica = new User
@@ -52,7 +55,8 @@ public static class DataInitializer
             Email = "monic@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = false
+            IsTrainer = false,
+            SecurityStamp = "4abcdef"
         };
 
         var Rado = new User
@@ -64,7 +68,8 @@ public static class DataInitializer
             Email = "rhanculak@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = true
+            IsTrainer = true,
+            SecurityStamp = "5abcdef"
         };
 
         var Jitka = new User
@@ -76,7 +81,8 @@ public static class DataInitializer
             Email = "493352@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
-            IsTrainer = true
+            IsTrainer = true,
+            SecurityStamp = "6abcdef"
         };
 
         modelBuilder.Entity<User>().HasData(Adam);

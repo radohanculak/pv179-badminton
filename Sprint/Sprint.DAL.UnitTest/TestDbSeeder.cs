@@ -68,6 +68,7 @@ public class TestDbSeeder
             Email = "514329@mail.muni.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
+            SecurityStamp = "testing1",
         });
 
         dbContext.Users.Add(new User
@@ -79,6 +80,7 @@ public class TestDbSeeder
             Email = "pppeter@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
+            SecurityStamp = "testing2",
         });
 
         dbContext.Users.Add(new User
@@ -90,6 +92,8 @@ public class TestDbSeeder
             Email = "rntr@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
+            SecurityStamp = "testing3",
+
         });
 
         dbContext.Users.Add(new User
@@ -101,6 +105,7 @@ public class TestDbSeeder
             Email = "monic@nonexistentmail.com",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
+            SecurityStamp = "testing4",
         });
         
         dbContext.SaveChanges();
