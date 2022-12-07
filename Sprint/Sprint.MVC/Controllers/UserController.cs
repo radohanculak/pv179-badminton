@@ -8,12 +8,10 @@ namespace Sprint.MVC.Controllers;
 public class UserController : Controller
 {
     private readonly IUserFacade _userFacade;
-    private readonly IUserService _userService;
 
-    public UserController(IUserFacade userFacade, IUserService userService)
+    public UserController(IUserFacade userFacade)
     {
         _userFacade = userFacade;
-        _userService = userService;
     }
 
     [HttpGet("Users")]
@@ -40,7 +38,7 @@ public class UserController : Controller
     
     public async Task<IActionResult> Edit(Guid id)
     {
-        var dto = await _userService.GetUserAsync(id);
+        var dto = await _userFacade.GetUserAsync(id);
         if (dto == null)
         {
             return NotFound();
@@ -59,7 +57,7 @@ public class UserController : Controller
             return View(model);
         }
 
-        await _userService.UpdateUserAsync(model.Id, model.FirstName, model.LastName, model.Email, model.Password);
+        await _userFacade.UpdateUserAsync(model.Id, model.FirstName, model.LastName, model.Email, model.Password);
 
         return RedirectToAction(nameof(Index));
     }

@@ -22,6 +22,7 @@ public class CourtReservationServiceTests
     private CourtDto _courtDto;
     private List<CourtReservation> _reservations;
     private List<CourtReservationDto> _reservationsDto;
+    private UserDto _userDto;
     private Guid _userGuid = Guid.NewGuid();
     private Guid _courtGuid = Guid.NewGuid();
     private Guid _reservationGuid = Guid.NewGuid();
@@ -33,6 +34,14 @@ public class CourtReservationServiceTests
         _mapperMock = new Mock<IMapper>();
         _userServiceMock = new Mock<IUserService>();
         _courtServiceMock = new Mock<ICourtService>();
+
+        _userDto = new UserDto
+        {
+            Id = _userGuid,
+            FirstName = "anna",
+            LastName = "novakova",
+            Email = "anna@gmail.com"
+        };
 
         _court = new Court
         {
@@ -183,7 +192,7 @@ public class CourtReservationServiceTests
             .ReturnsAsync((CourtReservation?) null);
         
         CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _userServiceMock.Object, _courtServiceMock.Object);
+            _unitOfWorkMock.Object, _mapperMock.Object);
         
         var action = () => service.GetReservationAsync(_reservationGuid);
         await action.Should()
@@ -207,7 +216,7 @@ public class CourtReservationServiceTests
             .Returns(wantedCourtResDto);
         
         CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _userServiceMock.Object, _courtServiceMock.Object);
+            _unitOfWorkMock.Object, _mapperMock.Object);
         
         var result = await service.GetReservationAsync(_reservationGuid);
         result.Should().Be(wantedCourtResDto);
@@ -224,11 +233,11 @@ public class CourtReservationServiceTests
             .ThrowsAsync(new InvalidOperationException());
         
         CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _userServiceMock.Object, _courtServiceMock.Object);
+            _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var action = () => service.GetReservationsAsync(userGuid, false);
-        await action.Should()
-            .ThrowAsync<InvalidOperationException>();
+        var action = () => service.GetReservations(null, false);
+        action.Should()
+            .Throw<InvalidOperationException>();
     }
     
     
@@ -246,9 +255,9 @@ public class CourtReservationServiceTests
             .ReturnsAsync(user);
 
         CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _userServiceMock.Object, _courtServiceMock.Object);
+            _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var result = await service.GetReservationsAsync(_userGuid, true);
+        var result = service.GetReservations(_userDto, true);
         result.Should().HaveCount(6);
         result.Should().Contain(_reservationsDto[0]);
         result.Should().Contain(_reservationsDto[5]);
@@ -268,9 +277,9 @@ public class CourtReservationServiceTests
             .ReturnsAsync(user);
 
         CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _userServiceMock.Object, _courtServiceMock.Object);
+            _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var result = await service.GetReservationsAsync(_userGuid, false);
+        var result = service.GetReservations(_userDto, false);
         result.Should().HaveCount(3);
         result.Should().NotContain(_reservationsDto[0]);
         result.Should().Contain(_reservationsDto[5]);
@@ -291,9 +300,9 @@ public class CourtReservationServiceTests
             .ReturnsAsync(user);
 
         CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _userServiceMock.Object, _courtServiceMock.Object);
+            _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var result = await service.GetReservationsAsync(_userGuid,
+        var result = service.GetReservations(_userDto,
             DateTime.Today.AddDays(-10), DateTime.Today.AddDays(10));
         
         result.Should().HaveCount(3);

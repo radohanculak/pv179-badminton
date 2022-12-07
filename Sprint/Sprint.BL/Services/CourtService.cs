@@ -33,6 +33,7 @@ public class CourtService : ICourtService
         var courtId = await _unitOfWork.CourtRepository.InsertAsync(_mapper.Map<Court>(newCourt));
 
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.CourtRepository.Detach(courtId);
 
         return await GetCourtAsync(courtId);
     }
@@ -57,5 +58,23 @@ public class CourtService : ICourtService
             .ToList();
 
         return _mapper.Map<List<CourtReservationDto>>(selectedReservations);
+    }
+
+    public async Task UpdateCourtAsync(Guid courtId, string courtNumber, decimal hourlyRate)
+    {
+        var court = await _unitOfWork.CourtRepository.GetByIdAsync(courtId);
+
+        if (court == null)
+        {
+            throw new InvalidOperationException($"User with id {courtId} does not exist");
+        }
+
+        court.CourtNumber = courtNumber;
+        court.HourlyRate = hourlyRate;
+
+        _unitOfWork.CourtRepository.Update(court);
+
+        await _unitOfWork.CommitAsync();
+        await _unitOfWork.CourtRepository.Detach(courtId);
     }
 }

@@ -2,6 +2,9 @@ using System.Reflection;
 using Autofac;
 using Module = Autofac.Module;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Sprint.BL.Dto.User;
+using Sprint.BL.Services.Identity;
 using Sprint.Infrastructure;
 
 namespace Sprint.BL.Configs;
@@ -29,6 +32,16 @@ public class AutofacBLConfig : Module
         builder.RegisterInstance(new Mapper(new MapperConfiguration(BusinessMappingConfig.ConfigureMapping)))
             .As<IMapper>()
             .SingleInstance();
+
+        // builder.RegisterType<RepositoryUserStore>().As<IUserStore<UserDto>>().InstancePerLifetimeScope();
+        
+        // services.AddTransient<IUserStore<UserDto>, RepositoryUserStore>();
+        // services.AddTransient<ISecurityStampValidator, SecurityStampValidator<UserDto>>();
+        // services.AddTransient<UserManager<UserDto>, SiteUserManager>();
+        // services.AddTransient<IRoleStore<UserRoleDto>, RepositoryRoleStore>();
+        // services.AddTransient<RoleManager<UserRoleDto>>();
+        // services.AddTransient<SignInManager<UserDto>>();
+        // services.AddTransient<IPasswordHasher<UserDto>, PasswordChecker>();
     }
 
     public static IContainer Configure()
@@ -55,6 +68,8 @@ public class AutofacBLConfig : Module
         builder.RegisterInstance(new Mapper(new MapperConfiguration(BusinessMappingConfig.ConfigureMapping)))
             .As<IMapper>()
             .SingleInstance();
+        
+        // builder.RegisterType<RepositoryUserStore>().As<IUserStore<UserDto>>().InstancePerLifetimeScope();
 
         return builder.Build();
     }

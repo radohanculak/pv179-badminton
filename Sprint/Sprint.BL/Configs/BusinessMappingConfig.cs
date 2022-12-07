@@ -1,5 +1,5 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+// using Microsoft.AspNetCore.Identity;
 using Sprint.BL.Dto.User;
 using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
@@ -15,8 +15,7 @@ public class BusinessMappingConfig
 {
     public static void ConfigureMapping(IMapperConfigurationExpression config)
     {
-        config.CreateMap<UserCreateDto, User>()
-            .ForMember(dest => dest.PasswordHash, cfg => cfg.MapFrom(src => GetPasswordHash(src.Password)));
+        config.CreateMap<UserDto, User>();
         
         config.CreateMap<User, UserDto>()
             .ForMember(dest => dest.Age, cfg => cfg.MapFrom(src => GetAge(src.DateOfBirth)));
@@ -44,7 +43,7 @@ public class BusinessMappingConfig
     /*
      * UserDto type is not actually used in the function, but it has to be there
      */
-    private static string GetPasswordHash(string password) =>
-        new PasswordHasher<UserDto>().HashPassword(null!, password);
+    // private static string GetPasswordHash(string password) =>
+    //     new PasswordHasher<UserDto>().HashPassword(null!, password);
 
 }

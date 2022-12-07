@@ -24,4 +24,6 @@ public class User : BaseEntity
     public virtual Trainer? Trainer { get; set; }
 
     public UserRole Role { get; set; }
+    
+    public string SecurityStamp { get; set; }
 }

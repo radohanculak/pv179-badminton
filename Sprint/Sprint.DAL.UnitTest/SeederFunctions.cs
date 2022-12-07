@@ -57,6 +57,7 @@ public class SeederFunctions
             Email = "random@random.cz",
             PasswordHash = "tbd",
             PhotoPath = "tbd",
+            SecurityStamp = "testing",
         };
     }
 }

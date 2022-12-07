@@ -1,0 +1,34 @@
+@model SprintMVC.Models.Identity.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <section>
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(x => x.ReturnUrl)
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email)
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Password)
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+            }
+        </section>
+    </div>
+</div>

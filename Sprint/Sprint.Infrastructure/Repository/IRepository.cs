@@ -14,5 +14,7 @@ public interface IRepository<TEntity> where TEntity : class
 
     Task<IEnumerable<TEntity>> GetAllAsync();
 
+    Task Detach(Guid id);
+
     Task SaveAsync();
 }

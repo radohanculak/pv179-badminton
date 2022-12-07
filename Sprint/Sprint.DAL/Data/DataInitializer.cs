@@ -18,7 +18,7 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            Role = UserRole.User
+            SecurityStamp = "1abcdef"
         };
 
         var Petko = new User
@@ -31,7 +31,7 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            Role = UserRole.User
+            SecurityStamp = "2abcdef"
         };
 
         var Roman = new User
@@ -44,7 +44,7 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            Role = UserRole.User
+            SecurityStamp = "3abcdef"
         };
 
         var Monica = new User
@@ -57,7 +57,7 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            Role = UserRole.User
+            SecurityStamp = "4abcdef"
         };
 
         var Rado = new User
@@ -70,7 +70,7 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = true,
-            Role = UserRole.Trainer
+            SecurityStamp = "5abcdef"
         };
 
         var Jitka = new User
@@ -83,7 +83,7 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = true,
-            Role = UserRole.Trainer
+            SecurityStamp = "6abcdef"
         };
 
         modelBuilder.Entity<User>().HasData(Adam);
