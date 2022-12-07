@@ -2,6 +2,7 @@ using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.User;
 using Sprint.BL.Facades.Interfaces;
 using Sprint.BL.Services.Interfaces;
+using Sprint.Common.Enums;
 
 namespace Sprint.BL.Facades;
 
@@ -16,19 +17,28 @@ public class UserFacade : IUserFacade
         _trainerService = trainerService;
     }
 
-    public async Task<(UserDto, TrainerDto)> AddTrainerAsync(string firstName, string lastName,
-        string email, DateTime dateOfBirth, string description, decimal hourlyRate)
+    // public async Task<(UserDto, TrainerDto)> AddTrainerAsync(string firstName, string lastName,
+    //     string email, DateTime dateOfBirth, string description, decimal hourlyRate)
+    // {
+    //     var userDto = await _userService.AddUserAsync(firstName, lastName, email, dateOfBirth);
+    //     
+    //     var trainerDto = await _trainerService.AddTrainerAsync(userDto.Id, description, hourlyRate);
+    //
+    //     return (userDto, trainerDto);
+    // }
+    
+    public async Task<(UserDto, TrainerDto)> AddTrainerAsync(UserDto user, string description, decimal hourlyRate)
     {
-        var userDto = await _userService.AddUserAsync(firstName, lastName, email, dateOfBirth);
+        var userDto = await _userService.AddUserAsync(user);
         
         var trainerDto = await _trainerService.AddTrainerAsync(userDto.Id, description, hourlyRate);
 
         return (userDto, trainerDto);
     }
 
-    public async Task<UserDto> AddUserAsync(string name, string lastName, string email, DateTime dateOfBirth)
+    public async Task<UserDto> AddUserAsync(UserDto user)
     {
-        return await _userService.AddUserAsync(name, lastName, email, dateOfBirth);
+        return await _userService.AddUserAsync(user);
     }
 
     public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
@@ -46,23 +56,33 @@ public class UserFacade : IUserFacade
         await _userService.UpdateUserAsync(userId, firstName, lastName, email, password);
     }
 
-    public Task<UserDto> Login(UserCreateDto user)
+    // public Task<UserDto> Login(UserCreateDto user)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task<bool> Logout(UserCreateDto user)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task<UserDto> Register(UserCreateDto user)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task<bool> ChangePassword(Guid userId, string hash)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    
+    public async Task UserChangeRoleAsync(Guid userId, UserRole role)
     {
-        throw new NotImplementedException();
+        await _userService.UserChangeRoleAsync(userId, role);
     }
 
-    public Task<bool> Logout(UserCreateDto user)
+    public async Task<UserDto> GetUserByEmailAsync(string email)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<UserDto> Register(UserCreateDto user)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> ChangePassword(Guid userId, string hash)
-    {
-        throw new NotImplementedException();
+        return await _userService.GetUserByEmailAsync(email);
     }
 }
