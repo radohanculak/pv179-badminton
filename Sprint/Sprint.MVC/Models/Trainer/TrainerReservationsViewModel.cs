@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using Sprint.BL.Dto.TrainerReservation;
+﻿using Sprint.BL.Dto.TrainerReservation;
+using Sprint.BL.Dto.User;
 
 namespace Sprint.MVC.Models.Trainer;
 
@@ -11,6 +11,8 @@ public class TrainerReservationsViewModel
     public DateTime? To { get; set; }
     public bool AlsoDeleted { get; set; }
     public bool Past { get; set; }
+    
+    public UserDto User { get; set; }
 
     public TrainerReservationsViewModel(Guid trainerId)
     {

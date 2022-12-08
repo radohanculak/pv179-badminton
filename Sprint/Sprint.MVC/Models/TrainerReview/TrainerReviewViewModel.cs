@@ -10,10 +10,17 @@ public class TrainerReviewViewModel
     public TrainerReviewViewModel(Guid trainResId)
     {
         TrainerReservationId = trainResId;
+        Review = new TrainerReviewDto();
     }
     
-    public TrainerReviewViewModel(Guid trainResId, TrainerReviewDto review) : this(trainResId)
+    public TrainerReviewViewModel(Guid trainResId, TrainerReviewDto review)
     {
+        TrainerReservationId = trainResId;
         Review = review;
+    }
+
+    public TrainerReviewViewModel()
+    {
+        
     }
 }
