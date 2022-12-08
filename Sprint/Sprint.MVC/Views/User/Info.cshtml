@@ -1,6 +1,7 @@
-﻿@model Sprint.MVC.Models.User.UserInfoViewModel
+﻿@using Sprint.Common.Enums
+@model Sprint.MVC.Models.User.UserInfoViewModel
 
-<h4>Trainer informations</h4>
+<h4>User informations</h4>
 <table class="table table-striped">
     <tbody>
     <tr>
@@ -23,7 +24,7 @@
         <td>@Model.User.PhotoPath</td>
     </tr>
     
-    @if (Model.User.IsTrainer)
+    @if (Model.User.Role == UserRole.Trainer)
     {
         <tr>
             <td>Trainer informations</td>
