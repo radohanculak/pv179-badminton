@@ -3,56 +3,60 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="d-flex justify-content-center align-items-center flex-column register-div ">
+    <h4>@ViewData["Title"]</h4>
 
-<div class="row">
-    <div class="col-md-4">
-        @using (Html.BeginForm())
-        {
-            @Html.HiddenFor(x => x.ReturnUrl)
-            @Html.AntiForgeryToken()
-            <hr />
-            @Html.ValidationSummary(null, new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(x => x.FirstName)
-                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.FirstName, null, new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.LastName)
-                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.LastName, null, new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.Email)
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.DateOfBirth)
-                @Html.TextBoxFor(x => x.DateOfBirth, new { @type="date", @class = "form-control datepicker",  @Value = Model.DateOfBirth.ToString() } )
-                @Html.ValidationMessageFor(x => x.DateOfBirth, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => x.Password)
-                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
-            </div>
-            
-            
-            @* <div class="form-group"> *@
-            @*     @Html.LabelFor(x => x.ConfirmPassword) *@
-            @*     @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" }) *@
-            @*     @Html.ValidationMessageFor(x => x.ConfirmPassword, null, new { @class = "text-danger" }) *@
-            @* </div> *@
-            
-            @* <div class="form-group"> *@
-            @*     @Html.LabelFor(x => x.Role) *@
-            @*     @Html.RadioButton(x => x.Role, ) *@
-            @*     $1$ @Html.DropDownList(x => x.Role, new { @class = "form-control" }) #1# *@
-            @*     @Html.ValidationMessageFor(x => x.Role, null, new { @class = "text-danger" }) *@
-            @* </div> *@
-            <button type="submit" class="btn btn-primary">Register</button>
-        }
+    <div class="row">
+        <div>
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(x => x.ReturnUrl)
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary(null, new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(x => x.FirstName)
+                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.FirstName, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LastName)
+                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.LastName, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email)
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DateOfBirth)
+                    @Html.TextBoxFor(x => x.DateOfBirth, new { @type="date", @class = "form-control datepicker",  @Value = Model.DateOfBirth.ToString() } )
+                    @Html.ValidationMessageFor(x => x.DateOfBirth, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Password)
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
+                </div>
+
+
+                @* <div class="form-group"> *@
+                @*     @Html.LabelFor(x => x.ConfirmPassword) *@
+                @*     @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" }) *@
+                @*     @Html.ValidationMessageFor(x => x.ConfirmPassword, null, new { @class = "text-danger" }) *@
+                @* </div> *@
+
+                @* <div class="form-group"> *@
+                @*     @Html.LabelFor(x => x.Role) *@
+                @*     @Html.RadioButton(x => x.Role, ) *@
+                @*     $1$ @Html.DropDownList(x => x.Role, new { @class = "form-control" }) #1# *@
+                @*     @Html.ValidationMessageFor(x => x.Role, null, new { @class = "text-danger" }) *@
+                @* </div> *@
+                <div class="form-group button-div">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            }
+        </div>
     </div>
 </div>
