@@ -31,4 +31,14 @@ public class TrainerFacade : ITrainerFacade
 
         return _trainerService.GetTrainerByUser(user);
     }
+    
+    public async Task<IEnumerable<TrainerDto>> GetAllTrainersAsync()
+    {
+        return await _trainerService.GetAllTrainersAsync();
+    }
+    
+    public async Task UpdateTrainerAsync(Guid trainerId, string description, decimal hourlyRate)
+    {
+        await _trainerService.UpdateTrainerAsync(trainerId, description, hourlyRate);
+    }
 }

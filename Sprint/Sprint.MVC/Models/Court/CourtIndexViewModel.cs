@@ -1,6 +1,6 @@
 using Sprint.BL.Dto.Court;
 
-namespace SprintMVC.Models.Court;
+namespace Sprint.MVC.Models.Court;
 
 public class CourtIndexViewModel
 {

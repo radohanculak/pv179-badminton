@@ -96,6 +96,7 @@ public class UserService : IUserService
         
         _unitOfWork.UserRepository.Update(user);
         await _unitOfWork.CommitAsync();
+        await _unitOfWork.UserRepository.Detach(userId);
     }
     
     /// <summary>

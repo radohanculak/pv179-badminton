@@ -47,28 +47,40 @@ public class TrainerReservationService : ITrainerReservationService
         return _mapper.Map<TrainerReservationDto>(reservation);
     }
 
-    public async Task<List<TrainerReservationDto>> GetAllReservationsAsync()
+    public async Task<List<TrainerReservationDto>> GetAllReservationsAsync(bool alsoDeleted)
     {
         var reservations = await _unitOfWork.TrainerReservationRepository.GetAllAsync();
+        
+        if (!alsoDeleted)
+        {
+            return _mapper.Map<List<TrainerReservationDto>>(reservations.Where(r => !r.IsDeleted));
+        }
 
         return _mapper.Map<List<TrainerReservationDto>>(reservations);
     }
 
-    public List<TrainerReservationDto> GetReservationsForTrainer(TrainerDto trainer, bool inPast)
+    public List<TrainerReservationDto> GetReservationsForTrainer(TrainerDto trainer, bool inPast, bool alsoDeleted)
     {
-        var reservations = trainer.Reservations;
+        IEnumerable<TrainerReservationDto> reservations = trainer.Reservations;
+        if (!alsoDeleted)
+        {
+            reservations = reservations.Where(r => !r.IsDeleted);
+        }
 
         if (inPast)
         {
             return reservations.ToList();
         }
 
-        return reservations.Where(r => r.CourtReservation.From.Date >= DateTime.Now.Date).ToList();
+        return reservations
+            .Where(r => r.CourtReservation.From.Date >= DateTime.Now.Date)
+            .ToList();
     }
 
-    public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast)
+    public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast, bool alsoDeleted)
     {
-        var reservations = (await GetAllReservationsAsync()).Where(r => r.CourtReservation.UserId == userId);
+        var reservations = (await GetAllReservationsAsync(alsoDeleted))
+            .Where(r => r.CourtReservation.UserId == userId);
 
         if (inPast)
         {
@@ -80,7 +92,10 @@ public class TrainerReservationService : ITrainerReservationService
 
     public List<TrainerReservationDto>? GetTrainerDailySchedule(TrainerDto trainer, DateTime date)
     {
-        return trainer.Reservations?.Where(r => r.CourtReservation.From.Date == date.Date).ToList();
+        return trainer.Reservations?
+            .Where(r => !r.IsDeleted)
+            .Where(r => r.CourtReservation.From.Date == date.Date)
+            .ToList();
     }
 
     public async Task DeleteReservationAsync(TrainerReservationDto reservation)

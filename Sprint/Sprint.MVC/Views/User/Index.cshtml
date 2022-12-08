@@ -1,4 +1,4 @@
-@model SprintMVC.Models.User.UserIndexViewModel
+@model Sprint.MVC.Models.User.UserIndexViewModel
 
 @* @{
     Layout = null;
@@ -26,6 +26,7 @@
                     @using (Html.BeginForm("Delete", "User", new { id = user.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
                     {
                         <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { Id = user.Id })">Edit</a>
+                        <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { Id = user.Id })">Info</a>                                                                                  
                     }
                 </td>
             </tr>

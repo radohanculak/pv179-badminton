@@ -54,32 +54,47 @@ public class CourtReservationService : ICourtReservationService
         return _mapper.Map<CourtReservationDto>(reservation);
     }
 
-    public async Task<List<CourtReservationDto>> GetAllReservationsAsync()
+    public async Task<List<CourtReservationDto>> GetAllReservationsAsync(bool alsoDeleted)
     {
         var reservations = await _unitOfWork.CourtReservationRepository.GetAllAsync();
 
+        if (!alsoDeleted)
+        {
+            return _mapper.Map<List<CourtReservationDto>>(reservations.Where(r => !r.IsDeleted));
+        }
+        
         return _mapper.Map<List<CourtReservationDto>>(reservations);
     }
 
-    public List<CourtReservationDto> GetReservations(UserDto user, bool inPast)
+    public List<CourtReservationDto> GetReservations(UserDto user, bool inPast, bool alsoDeleted)
     {
-        var userReservations = user.CourtReservations;
+        IEnumerable<CourtReservationDto> reservations = user.CourtReservations;
+        if (!alsoDeleted)
+        {
+            reservations = reservations.Where(r => !r.IsDeleted);
+        }
 
         if (inPast)
         {
-            return userReservations.ToList();
+            return reservations.ToList();
         }
 
-        return userReservations.Where(r => r.From.Date >= DateTime.Now.Date).ToList();
+        return reservations
+            .Where(r => r.From.Date >= DateTime.Now.Date)
+            .ToList();
     }
 
-    public List<CourtReservationDto> GetReservations(UserDto user, DateTime from, DateTime to)
+    public List<CourtReservationDto> GetReservations(UserDto user, DateTime from, DateTime to, bool alsoDeleted)
     {
-        var userReservations = user.CourtReservations;
-
-        return userReservations
-            .Where(r => r.From >= from && r.To <= to)
-            .ToList();
+        IEnumerable<CourtReservationDto> reservations = user.CourtReservations
+            .Where(r => r.From >= from && r.To <= to);
+        
+        if (!alsoDeleted)
+        {
+            reservations = reservations.Where(r => !r.IsDeleted);
+        }
+        
+        return reservations.ToList();
     }
 
     public async Task DeleteReservationAsync(Guid reservationId)

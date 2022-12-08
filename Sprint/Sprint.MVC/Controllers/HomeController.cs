@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Sprint.MVC.Models;
-using SprintMVC.Models;
 
-namespace SprintMVC.Controllers;
+namespace Sprint.MVC.Controllers;
 
 public class HomeController : Controller
 {

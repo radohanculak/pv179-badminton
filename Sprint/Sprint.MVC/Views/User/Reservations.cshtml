@@ -1,0 +1,46 @@
+﻿@model Sprint.MVC.Models.User.UserReservationsViewModel
+
+@* vyrobit rozne typy nahladu (podla casu, ukazat aj odstranene, ukazat iba aktualne, atd) a strankovanie*@
+<h4>Students</h4>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Court</th>
+        <th>Trainer</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var reservation in Model.Reservations)
+    {
+        <tr>
+            <td>@reservation.From</td>
+            <td>@reservation.To</td>
+            @* zmenit tu z ID na realne hodnoty ludsky citatelne *@
+            <td>@reservation.CourtId</td>
+            @* treba vyriesit, ze si bude treba znacit v reservation, ze uz je priradena review*@
+            @if (reservation.TrainerReservation is not null)
+            {
+                <td>
+                    @reservation.TrainerReservation.Trainer.User.FirstName @reservation.TrainerReservation.Trainer.User.LastName
+                    @if (reservation.TrainerReservation.TrainerReview is not null)
+                    {
+                        @using (Html.BeginForm("Delete", "Trainer", new { id = Model.UserId }, FormMethod.Post, true, new { @class = "form-inline" }))
+                        {
+                            <a class="btn btn-secondary my-1" href="@Url.Action("ReviewGet", new { trainerReservationId = reservation.TrainerReservation.Id })">See Review</a>
+                        }
+                    }
+                    else
+                    {
+                        @using (Html.BeginForm("Delete", "Trainer", new { id = Model.UserId }, FormMethod.Post, true, new { @class = "form-inline" }))
+                        {
+                            <a class="btn btn-secondary my-1" href="@Url.Action("ReviewWrite", new { trainerReservationId = reservation.TrainerReservation.Id })">See Review</a>
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

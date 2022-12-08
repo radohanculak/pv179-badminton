@@ -8,9 +8,9 @@ public interface ITrainerReservationService
 {
     Task<TrainerReservationDto> AddReservationAsync(CourtReservationDto courtReservation, Guid trainerId);
     Task<TrainerReservationDto> GetReservationAsync(Guid reservationId);
-    Task<List<TrainerReservationDto>> GetAllReservationsAsync();
-    List<TrainerReservationDto> GetReservationsForTrainer(TrainerDto trainer, bool inPast);
-    Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast);
+    Task<List<TrainerReservationDto>> GetAllReservationsAsync(bool alsoDeleted);
+    List<TrainerReservationDto> GetReservationsForTrainer(TrainerDto trainer, bool inPast, bool alsoDeleted);
+    Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast, bool alsoDeleted);
     List<TrainerReservationDto>? GetTrainerDailySchedule(TrainerDto trainer, DateTime date);
     Task DeleteReservationAsync(TrainerReservationDto reservation);
 }

@@ -17,6 +17,7 @@ public class TrainerReservation : DeletableEntity
 
     public Guid? TrainerReviewId { get; set; }
 
+    // skusit odstranit tento foreign key
     [ForeignKey(nameof(TrainerReviewId))]
     public TrainerReview? TrainerReview { get; set; }
 }

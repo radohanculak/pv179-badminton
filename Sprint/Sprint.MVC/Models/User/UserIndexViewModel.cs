@@ -1,6 +1,6 @@
 using Sprint.BL.Dto.User;
 
-namespace SprintMVC.Models.User;
+namespace Sprint.MVC.Models.User;
 
 public class UserIndexViewModel
 {

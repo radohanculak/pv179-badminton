@@ -1,0 +1,20 @@
+﻿@model Sprint.MVC.Models.TrainerReview.TrainerReviewViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(x => x.Review.Rating)
+        @Html.TextBoxFor(x => x.Review.Rating, new { @type = "int", @class = "form-control", @Value = Model.Review.Rating.ToString() })
+        @Html.ValidationMessageFor(x => x.Review.Rating, null, new { @class = "text-danger" })
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(x => x.Review.Text)
+        @Html.TextBoxFor(x => x.Review.Text, new { @class = "form-control", @Value = Model.Review.Text})
+        @Html.ValidationMessageFor(x => x.Review.Text, null, new { @class = "text-danger" })
+    </div>
+    
+    @Html.HiddenFor(x => x.TrainerReservationId)
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
