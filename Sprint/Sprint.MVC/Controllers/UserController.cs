@@ -9,11 +9,14 @@ namespace Sprint.MVC.Controllers;
 public class UserController : Controller
 {
     private readonly IUserFacade _userFacade;
+    private readonly ICourtReservationFacade _courtFacade;
     private readonly ITrainerReviewFacade _trainerReviewFacade;
 
-    public UserController(IUserFacade userFacade, ITrainerReviewFacade trainerReviewFacade)
+    public UserController(IUserFacade userFacade, ICourtReservationFacade courtFacade,
+        ITrainerReviewFacade trainerReviewFacade)
     {
         _userFacade = userFacade;
+        _courtFacade = courtFacade;
         _trainerReviewFacade = trainerReviewFacade;
     }
 
@@ -111,5 +114,14 @@ public class UserController : Controller
         await _trainerReviewFacade.AddReviewAsync(model.TrainerReservationId, model.Review.Rating, model.Review.Text);
         
         return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Reservations(Guid id)
+    {
+        var dtos = await _courtFacade.GetReservationsAsync(id, true, false);
+
+        var model = new UserReservationsViewModel(id);
+        model.Reservations = dtos;
+        return View(model);
     }
 }
