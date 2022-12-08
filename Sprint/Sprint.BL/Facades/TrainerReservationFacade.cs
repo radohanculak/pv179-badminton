@@ -38,9 +38,9 @@ public class TrainerReservationFacade : ITrainerReservationFacade
         await _trainerReservationService.DeleteReservationAsync(reservation);
     }
 
-    public async Task<List<TrainerReservationDto>> GetAllReservationsAsync()
+    public async Task<List<TrainerReservationDto>> GetAllReservationsAsync(bool alsoDeleted)
     {
-        return await _trainerReservationService.GetAllReservationsAsync();
+        return await _trainerReservationService.GetAllReservationsAsync(alsoDeleted);
     }
 
     public async Task<TrainerReservationDto> GetReservationAsync(Guid reservationId)
@@ -48,16 +48,16 @@ public class TrainerReservationFacade : ITrainerReservationFacade
         return await _trainerReservationService.GetReservationAsync(reservationId);
     }
 
-    public async Task<List<TrainerReservationDto>> GetReservationsForTrainerAsync(Guid trainerId, bool inPast)
+    public async Task<List<TrainerReservationDto>> GetReservationsForTrainerAsync(Guid trainerId, bool inPast, bool alsoDeleted)
     {
         var trainer = await _trainerService.GetTrainerAsync(trainerId);
 
-        return _trainerReservationService.GetReservationsForTrainer(trainer, inPast);
+        return _trainerReservationService.GetReservationsForTrainer(trainer, inPast, alsoDeleted);
     }
 
-    public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast)
+    public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast, bool alsoDeleted)
     {
-        return await _trainerReservationService.GetReservationsForUserAsync(userId, inPast);
+        return await _trainerReservationService.GetReservationsForUserAsync(userId, inPast, alsoDeleted);
     }
 
     public async Task<List<TrainerReservationDto>?> GetTrainerDailyScheduleAsync(Guid trainerId, DateTime date)

@@ -76,10 +76,28 @@ public class TrainerService : ITrainerService
 
         return user.Trainer;
     }
-    
+
     public async Task<IEnumerable<TrainerDto>> GetAllTrainersAsync()
     {
         var res = await _unitOfWork.TrainerRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<TrainerDto>>(res);
+    }
+    
+    public async Task UpdateTrainerAsync(Guid trainerId, string description, decimal hourlyRate)
+    {
+        Guard.Against.Null(trainerId);
+
+        var trainer = await _unitOfWork.TrainerRepository.GetByIdAsync(trainerId);
+        if (trainer == null)
+        {
+            throw new InvalidOperationException($"Trainer with id {trainer} does not exist");
+        }
+
+        trainer.Description = description;
+        trainer.HourlyRate = hourlyRate;
+        
+        _unitOfWork.TrainerRepository.Update(trainer);
+        await _unitOfWork.CommitAsync();
+        await _unitOfWork.TrainerRepository.Detach(trainerId);
     }
 }

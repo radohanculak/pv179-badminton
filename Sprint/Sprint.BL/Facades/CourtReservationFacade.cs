@@ -32,9 +32,9 @@ public class CourtReservationFacade : ICourtReservationFacade
         await _courtReservationService.DeleteReservationAsync(reservationId);
     }
 
-    public async Task<List<CourtReservationDto>> GetAllReservationsAsync()
+    public async Task<List<CourtReservationDto>> GetAllReservationsAsync(bool alsoDeleted)
     {
-        return await _courtReservationService.GetAllReservationsAsync();
+        return await _courtReservationService.GetAllReservationsAsync(alsoDeleted);
     }
 
     public async Task<CourtReservationDto> GetReservationAsync(Guid reservationId)
@@ -42,17 +42,17 @@ public class CourtReservationFacade : ICourtReservationFacade
         return await _courtReservationService.GetReservationAsync(reservationId);
     }
 
-    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, bool inPast)
+    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, bool inPast, bool alsoDeleted)
     {
         var user = await _userService.GetUserAsync(userId);
 
-        return _courtReservationService.GetReservations(user, inPast);
+        return _courtReservationService.GetReservations(user, inPast, alsoDeleted);
     }
 
-    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, DateTime from, DateTime to)
+    public async Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, DateTime from, DateTime to, bool alsoDeleted)
     {
         var user = await _userService.GetUserAsync(userId);
 
-        return _courtReservationService.GetReservations(user, from, to);
+        return _courtReservationService.GetReservations(user, from, to, alsoDeleted);
     }
 }
