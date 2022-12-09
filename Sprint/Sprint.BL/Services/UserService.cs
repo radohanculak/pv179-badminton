@@ -79,7 +79,7 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<UserDto>>(res);
     }
     
-    public async Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password)
+    public async Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password, UserRole role)
     {
         Guard.Against.Null(userId);
 
@@ -93,6 +93,7 @@ public class UserService : IUserService
         user.LastName = lastName;
         user.Email = email;
         user.PasswordHash = new PasswordHasher<UserDto>().HashPassword(null, password);
+        user.Role = role;
         
         _unitOfWork.UserRepository.Update(user);
         await _unitOfWork.CommitAsync();

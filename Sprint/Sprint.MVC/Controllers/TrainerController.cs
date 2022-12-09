@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sprint.BL.Facades.Interfaces;
-using Sprint.BL.Services;
-using Sprint.BL.Services.Interfaces;
 using Sprint.MVC.Models.Trainer;
 using Sprint.MVC.Models.TrainerReview;
 
@@ -28,6 +26,7 @@ public class TrainerController : Controller
         {
             Trainers = await _trainerFacade.GetAllTrainersAsync()
         };
+
         return View(model);
     }
     
@@ -40,12 +39,14 @@ public class TrainerController : Controller
         }
 
         var model = new TrainerInfoViewModel(dto);
+
         return View(model);
     }
     
     public async Task<IActionResult> InfoUser(Guid userId)
     {
         var x = (await _trainerFacade.GetTrainerByUserIdAsync(userId)).Id;
+
         return await Info(x);
     }
 
@@ -58,6 +59,7 @@ public class TrainerController : Controller
         }
 
         var model = new TrainerEditViewModel(dto.Id, dto.Description, dto.HourlyRate);
+
         return View(model);
     }
 
@@ -84,6 +86,7 @@ public class TrainerController : Controller
         }
         
         var model = new TrainerReviewViewModel(reservationId, dto);
+
         return View(model);
     }
 
@@ -93,6 +96,7 @@ public class TrainerController : Controller
 
         var model = new TrainerReservationsViewModel(id);
         model.Reservations = dtos;
+
         return View(model);
     }
 }

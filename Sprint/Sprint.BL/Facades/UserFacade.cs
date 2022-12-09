@@ -51,9 +51,9 @@ public class UserFacade : IUserFacade
         return await _userService.GetUserAsync(userId);
     }
 
-    public async Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password)
+    public async Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password, UserRole role)
     {
-        await _userService.UpdateUserAsync(userId, firstName, lastName, email, password);
+        await _userService.UpdateUserAsync(userId, firstName, lastName, email, password, role);
     }
 
     // public Task<UserDto> Login(UserCreateDto user)

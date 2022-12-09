@@ -53,6 +53,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
         }
 
         await _userFacade.AddUserAsync(user);
+
         return IdentityResult.Success;
     }
 
@@ -63,7 +64,8 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
             return IdentityResult.Failed();
         }
 
-        await _userFacade.UpdateUserAsync(user.Id, user.FirstName, user.LastName, user.Email, user.Password);
+        await _userFacade.UpdateUserAsync(user.Id, user.FirstName, user.LastName, user.Email, user.Password, user.Role);
+
         return IdentityResult.Success;
     }
 
@@ -90,6 +92,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
         {
             return;
         }
+
         await _userFacade.UserChangeRoleAsync(user.Id, role);
     }
 
@@ -118,6 +121,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
     public Task<IList<string>> GetRolesAsync(UserDto user, CancellationToken cancellationToken)
     {
         var res = new List<string> { user.Role.ToString() } as System.Collections.Generic.IList<string>;
+
         return Task.FromResult(res);
     }
 
@@ -131,6 +135,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
         var roleId = (int)role;
 
         var dbUser = await _userFacade.GetUserAsync(user.Id);
+
         return (int)dbUser.Role == roleId;
     }
 
@@ -140,6 +145,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
         {
             return Array.Empty<UserDto>() as IList<UserDto>;
         }
+
         return (await _userFacade.GetAllUsersAsync()).Where(x => x.Role == role).Select(x => x.Id).ToList() as IList<UserDto>;
     }
 
@@ -149,6 +155,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
         {
             user.PasswordHash = passwordHash;
         }
+
         return Task.CompletedTask;
     }
 
@@ -168,6 +175,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
         {
             user.Email = email;
         }
+
         return Task.CompletedTask;
     }
 
@@ -189,6 +197,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
     public async Task<UserDto> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
         var usr = await _userFacade.GetUserByEmailAsync(normalizedEmail);
+
         return usr ?? new UserDto();
     }
 
@@ -205,6 +214,7 @@ public class RepositoryUserStore : IUserRoleStore<UserDto>, IUserPasswordStore<U
     public Task SetSecurityStampAsync(UserDto user, string stamp, CancellationToken cancellationToken)
     {
         user.SecurityStamp = stamp;
+
         return Task.CompletedTask;
     }
 

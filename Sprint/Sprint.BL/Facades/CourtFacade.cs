@@ -24,6 +24,16 @@ public class CourtFacade : ICourtFacade
         return await _courtService.GetCourtAsync(courtId);
     }
 
+    public async Task<List<CourtDto>> GetCourtsAsync()
+    {
+        return await _courtService.GetCourtsAsync();
+    }
+
+    public async Task<List<CourtDto>> GetCourtsAsync(int page, int pageSize)
+    {
+        return await _courtService.GetCourtsAsync(page, pageSize);
+    }
+
     public async Task<IEnumerable<CourtReservationDto>> GetDailyScheduleAsync(Guid courtId, DateTime date)
     {
         return await _courtService.GetDailyScheduleAsync(courtId, date);

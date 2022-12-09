@@ -257,7 +257,7 @@ public class CourtReservationServiceTests
         CourtReservationService service = new CourtReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var result = service.GetReservations(_userDto, true);
+        var result = service.GetReservations(_userDto, true, true);
         result.Should().HaveCount(6);
         result.Should().Contain(_reservationsDto[0]);
         result.Should().Contain(_reservationsDto[5]);
@@ -279,7 +279,7 @@ public class CourtReservationServiceTests
         CourtReservationService service = new CourtReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var result = service.GetReservations(_userDto, false);
+        var result = service.GetReservations(_userDto, false, true);
         result.Should().HaveCount(3);
         result.Should().NotContain(_reservationsDto[0]);
         result.Should().Contain(_reservationsDto[5]);
@@ -302,8 +302,7 @@ public class CourtReservationServiceTests
         CourtReservationService service = new CourtReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object);
         
-        var result = service.GetReservations(_userDto,
-            DateTime.Today.AddDays(-10), DateTime.Today.AddDays(10));
+        var result = service.GetReservations(_userDto,true, false);
         
         result.Should().HaveCount(3);
         result.Should().NotContain(_reservationsDto[0]);
