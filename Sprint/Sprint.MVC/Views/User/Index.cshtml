@@ -13,7 +13,8 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th style="width:70%">Name</th>
+            <th style="width:35%">Name</th>
+            <th style="width:45%">Role</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -22,6 +23,7 @@
         {
             <tr>
                 <td>@user.FirstName @user.LastName</td>
+                <td>@user.Role</td>
                 <td>
                     @using (Html.BeginForm("Delete", "User", new { id = user.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
                     {

@@ -4,6 +4,7 @@ using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
+using Sprint.Infrastructure.Query;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.Services;
@@ -11,12 +12,14 @@ namespace Sprint.BL.Services;
 public class CourtService : ICourtService
 {
     private readonly IMapper _mapper;
+    private readonly IQueryObject<Court> queryObject;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CourtService(IUnitOfWork unitOfWork, IMapper mapper)
+    public CourtService(IUnitOfWork unitOfWork, IMapper mapper, IQueryObject<Court> queryObject)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        this.queryObject = queryObject;
     }
 
     public async Task<CourtDto> AddCourtAsync(string courtNumber, decimal hourlyRate)
@@ -48,6 +51,24 @@ public class CourtService : ICourtService
         }
 
         return _mapper.Map<CourtDto>(court);
+    }
+
+    public async Task<List<CourtDto>> GetCourtsAsync()
+    {
+        var courts = await _unitOfWork.CourtRepository.GetAllAsync();
+
+        return _mapper.Map<List<CourtDto>>(courts);
+    }
+
+    public async Task<List<CourtDto>> GetCourtsAsync(int page, int pageSize)
+    {
+        queryObject
+            .OrderBy(x => x.CourtNumber)
+            .Page(page, pageSize);
+
+        var result = await queryObject.ExecuteAsync();
+
+        return _mapper.Map<List<CourtDto>>(result);
     }
 
     public async Task<IEnumerable<CourtReservationDto>> GetDailyScheduleAsync(Guid courtId, DateTime date)

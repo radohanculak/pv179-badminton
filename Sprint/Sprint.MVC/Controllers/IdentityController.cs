@@ -66,6 +66,7 @@ public class IdentityController : Controller
                 }
 
                 await _signInManager.SignInAsync(user, true).ConfigureAwait(false);
+
                 return Redirect(model.ReturnUrl);
             }
         }
@@ -87,6 +88,7 @@ public class IdentityController : Controller
 
         var viewModel = new LoginModel();
         viewModel.ReturnUrl = returnUrl;
+
         return View(viewModel);
     }
 
@@ -131,6 +133,7 @@ public class IdentityController : Controller
     public async Task<IActionResult> Logout(string returnUrl)
     {
         await _signInManager.SignOutAsync().ConfigureAwait(false);
+
         return Redirect(returnUrl);
     }
 }
