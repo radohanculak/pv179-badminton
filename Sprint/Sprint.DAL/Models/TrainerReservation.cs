@@ -15,9 +15,9 @@ public class TrainerReservation : DeletableEntity
     [ForeignKey(nameof(TrainerId))]
     public virtual Trainer Trainer { get; set; }
 
-    public Guid? TrainerReviewId { get; set; }
+    //public Guid? TrainerReviewId { get; set; }
 
     // skusit odstranit tento foreign key
-    [ForeignKey(nameof(TrainerReviewId))]
-    public TrainerReview? TrainerReview { get; set; }
+    //[ForeignKey(nameof(TrainerReviewId))]
+    public virtual TrainerReview? TrainerReview { get; set; }
 }

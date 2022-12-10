@@ -15,9 +15,12 @@ public class EFUserRepository : EFGenericRepository<User>, IUserRepository
     {
         return dbSet.AsNoTracking()
             .Include(t => t.CourtReservations)
-            .ThenInclude(t => t.TrainerReservation)
-            .ThenInclude(t => t.Trainer)
-            .ThenInclude(t => t.User)
+                .ThenInclude(t => t.TrainerReservation)
+                    .ThenInclude(t => t.Trainer)
+                        .ThenInclude(t => t.User)
+            .Include(t => t.CourtReservations)
+                .ThenInclude(t => t.TrainerReservation)
+                    .ThenInclude(t => t.TrainerReview)
             .FirstOrDefault(t => t.Id == id);
     }
 

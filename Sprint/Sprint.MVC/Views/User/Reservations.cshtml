@@ -19,7 +19,6 @@
             <td>@reservation.To</td>
             @* zmenit tu z ID na realne hodnoty ludsky citatelne *@
             <td>@reservation.CourtId</td>
-            @* treba vyriesit, ze si bude treba znacit v reservation, ze uz je priradena review*@
             @if (reservation.TrainerReservation is not null)
             {
                 <td>
@@ -33,9 +32,12 @@
                     }
                     else
                     {
-                        @using (Html.BeginForm("Delete", "Trainer", new { id = Model.UserId }, FormMethod.Post, true, new { @class = "form-inline" }))
+                        if (!reservation.IsDeleted && reservation.To < DateTime.Today)
                         {
-                            <a class="btn btn-secondary my-1" href="@Url.Action("ReviewWrite", new { trainerReservationId = reservation.TrainerReservation.Id })">See Review</a>
+                            @using (Html.BeginForm("Delete", "Trainer", new { id = Model.UserId }, FormMethod.Post, true, new { @class = "form-inline" }))
+                            {
+                                <a class="btn btn-secondary my-1" href="@Url.Action("ReviewWrite", new { trainerReservationId = reservation.TrainerReservation.Id })">Write Review</a>
+                            }
                         }
                     }
                 </td>

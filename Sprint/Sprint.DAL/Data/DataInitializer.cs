@@ -285,7 +285,7 @@ public static class DataInitializer
             IsDeleted = true,
             CourtReservationId = courtReservationRoman2.Id,
             TrainerId = RadoTrainer.Id,
-            TrainerReviewId = null,
+            //TrainerReviewId = null,
         };
 
         var RadoRoman2 = new TrainerReservation
@@ -294,7 +294,7 @@ public static class DataInitializer
             IsDeleted = false,
             CourtReservationId = courtReservationRoman1.Id,
             TrainerId = RadoTrainer.Id,
-            TrainerReviewId = null,
+            //TrainerReviewId = null,
         };
 
         
@@ -305,7 +305,7 @@ public static class DataInitializer
             IsDeleted = false,
             CourtReservationId = courtReservationMonica1.Id,
             TrainerId = JitkaTrainer.Id,
-            TrainerReviewId = null,
+            //TrainerReviewId = null,
         };
         
         modelBuilder.Entity<TrainerReservation>().HasData(RadoRoman1);

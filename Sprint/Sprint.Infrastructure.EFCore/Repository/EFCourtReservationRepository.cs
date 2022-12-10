@@ -18,6 +18,10 @@ public class EFCourtReservationRepository : EFGenericRepository<CourtReservation
             .Include(r => r.User)
             .Include(r => r.Court)
             .Include(r => r.TrainerReservation)
+                .ThenInclude(r => r.Trainer)
+                    .ThenInclude(r => r.User)
+            .Include(r => r.TrainerReservation)
+                .ThenInclude(r => r.TrainerReview)
             .AsNoTracking()
             .FirstOrDefault(r => r.Id == id);
     }
@@ -29,6 +33,10 @@ public class EFCourtReservationRepository : EFGenericRepository<CourtReservation
             .Include(r => r.User)
             .Include(r => r.Court)
             .Include(r => r.TrainerReservation)
+                .ThenInclude(r => r.Trainer)
+                    .ThenInclude(r => r.User)
+            .Include(r => r.TrainerReservation)
+                .ThenInclude(r => r.TrainerReview)
             .AsNoTracking()
             .ToListAsync();
     }
