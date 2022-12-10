@@ -62,7 +62,8 @@ static void ConfigureIdentityServices(IServiceCollection services)
             x.Password.RequireDigit = false;
             x.Password.RequireLowercase = false;
         })
-        .AddDefaultTokenProviders();
+        .AddDefaultTokenProviders()
+        .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<UserDto, UserRoleDto>>();
 
     services.AddAuthentication(x =>
         {

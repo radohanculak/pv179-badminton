@@ -7,12 +7,12 @@
         <td>Displayed name</td>
         <td>@Model.Trainer.User.FirstName @Model.Trainer.User.LastName</td>
     </tr>
-    
+
     <tr>
         <td>Hourly rate</td>
         <td>@Model.Trainer.HourlyRate</td>
     </tr>
-    
+
     <tr>
         <td>Description</td>
         <td>@Model.Trainer.Description</td>
@@ -20,12 +20,15 @@
     </tbody>
 </table>
 
-@using (Html.BeginForm("Delete", "Trainer", new { id = Model.Trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+@if (User.IsInRole("Admin"))
 {
-            <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = Model.Trainer.Id })">Edit</a>
-}
+    @using (Html.BeginForm("Delete", "Trainer", new { id = Model.Trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+    {
+        <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = Model.Trainer.Id })">Edit</a>
+    }
 
-@using (Html.BeginForm("Delete", "Trainer", new { id = Model.Trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-{
-    <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.Trainer.Id })">Reservations</a>
+    @using (Html.BeginForm("Delete", "Trainer", new { id = Model.Trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+    {
+        <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.Trainer.Id })">Reservations</a>
+    }
 }

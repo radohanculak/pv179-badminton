@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sprint.BL.Facades.Interfaces;
 using Sprint.MVC.Models.Trainer;
 using Sprint.MVC.Models.TrainerReview;
 
 namespace Sprint.MVC.Controllers;
 
+[Authorize]
 public class TrainerController : Controller
 {
     private readonly ITrainerFacade _trainerFacade;
@@ -20,6 +22,7 @@ public class TrainerController : Controller
     }
     
     [HttpGet("Trainers")]
+    [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
         var model = new TrainerIndexViewModel
@@ -30,6 +33,7 @@ public class TrainerController : Controller
         return View(model);
     }
     
+    [AllowAnonymous]
     public async Task<IActionResult> Info(Guid id)
     {
         var dto = await _trainerFacade.GetTrainerAsync(id);
@@ -50,6 +54,7 @@ public class TrainerController : Controller
         return await Info(x);
     }
 
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(Guid id)
     {
         var dto = await _trainerFacade.GetTrainerAsync(id);
@@ -65,6 +70,7 @@ public class TrainerController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit([FromForm] TrainerEditViewModel model)
     {
         if (!ModelState.IsValid)
@@ -77,6 +83,7 @@ public class TrainerController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> ReviewGet(Guid reservationId)
     {
         var dto = await _trainerReviewFacade.GetReviewForReservationAsync(reservationId);
@@ -90,6 +97,7 @@ public class TrainerController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = "Admin, Trainer")]
     public async Task<IActionResult> Reservations(Guid id)
     {
         var dtos = await _trainerReservationFacade.GetReservationsForTrainerAsync(id, true, false);
