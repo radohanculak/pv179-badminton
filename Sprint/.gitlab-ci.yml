@@ -1,6 +1,5 @@
 stages:
   - build
-  # - test
   - release
 
 build-job:
@@ -8,12 +7,6 @@ build-job:
     image: mcr.microsoft.com/dotnet/sdk:6.0
     script:
     - 'dotnet build ./Sprint/Sprint.MVC'
-
-# test-job:
-#     stage: test
-#     image: mcr.microsoft.com/dotnet/sdk:6.0
-#     script:
-#     - 'dotnet test ./Demo.DockerDeployment.Server.Tests'
 
 release-build_image-job:
   stage: release
