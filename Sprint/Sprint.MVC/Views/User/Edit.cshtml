@@ -1,4 +1,7 @@
-﻿@model Sprint.MVC.Models.User.UserUpsertModel
+﻿@using Sprint.Common.Enums;
+@using System.Web.Mvc.Html;
+
+@model Sprint.MVC.Models.User.UserUpsertModel
 
 @using (Html.BeginForm())
 {
@@ -23,6 +26,20 @@
         @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
         @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
     </div>
+
+    if (User.IsInRole("Admin"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(x => x.Role)
+            @Html.DropDownList("Role", Html.GetEnumSelectList(typeof(UserRole)), "Select Role" ,new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Role, null, new { @class = "text-danger" })
+        </div>
+    } 
+    else
+    {
+        @Html.HiddenFor(x => x.Role)
+    }
+
     @Html.HiddenFor(x => x.Id)
     <button type="submit" class="btn btn-primary">Submit</button>
 }

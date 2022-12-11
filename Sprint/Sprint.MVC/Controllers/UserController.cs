@@ -27,6 +27,7 @@ public class UserController : Controller
         {
             Users = await _userFacade.GetAllUsersAsync()
         };
+
         return View(model);
     }
     
@@ -39,6 +40,7 @@ public class UserController : Controller
         }
 
         var model = new UserInfoViewModel(dto);
+
         return View(model);
     }
     
@@ -50,7 +52,8 @@ public class UserController : Controller
             return NotFound();
         }
 
-        var model = new UserUpsertModel(dto.Id, dto.FirstName, dto.LastName, dto.Email);
+        var model = new UserUpsertModel(dto.Id, dto.FirstName, dto.LastName, dto.Email, dto.Role);
+
         return View(model);
     }
 
@@ -63,7 +66,7 @@ public class UserController : Controller
             return View(model);
         }
 
-        await _userFacade.UpdateUserAsync(model.Id, model.FirstName, model.LastName, model.Email, model.Password);
+        await _userFacade.UpdateUserAsync(model.Id, model.FirstName, model.LastName, model.Email, model.Password, model.Role);
 
         return RedirectToAction(nameof(Index));
     }
@@ -77,6 +80,7 @@ public class UserController : Controller
         }
 
         var model = new TrainerReviewViewModel(trainerReservationId, dto);
+
         return View(model);
     }
     
@@ -99,6 +103,7 @@ public class UserController : Controller
     public async Task<IActionResult> ReviewWrite(Guid trainerReservationId)
     {
         var model = new TrainerReviewViewModel(trainerReservationId);
+
         return View(model);
     }
 
@@ -122,6 +127,7 @@ public class UserController : Controller
 
         var model = new UserReservationsViewModel(id);
         model.Reservations = dtos;
+
         return View(model);
     }
 }
