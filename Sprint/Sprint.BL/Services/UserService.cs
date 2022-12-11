@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using Sprint.BL.Dto.User;
@@ -6,10 +5,8 @@ using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
-using Sprint.BL.Services.Identity;
 using Sprint.Common.Enums;
 using Sprint.Infrastructure.Query;
-using Sprint.BL.Services.Identity;
 
 namespace Sprint.BL.Services;
 
@@ -17,11 +14,13 @@ public class UserService : IUserService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IQueryObject<User> queryObject;
 
-    public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+    public UserService(IUnitOfWork unitOfWork, IMapper mapper, IQueryObject<User> queryObject)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        this.queryObject = queryObject;
     }
     
     // public async Task<UserDto> Register(UserDto user)
@@ -109,9 +108,9 @@ public class UserService : IUserService
     /// </returns>
     public async Task<UserDto?> GetUserByEmailAsync(string email)
     {
-        var user = (await _unitOfWork.UserRepository.GetAllAsync()).FirstOrDefault(x => x.Email == email);
+        var user = (await queryObject.Filter(x => x.Email.ToUpper() == email.ToUpper())
+            .ExecuteAsync()).FirstOrDefault(x => true);
 
-        // var user = await _queryObject.Filter(x => x.Email == email).ExecuteAsync();
         return user != null ? _mapper.Map<UserDto>(user) : null;
     }
     

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sprint.BL.Facades.Interfaces;
 using Sprint.MVC.Models.Court;
 
 namespace Sprint.MVC.Controllers;
 
+[Authorize]
 public class CourtController : Controller
 {
     private readonly ICourtFacade _courtFacade;
@@ -13,6 +15,7 @@ public class CourtController : Controller
         _courtFacade = courtFacade;
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
         var model = new CourtIndexViewModel
@@ -23,6 +26,7 @@ public class CourtController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(Guid id)
     {
         var dto = await _courtFacade.GetCourtAsync(id);
@@ -38,6 +42,7 @@ public class CourtController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit([FromForm] CourtEditViewModel model)
     {
         if (!ModelState.IsValid)
@@ -50,6 +55,7 @@ public class CourtController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create()
     {
         var model = new CourtEditViewModel();
@@ -59,6 +65,7 @@ public class CourtController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromForm] CourtEditViewModel model)
     {
         if (!ModelState.IsValid)
