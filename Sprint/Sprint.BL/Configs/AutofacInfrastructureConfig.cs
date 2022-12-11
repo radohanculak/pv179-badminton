@@ -4,6 +4,8 @@ using Sprint.Infrastructure.EFCore.Repository;
 using Sprint.Infrastructure.Repository;
 using Sprint.Infrastructure.UnitOfWork;
 using Sprint.Infrastructure.EFCore.UnitOfWork;
+using Sprint.Infrastructure.EFCore.Query;
+using Sprint.Infrastructure.Query;
 
 namespace Sprint.Infrastructure;
 
@@ -38,7 +40,11 @@ public class AutofacInfrastructureConfig : Module
         builder.RegisterGeneric(typeof(EFGenericRepository<>))
             .As(typeof(IRepository<>))
             .InstancePerDependency();
-        
+
+        builder.RegisterGeneric(typeof(EFCoreQueryObject<>))
+           .As(typeof(IQueryObject<>))
+           .InstancePerDependency();
+
         /////////////////////////////////////////////////////////////////////////////////////////
         // delete before deploy
         builder.RegisterType<SprintDbContext>()
