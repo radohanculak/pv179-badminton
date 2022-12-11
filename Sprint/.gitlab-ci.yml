@@ -3,9 +3,9 @@ stages:
   - release
 
 build-job:
-    stage: build
-    image: mcr.microsoft.com/dotnet/sdk:6.0
-    script:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:6.0
+  script:
     - 'dotnet build ./Sprint/Sprint.MVC'
 
 release-build_image-job:
