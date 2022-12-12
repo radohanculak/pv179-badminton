@@ -10,4 +10,5 @@ public interface ICourtReservationFacade
     Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, bool inPast, bool alsoDeleted);
     Task<List<CourtReservationDto>> GetReservationsAsync(Guid userId, DateTime from, DateTime to, bool alsoDeleted);
     Task DeleteReservationAsync(Guid reservationId);
+    Task<List<CourtReservationDto>> GetReservationsForDayAsync(DateTime date);
 }

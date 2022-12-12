@@ -5,6 +5,7 @@ using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
+using Sprint.Infrastructure.Query;
 
 namespace Sprint.BL.Services;
 
@@ -12,11 +13,13 @@ public class CourtReservationService : ICourtReservationService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IQueryObject<CourtReservation> queryObject;
 
-    public CourtReservationService(IUnitOfWork unitOfWork, IMapper mapper)
+    public CourtReservationService(IUnitOfWork unitOfWork, IMapper mapper, IQueryObject<CourtReservation> queryObject)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        this.queryObject = queryObject;
     }
 
     public async Task<CourtReservationDto> AddReservationAsync(Guid userId, Guid courtId, DateTime from, DateTime to)
@@ -106,5 +109,11 @@ public class CourtReservationService : ICourtReservationService
 
         _unitOfWork.CourtReservationRepository.Update(_mapper.Map<CourtReservation>(reservation));
         await _unitOfWork.CommitAsync();
+    }
+
+    public async Task<List<CourtReservationDto>> GetReservationsForDayAsync(DateTime date)
+    {
+        var reservations = await queryObject.Filter(x => x.From.Date == date && x.To.Date == date && x.IsDeleted == false).ExecuteAsync();
+        return _mapper.Map<List<CourtReservationDto>>(reservations);
     }
 }

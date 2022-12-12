@@ -1,0 +1,56 @@
+@using Sprint.BL.Dto.CourtReservation
+@using Sprint.BL.Dto.User
+@using Microsoft.AspNetCore.Identity
+@model Sprint.MVC.Models.CourtReservation.CourtReservationIndexViewModel
+
+@{
+    IEnumerable<CourtReservationDto> reservations;
+    if (User.IsInRole("Admin") || User.IsInRole("Trainer"))
+    {
+        reservations = Model.CourtReservations;
+    }
+    else
+    {
+        /// aj ja grcam z tohto riesenia ale ta co uz
+        var usrId = Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value);
+        reservations = Model.CourtReservations.Where(x => x.UserId == usrId);
+        // reservations = Model.CourtReservations.Where(x => x.UserId == User.Identity.Name)
+    }
+}
+
+<h4>Court Reservations</h4>
+
+<a class="btn btn-primary my-1" href="@Url.Action("Add")">Create New Reservation</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Court</th>
+        <th>Trainer</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var reservation in reservations.OrderBy(x => x.Created))
+    {
+        <tr>
+            <td>@reservation.From.ToString("ddd, dd MMMM yyyy")</td>
+            <td>@reservation.From.ToString("HH:mm")</td>
+            <td>@reservation.To.ToString("HH:mm")</td>
+            <td>@reservation.CourtId</td>
+            <td>@reservation.TrainerReservation</td>
+            <td>
+                @using (Html.BeginForm("Delete", "CourtReservation", new { id = reservation.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+                {
+                    <input class="btn btn-danger my-1" type="submit" value="Delete"/>
+                }
+                @* Not needed imo idk *@
+                @* <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a> *@
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
