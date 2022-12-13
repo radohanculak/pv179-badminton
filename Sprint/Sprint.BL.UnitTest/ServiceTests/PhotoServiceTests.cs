@@ -58,7 +58,7 @@ public class PhotoServiceTests
         _trainerDto = new TrainerDto
         {
             Id = _trainerGuid,
-            TrainerPhotos = null,
+            Photos = null,
         };
 
         _userDto = new UserDto
@@ -86,7 +86,7 @@ public class PhotoServiceTests
             Path = "https://i.kym-cdn.com/photos/images/original/001/270/032/30c.jpg"
         };
 
-        _trainerDto.TrainerPhotos = new List<TrainerPhotoDto>
+        _trainerDto.Photos = new List<TrainerPhotoDto>
         {
             trainerPhoto1, trainerPhoto2, trainerPhotoHidden,
         };
@@ -183,7 +183,7 @@ public class PhotoServiceTests
 
         var result = service.GetTrainerPhotos(_trainerDto);
         // trainer has 3 photos but 1 is marked as hidden
-        _trainerDto.TrainerPhotos.Should().HaveCount(3);
+        _trainerDto.Photos.Should().HaveCount(3);
         result.Should().HaveCount(2);
     }
 }

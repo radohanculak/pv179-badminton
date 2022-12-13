@@ -62,4 +62,17 @@ public class TrainerReviewController : Controller
         
         return RedirectToAction(nameof(ReviewGet), new { trainerReservationId = model.TrainerReservationId });
     }
+
+    public async Task<IActionResult> ReviewsGetByTrainer(Guid trainerId)
+    {
+        var dtos = await _trainerReviewFacade.GetTrainerReviewsAsync(trainerId);
+        if (dtos == null)
+        {
+            return NotFound();
+        }
+
+        var model = new OneTrainerReviewsViewModel(dtos);
+
+        return View(model);
+    }
 }

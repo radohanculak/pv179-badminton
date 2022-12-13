@@ -14,24 +14,27 @@ public class EFTrainerRepository : EFGenericRepository<Trainer>, ITrainerReposit
     public async virtual Task<Trainer?> GetByIdAsync(Guid id)
     {
         return dbSet
-            .AsNoTracking()
+            
             .Include(t => t.User)
             .Include(t => t.Reservations)
                 .ThenInclude(reservations => reservations.CourtReservation)
             .Include(t => t.Reservations)
                 .ThenInclude(t => t.TrainerReview)
+            .Include(t => t.Photos)
+            .AsNoTracking()
             .FirstOrDefault(t => t.Id == id);
     }
 
     public async Task<IEnumerable<Trainer>> GetAllAsync()
     {
         return await dbSet
-            .AsNoTracking()
             .Include(t => t.User)
             .Include(t => t.Reservations)
                 .ThenInclude(reservations => reservations.CourtReservation)
             .Include(t => t.Reservations)
                 .ThenInclude(t => t.TrainerReview)
+            .Include(t => t.Photos)
+            .AsNoTracking()
             .ToListAsync();
     }
 }

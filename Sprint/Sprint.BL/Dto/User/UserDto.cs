@@ -33,4 +33,6 @@ public class UserDto
     public UserRole Role { get; set; }
     
     public string SecurityStamp { get; set; }
+    
+    public bool IsDeleted { get; set; } = false;
 }

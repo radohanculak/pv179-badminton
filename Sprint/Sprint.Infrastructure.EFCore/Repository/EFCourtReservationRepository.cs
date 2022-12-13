@@ -14,7 +14,6 @@ public class EFCourtReservationRepository : EFGenericRepository<CourtReservation
     public async virtual Task<CourtReservation?> GetByIdAsync(Guid id)
     {
         return dbSet
-            .AsNoTracking()
             .Include(r => r.User)
             .Include(r => r.Court)
             .Include(r => r.TrainerReservation)

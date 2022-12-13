@@ -10,11 +10,16 @@ public class UserFacade : IUserFacade
 {
     private readonly IUserService _userService;
     private readonly ITrainerService _trainerService;
+    private readonly ICourtReservationService _courtResService;
+    private readonly ITrainerReservationService _trainerResService;
     
-    public UserFacade(IUserService userService, ITrainerService trainerService)
+    public UserFacade(IUserService userService, ITrainerService trainerService,
+        ICourtReservationService courtResService, ITrainerReservationService trainerResService)
     {
         _userService = userService;
         _trainerService = trainerService;
+        _courtResService = courtResService;
+        _trainerResService = trainerResService;
     }
 
     // public async Task<(UserDto, TrainerDto)> AddTrainerAsync(string firstName, string lastName,
@@ -84,5 +89,19 @@ public class UserFacade : IUserFacade
     public async Task<UserDto> GetUserByEmailAsync(string email)
     {
         return await _userService.GetUserByEmailAsync(email);
+    }
+
+    public async Task DeleteUserAsync(Guid userId)
+    {
+        var user = await _userService.GetUserAsync(userId);
+        foreach (var reservation in user.CourtReservations)
+        {
+            if (reservation.From > DateTime.Now)
+            {
+                await _courtResService.DeleteReservationAsync(reservation.Id);
+            }
+        }
+        
+        await _userService.DeleteUserAsync(userId);
     }
 }

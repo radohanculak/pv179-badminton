@@ -10,4 +10,5 @@ public interface ITrainerService
     TrainerDto GetTrainerByUser(UserDto user);
     Task<IEnumerable<TrainerDto>> GetAllTrainersAsync();
     Task UpdateTrainerAsync(Guid trainerId, string description, decimal hourlyRate);
+    Task DeleteTrainerAsync(Guid trainerId);
 }

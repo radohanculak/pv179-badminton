@@ -14,8 +14,9 @@ public class TrainerDto
     
     public UserDto User { get; set; } = null!;
     
-    public List<TrainerPhotoDto> TrainerPhotos { get; set; } = null!;
+    public List<TrainerPhotoDto> Photos { get; set; } = null!;
 
     public List<TrainerReservationDto> Reservations { get; set; } = null!;
-
+    
+    public bool IsDeleted { get; set; } = false;
 }

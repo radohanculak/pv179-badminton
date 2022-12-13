@@ -15,4 +15,5 @@ public interface IUserFacade
     Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password, UserRole role);
     Task UserChangeRoleAsync(Guid userId, UserRole role);
     Task<UserDto> GetUserByEmailAsync(string email);
+    public Task DeleteUserAsync(Guid userId);
 }

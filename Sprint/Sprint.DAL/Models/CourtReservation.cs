@@ -3,7 +3,7 @@ using Sprint.DAL.EFCore.Models.Base;
 
 namespace Sprint.DAL.EFCore.Models;
 
-public class CourtReservation : DeletableEntity
+public class CourtReservation : BaseEntity
 {
     public DateTime Created { get; set; }
 

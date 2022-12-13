@@ -18,7 +18,9 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            SecurityStamp = "1abcdef"
+            SecurityStamp = "1abcdef",
+            Role = UserRole.User,
+            IsDeleted = false
         };
 
         var Petko = new User
@@ -31,7 +33,9 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            SecurityStamp = "2abcdef"
+            SecurityStamp = "2abcdef",
+            Role = UserRole.User,
+            IsDeleted = false
         };
 
         var Roman = new User
@@ -44,7 +48,9 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            SecurityStamp = "3abcdef"
+            SecurityStamp = "3abcdef",
+            Role = UserRole.User,
+            IsDeleted = false
         };
 
         var Monica = new User
@@ -57,7 +63,9 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = false,
-            SecurityStamp = "4abcdef"
+            SecurityStamp = "4abcdef",
+            Role = UserRole.User,
+            IsDeleted = false
         };
 
         var Rado = new User
@@ -70,7 +78,9 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = true,
-            SecurityStamp = "5abcdef"
+            SecurityStamp = "5abcdef",
+            Role = UserRole.Trainer,
+            IsDeleted = false
         };
 
         var Jitka = new User
@@ -83,7 +93,24 @@ public static class DataInitializer
             PasswordHash = "tbd",
             PhotoPath = "tbd",
             IsTrainer = true,
-            SecurityStamp = "6abcdef"
+            SecurityStamp = "6abcdef",
+            Role = UserRole.Trainer,
+            IsDeleted = false
+        };
+        
+        var admin = new User
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Admin",
+            LastName = "Admin",
+            DateOfBirth = new DateTime(1995, 5, 5),
+            Email = "admin@sprint.cz",
+            PasswordHash = "tbd",
+            PhotoPath = "tbd",
+            IsTrainer = true,
+            SecurityStamp = "6abcdef",
+            Role = UserRole.Trainer,
+            IsDeleted = false
         };
 
         modelBuilder.Entity<User>().HasData(Adam);
@@ -98,14 +125,16 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             HourlyRate = 2000,
             Description = "I know how to play, that's all",
-            UserId = Rado.Id
+            UserId = Rado.Id,
+            IsDeleted = false
         };
         var JitkaTrainer = new Trainer
         {
             Id = Guid.NewGuid(),
             HourlyRate = 3485,
             Description = "I know how to play even better, that's all",
-            UserId = Jitka.Id
+            UserId = Jitka.Id,
+            IsDeleted = false
         };
 
         modelBuilder.Entity<Trainer>().HasData(RadoTrainer);
@@ -117,6 +146,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             HourlyRate = 1000,
             CourtNumber = "A",
+            IsDeleted = false
         };
 
         var courtB = new Court
@@ -124,6 +154,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             HourlyRate = 800,
             CourtNumber = "B",
+            IsDeleted = false
         };
 
         var courtC = new Court
@@ -131,6 +162,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             HourlyRate = 800,
             CourtNumber = "C",
+            IsDeleted = false
         };
 
         var courtD = new Court
@@ -138,6 +170,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             HourlyRate = 500,
             CourtNumber = "D",
+            IsDeleted = false
         };
 
         modelBuilder.Entity<Court>().HasData(courtA);
@@ -151,6 +184,7 @@ public static class DataInitializer
             Path = "tbd",
             Hide = false,
             TrainerId = RadoTrainer.Id,
+            IsDeleted = false
         };
 
         var RadoTrainerPhoto2 = new TrainerPhoto
@@ -159,6 +193,7 @@ public static class DataInitializer
             Path = "tbd",
             Hide = false,
             TrainerId = RadoTrainer.Id,
+            IsDeleted = false
         };
 
         var JitkaTrainerPhoto1 = new TrainerPhoto
@@ -167,6 +202,7 @@ public static class DataInitializer
             Path = "tbd",
             Hide = true,
             TrainerId = JitkaTrainer.Id,
+            IsDeleted = false
         };
 
         var JitkaTrainerPhoto2 = new TrainerPhoto
@@ -175,6 +211,7 @@ public static class DataInitializer
             Path = "tbd",
             Hide = true,
             TrainerId = JitkaTrainer.Id,
+            IsDeleted = false
         };
 
         modelBuilder.Entity<TrainerPhoto>().HasData(RadoTrainerPhoto1);
@@ -284,8 +321,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             IsDeleted = true,
             CourtReservationId = courtReservationRoman2.Id,
-            TrainerId = RadoTrainer.Id,
-            //TrainerReviewId = null,
+            TrainerId = RadoTrainer.Id
         };
 
         var RadoRoman2 = new TrainerReservation
@@ -293,8 +329,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             IsDeleted = false,
             CourtReservationId = courtReservationRoman1.Id,
-            TrainerId = RadoTrainer.Id,
-            //TrainerReviewId = null,
+            TrainerId = RadoTrainer.Id
         };
 
         
@@ -304,8 +339,7 @@ public static class DataInitializer
             Id = Guid.NewGuid(),
             IsDeleted = false,
             CourtReservationId = courtReservationMonica1.Id,
-            TrainerId = JitkaTrainer.Id,
-            //TrainerReviewId = null,
+            TrainerId = JitkaTrainer.Id
         };
         
         modelBuilder.Entity<TrainerReservation>().HasData(RadoRoman1);
@@ -319,6 +353,7 @@ public static class DataInitializer
             Text = "tbd",
             Hide = false,
             ReservationId = JitkaMonica.Id,
+            IsDeleted = false
         };
         
         modelBuilder.Entity<TrainerReview>().HasData(JitkaMonicaReview);

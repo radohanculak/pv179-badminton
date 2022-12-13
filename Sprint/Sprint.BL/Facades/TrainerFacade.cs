@@ -8,11 +8,14 @@ public class TrainerFacade : ITrainerFacade
 {
     private readonly ITrainerService _trainerService;
     private readonly IUserService _userService;
+    private readonly ITrainerReservationService _trainerResService;
 
-    public TrainerFacade(ITrainerService trainerService, IUserService userService)
+    public TrainerFacade(ITrainerService trainerService, IUserService userService,
+        ITrainerReservationService trainerResService)
     {
         _trainerService = trainerService;
         _userService = userService;
+        _trainerResService = trainerResService;
     }
 
     public async Task<TrainerDto> AddTrainerAsync(Guid userId, string description, decimal hourlyRate)
@@ -40,5 +43,25 @@ public class TrainerFacade : ITrainerFacade
     public async Task UpdateTrainerAsync(Guid trainerId, string description, decimal hourlyRate)
     {
         await _trainerService.UpdateTrainerAsync(trainerId, description, hourlyRate);
+    }
+    
+    public async Task DeleteTrainerAsync(Guid trainerId)
+    {
+        var trainer = await _trainerService.GetTrainerAsync(trainerId);
+        foreach (var reservation in trainer.Reservations)
+        {
+            if (reservation.CourtReservation.From > DateTime.Now)
+            {
+                await _trainerResService.DeleteReservationAsync(reservation);
+            }
+        }
+        
+        await _trainerService.DeleteTrainerAsync(trainerId);
+    }
+    
+    public async Task DeleteTrainerByUserAsync(Guid userId)
+    {
+        var trainer = _trainerService.GetTrainerByUser(await _userService.GetUserAsync(userId));
+        await DeleteTrainerAsync(trainer.Id);
     }
 }

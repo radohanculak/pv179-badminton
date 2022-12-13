@@ -100,4 +100,15 @@ public class TrainerService : ITrainerService
         await _unitOfWork.CommitAsync();
         await _unitOfWork.TrainerRepository.Detach(trainerId);
     }
+
+    public async Task DeleteTrainerAsync(Guid trainerId)
+    {
+        var trainer = await GetTrainerAsync(trainerId);
+
+        trainer.IsDeleted = true;
+
+        _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
+        await _unitOfWork.CommitAsync();
+        await _unitOfWork.TrainerRepository.Detach(trainerId);
+    }
 }

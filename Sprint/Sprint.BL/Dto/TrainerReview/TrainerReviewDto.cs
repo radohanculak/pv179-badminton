@@ -11,4 +11,6 @@ public class TrainerReviewDto
     public bool Hide { get; set; } = false;
 
     public Guid ReservationId { get; set; } 
+    
+    public bool IsDeleted { get; set; } = false;
 }

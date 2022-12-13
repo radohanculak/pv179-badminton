@@ -1,0 +1,17 @@
+﻿@model Sprint.MVC.Models.TrainerReview.OneTrainerReviewsViewModel
+
+<h4>Trainer reviews</h4>
+<table class="table table-striped">
+    <tbody>
+    @foreach (var review in Model.Reviews)
+    {
+        <tr>
+            <td>Rating</td>
+            <td>@review.Rating</td>
+
+            <td>Text review</td>
+            <td>@review.Text</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -41,14 +41,15 @@ public class PhotoService : IPhotoService
             var newPhoto = new TrainerPhotoDto
             {
                 Hide = false,
-                Path = path
+                Path = path,
+                TrainerId = trainer.Id,
             };
-            trainer.TrainerPhotos.Add(newPhoto);
+            trainer.Photos.Add(newPhoto);
         }
 
         await _unitOfWork.TrainerPhotoRepository
             .InsertAsync(
-                _mapper.Map<TrainerPhoto>(trainer.TrainerPhotos)
+                _mapper.Map<TrainerPhoto>(trainer.Photos)
             );
 
         _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
@@ -66,7 +67,7 @@ public class PhotoService : IPhotoService
 
     public List<byte[]> GetTrainerPhotos(TrainerDto trainer)
     {
-        return trainer.TrainerPhotos
+        return trainer.Photos
             .Where(x => !x.Hide)
             .Select(x => x.Path)
             .Select(path => Encoding.ASCII.GetBytes(path))
@@ -83,13 +84,13 @@ public class PhotoService : IPhotoService
 
     public async Task DeleteTrainerPhotosAsync(TrainerDto trainer)
     {
-        foreach (var photo in trainer.TrainerPhotos)
+        foreach (var photo in trainer.Photos)
         {
             photo.Hide = true;
         }
 
         _unitOfWork.TrainerPhotoRepository.Update(
-            _mapper.Map<TrainerPhoto>(trainer.TrainerPhotos)
+            _mapper.Map<TrainerPhoto>(trainer.Photos)
         );
         _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         // all trainer photos should now have hidden attribute set to true

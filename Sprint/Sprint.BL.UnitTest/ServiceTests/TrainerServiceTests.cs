@@ -54,7 +54,7 @@ public class TrainerServiceTests
             Id = _trainerGuid,
             HourlyRate = _hourlyRate,
             Description = _descrtiption,
-            TrainerPhotos = null,
+            Photos = null,
         };
         
         _userDto = new UserDto

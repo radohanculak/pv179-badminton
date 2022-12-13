@@ -69,6 +69,7 @@ public class UserService : IUserService
             throw new InvalidOperationException($"User with id {userId} does not exist");
         }
 
+        await _unitOfWork.UserRepository.Detach(userId);
         return _mapper.Map<UserDto>(user);
     }
 
@@ -129,5 +130,17 @@ public class UserService : IUserService
 
         await _unitOfWork.CommitAsync();
         await _unitOfWork.UserRepository.Detach(userId);
+    }
+
+    public async Task DeleteUserAsync(Guid userId)
+    {
+        var user = await GetUserAsync(userId);
+
+        user.IsDeleted = true;
+        user.Email = "deleted user";
+
+        _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
+        await _unitOfWork.CommitAsync();
+        await _unitOfWork.TrainerRepository.Detach(userId);
     }
 }

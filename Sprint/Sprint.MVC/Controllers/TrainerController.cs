@@ -12,13 +12,15 @@ public class TrainerController : Controller
     private readonly ITrainerFacade _trainerFacade;
     private readonly ITrainerReservationFacade _trainerReservationFacade;
     private readonly ITrainerReviewFacade _trainerReviewFacade;
+    private readonly IPhotoFacade _photoFacade;
 
     public TrainerController(ITrainerFacade trainerFacade, ITrainerReservationFacade trainerReservationFacade,
-        ITrainerReviewFacade trainerReviewFacade)
+        ITrainerReviewFacade trainerReviewFacade, IPhotoFacade photoFacade)
     {
         _trainerFacade = trainerFacade;
         _trainerReservationFacade = trainerReservationFacade;
         _trainerReviewFacade = trainerReviewFacade;
+        _photoFacade = photoFacade;
     }
     
     [HttpGet("Trainers")]
@@ -37,12 +39,20 @@ public class TrainerController : Controller
     public async Task<IActionResult> Info(Guid id)
     {
         var dto = await _trainerFacade.GetTrainerAsync(id);
+        var photosDto = await _photoFacade.GetTrainerPhotosAsync(id);
+        var trainerRating = await _trainerReviewFacade.GetRatingAsync(id);
+        
         if (dto == null)
         {
             return NotFound();
         }
 
-        var model = new TrainerInfoViewModel(dto);
+        if (trainerRating == null)
+        {
+            trainerRating = 0;
+        }
+        
+        var model = new TrainerInfoViewModel(dto, photosDto, trainerRating);
 
         return View(model);
     }
@@ -53,7 +63,7 @@ public class TrainerController : Controller
 
         return await Info(x);
     }
-
+    
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -81,20 +91,6 @@ public class TrainerController : Controller
         await _trainerFacade.UpdateTrainerAsync(model.Id, model.Description, model.HourlyRate);
 
         return RedirectToAction(nameof(Index));
-    }
-
-    [AllowAnonymous]
-    public async Task<IActionResult> ReviewGet(Guid reservationId)
-    {
-        var dto = await _trainerReviewFacade.GetReviewForReservationAsync(reservationId);
-        if (dto == null)
-        {
-            return NotFound();
-        }
-        
-        var model = new TrainerReviewViewModel(reservationId, dto);
-
-        return View(model);
     }
 
     [Authorize(Roles = "Admin, Trainer")]
