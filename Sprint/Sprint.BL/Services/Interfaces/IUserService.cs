@@ -15,4 +15,5 @@ public interface IUserService
     Task UpdateUserAsync(Guid userId, string firstName, string lastName, string email, string password, UserRole role);
     Task<UserDto> GetUserByEmailAsync(string email);
     Task UserChangeRoleAsync(Guid userId, UserRole role);
+    Task DeleteUserAsync(Guid userId);
 }

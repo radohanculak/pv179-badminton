@@ -11,4 +11,6 @@ public class CourtDto
     public string CourtNumber { get; set; } = null!;
 
     public virtual List<CourtReservationDto> Reservations { get; set; } = null!;
+    
+    public bool IsDeleted { get; set; } = false;
 }

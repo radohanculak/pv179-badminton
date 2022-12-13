@@ -44,14 +44,14 @@ public class PhotoFacade : IPhotoFacade
         await _photoService.DeleteTrainerPhotosAsync(trainer);
     }
 
-    public async Task<byte[]> GetProfilePhotoAsync(Guid userId)
+    public async Task<string> GetProfilePhotoAsync(Guid userId)
     {
         var user = await _userService.GetUserAsync(userId);
 
         return _photoService.GetProfilePhoto(user);
     }
 
-    public async Task<List<byte[]>> GetTrainerPhotosAsync(Guid trainerId)
+    public async Task<List<string>> GetTrainerPhotosAsync(Guid trainerId)
     {
         var trainer = await _trainerService.GetTrainerAsync(trainerId);
 

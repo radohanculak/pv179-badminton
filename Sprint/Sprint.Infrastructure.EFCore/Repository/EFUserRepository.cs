@@ -13,11 +13,16 @@ public class EFUserRepository : EFGenericRepository<User>, IUserRepository
 
     public async override Task<User?> GetByIdAsync(Guid id)
     {
-        return dbSet.AsNoTracking()
+        return dbSet
+            .AsNoTracking()
             .Include(t => t.CourtReservations)
-            .ThenInclude(t => t.TrainerReservation)
-            .ThenInclude(t => t.Trainer)
-            .ThenInclude(t => t.User)
+                .ThenInclude(t => t.TrainerReservation)
+                    .ThenInclude(t => t.Trainer)
+                        .ThenInclude(t => t.User)
+            .Include(t => t.CourtReservations)
+                .ThenInclude(t => t.TrainerReservation)
+                    .ThenInclude(t => t.TrainerReview)
+            .Include(t => t.Trainer)
             .FirstOrDefault(t => t.Id == id);
     }
 
@@ -26,6 +31,13 @@ public class EFUserRepository : EFGenericRepository<User>, IUserRepository
         return await dbSet
             .AsNoTracking()
             .Include(t => t.CourtReservations)
+                .ThenInclude(t => t.TrainerReservation)
+                    .ThenInclude(t => t.Trainer)
+                        .ThenInclude(t => t.User)
+            .Include(t => t.CourtReservations)
+                .ThenInclude(t => t.TrainerReservation)
+                    .ThenInclude(t => t.TrainerReview)
+            .Include(t => t.Trainer)
             .ToListAsync();
     }
 }

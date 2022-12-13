@@ -21,8 +21,10 @@ public class UserUpsertModel
     public string Password { get; set; }
 
     public UserRole Role { get; set; }
-
     
+    public UserRole OldRole { get; set; }
+
+
     public UserUpsertModel(Guid id, string firstName, string lastName, string email, UserRole role)
     {
         Id = id;
@@ -30,6 +32,7 @@ public class UserUpsertModel
         LastName = lastName;
         Email = email;
         Role = role;
+        OldRole = role;
     }
 
     public UserUpsertModel()

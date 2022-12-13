@@ -4,7 +4,7 @@
 <table class="table table-striped">
     <tbody>
     <tr>
-        <td>Displayed name</td>
+        <td>Name</td>
         <td>@Model.Trainer.User.FirstName @Model.Trainer.User.LastName</td>
     </tr>
 
@@ -17,6 +17,27 @@
         <td>Description</td>
         <td>@Model.Trainer.Description</td>
     </tr>
+    
+    
+    <tr>
+        <td>Rating</td>
+        <td>@Model.TrainerRating</td>
+        
+        @if (User.IsInRole("Admin") || User.IsInRole("User") || User.IsInRole("Trainer"))
+        {
+            <a class="btn btn-secondary my-1" href="@Url.Action("ReviewsGetByTrainer", "TrainerReview", new { trainerId = Model.Trainer.Id })">Trainer Reviews</a>
+            
+        }
+    </tr>
+    
+    <tr>
+        <td>Photos</td>
+        @foreach (var photoPath in Model.PhotoPaths)
+        {
+            <td><img src="/@photoPath" class="detailImage" /></td>
+        }
+    </tr>
+    
     </tbody>
 </table>
 

@@ -7,8 +7,8 @@ public interface IPhotoService
 {
     Task AddProfilePhotoAsync(UserDto user, string path);
     Task<bool> AddTrainerPhotosAsync(TrainerDto trainer, List<string> paths);
-    byte[] GetProfilePhoto(UserDto user);
-    List<byte[]> GetTrainerPhotos(TrainerDto trainer);
+    string GetProfilePhoto(UserDto user);
+    List<string> GetTrainerPhotos(TrainerDto trainer);
     Task DeleteProfilePhotoAsync(UserDto user);
     Task DeleteTrainerPhotosAsync(TrainerDto trainer);
 }

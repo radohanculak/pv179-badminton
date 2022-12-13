@@ -11,8 +11,8 @@ using Sprint.DAL.EFCore.Data;
 namespace Sprint.DAL.EFCore.Migrations
 {
     [DbContext(typeof(SprintDbContext))]
-    [Migration("20221204224434_AddUserRoleInitializer")]
-    partial class AddUserRoleInitializer
+    [Migration("20221211195239_RemoveDeletableEntity")]
+    partial class RemoveDeletableEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.Property<decimal>("HourlyRate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Courts");
@@ -40,27 +43,31 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fff03dec-7db9-4e9e-b9f1-cc49ac1f4202"),
+                            Id = new Guid("053746b5-1614-4fcf-aedc-c5da932b743e"),
                             CourtNumber = "A",
-                            HourlyRate = 1000m
+                            HourlyRate = 1000m,
+                            IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("77e58714-93d2-439f-947a-480ca6884394"),
+                            Id = new Guid("019b7176-22b4-428b-92cb-eec114505788"),
                             CourtNumber = "B",
-                            HourlyRate = 800m
+                            HourlyRate = 800m,
+                            IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("3cd70919-8600-4490-a9de-884c267bda39"),
+                            Id = new Guid("e1608d5e-365c-4e22-b19e-25bc0d65072d"),
                             CourtNumber = "C",
-                            HourlyRate = 800m
+                            HourlyRate = 800m,
+                            IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("de76f6aa-99a9-436b-a444-757a66574bf3"),
+                            Id = new Guid("eb949bae-b32c-4d68-a05d-ae4c90e2a745"),
                             CourtNumber = "D",
-                            HourlyRate = 500m
+                            HourlyRate = 500m,
+                            IsDeleted = false
                         });
                 });
 
@@ -99,83 +106,83 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bb6fee60-93af-4589-9dee-5607ac8c21d3"),
-                            CourtId = new Guid("fff03dec-7db9-4e9e-b9f1-cc49ac1f4202"),
+                            Id = new Guid("be8d181c-a1b6-47e2-bac4-8d7a7a05b433"),
+                            CourtId = new Guid("053746b5-1614-4fcf-aedc-c5da932b743e"),
                             Created = new DateTime(2022, 9, 20, 9, 53, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 29, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 29, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("1dc48374-8e94-433b-b2d1-61ff715d12ec")
+                            UserId = new Guid("4ab6f34d-8f82-4921-8616-1f9d752406cb")
                         },
                         new
                         {
-                            Id = new Guid("03504239-28d7-40de-a401-4e51c287461a"),
-                            CourtId = new Guid("3cd70919-8600-4490-a9de-884c267bda39"),
+                            Id = new Guid("678b4158-2691-49e2-9b65-e215a588ffd4"),
+                            CourtId = new Guid("e1608d5e-365c-4e22-b19e-25bc0d65072d"),
                             Created = new DateTime(2022, 9, 21, 6, 51, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 30, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 30, 13, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("1dc48374-8e94-433b-b2d1-61ff715d12ec")
+                            UserId = new Guid("4ab6f34d-8f82-4921-8616-1f9d752406cb")
                         },
                         new
                         {
-                            Id = new Guid("a12eca9f-0641-47bc-a140-37c7e979cd70"),
-                            CourtId = new Guid("3cd70919-8600-4490-a9de-884c267bda39"),
+                            Id = new Guid("c4f3b80d-8a42-487c-96fa-fbf8e9af5771"),
+                            CourtId = new Guid("e1608d5e-365c-4e22-b19e-25bc0d65072d"),
                             Created = new DateTime(2022, 9, 5, 23, 59, 59, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 11, 17, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = true,
                             To = new DateTime(2022, 11, 17, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("1dc48374-8e94-433b-b2d1-61ff715d12ec")
+                            UserId = new Guid("4ab6f34d-8f82-4921-8616-1f9d752406cb")
                         },
                         new
                         {
-                            Id = new Guid("ced7cc9e-980c-442a-b7c4-5c5a2e7e0b4a"),
-                            CourtId = new Guid("fff03dec-7db9-4e9e-b9f1-cc49ac1f4202"),
+                            Id = new Guid("ab3b26a3-bc38-4a9e-849f-afe30f62c159"),
+                            CourtId = new Guid("053746b5-1614-4fcf-aedc-c5da932b743e"),
                             Created = new DateTime(2022, 9, 20, 9, 53, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 29, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 29, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("ceaf7cd9-f88e-4c6e-ae17-5ed2772ebcc0")
+                            UserId = new Guid("78445a82-272a-43c6-a094-91ff2062fc2e")
                         },
                         new
                         {
-                            Id = new Guid("987ca7e9-f15d-443a-b97e-a482a9c52b42"),
-                            CourtId = new Guid("fff03dec-7db9-4e9e-b9f1-cc49ac1f4202"),
+                            Id = new Guid("133a93d8-b322-4327-9561-5c0791947454"),
+                            CourtId = new Guid("053746b5-1614-4fcf-aedc-c5da932b743e"),
                             Created = new DateTime(2022, 9, 28, 19, 19, 19, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 10, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 10, 1, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("ceaf7cd9-f88e-4c6e-ae17-5ed2772ebcc0")
+                            UserId = new Guid("78445a82-272a-43c6-a094-91ff2062fc2e")
                         },
                         new
                         {
-                            Id = new Guid("02f36151-3409-4a92-a558-90f1540b907b"),
-                            CourtId = new Guid("77e58714-93d2-439f-947a-480ca6884394"),
+                            Id = new Guid("9c0faca5-3bdf-4d9b-8bb6-115ba4e023d7"),
+                            CourtId = new Guid("019b7176-22b4-428b-92cb-eec114505788"),
                             Created = new DateTime(2022, 9, 15, 18, 4, 4, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 16, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 16, 17, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("fd6d8cda-5e37-4085-97ec-3b725a32132a")
+                            UserId = new Guid("663a1513-dd61-454f-8f73-151a18659136")
                         },
                         new
                         {
-                            Id = new Guid("90b01ce9-bdc2-4444-af48-919381c89329"),
-                            CourtId = new Guid("77e58714-93d2-439f-947a-480ca6884394"),
+                            Id = new Guid("b2f0a633-209a-4380-8eee-f44df3a411ff"),
+                            CourtId = new Guid("019b7176-22b4-428b-92cb-eec114505788"),
                             Created = new DateTime(2022, 9, 16, 9, 53, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 17, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = true,
                             To = new DateTime(2022, 9, 17, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("fd6d8cda-5e37-4085-97ec-3b725a32132a")
+                            UserId = new Guid("663a1513-dd61-454f-8f73-151a18659136")
                         },
                         new
                         {
-                            Id = new Guid("5a152461-381f-413f-9901-ab29328b9a22"),
-                            CourtId = new Guid("de76f6aa-99a9-436b-a444-757a66574bf3"),
+                            Id = new Guid("9bc07151-0c8d-4644-a40a-a641f4abf4f1"),
+                            CourtId = new Guid("eb949bae-b32c-4d68-a05d-ae4c90e2a745"),
                             Created = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 12, 31, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 12, 31, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("c575ad0c-99f8-4678-ae50-131c07280888")
+                            UserId = new Guid("1f83a261-04ca-41ac-88c4-736e2cd2905d")
                         });
                 });
 
@@ -191,6 +198,9 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.Property<decimal>("HourlyRate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
@@ -204,17 +214,19 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2e6378df-ca0c-45f1-a38f-93f173d430b8"),
+                            Id = new Guid("e845ff5f-c15f-4b7b-80d0-0e1007509182"),
                             Description = "I know how to play, that's all",
                             HourlyRate = 2000m,
-                            UserId = new Guid("1fa8325a-344e-4ed7-9ca5-1e9a7f459988")
+                            IsDeleted = false,
+                            UserId = new Guid("803b7f74-4c34-4024-ba0c-1d23902bf815")
                         },
                         new
                         {
-                            Id = new Guid("b3125ba5-d393-4b90-9d30-4455a3bdd9c5"),
+                            Id = new Guid("7e6e363b-bb24-45e3-bf6f-1362148a2cfd"),
                             Description = "I know how to play even better, that's all",
                             HourlyRate = 3485m,
-                            UserId = new Guid("4f681c3c-4a71-4047-871c-e450700d2fab")
+                            IsDeleted = false,
+                            UserId = new Guid("b8e71e32-8144-4a9d-b6a1-e30ff73ea570")
                         });
                 });
 
@@ -225,6 +237,9 @@ namespace Sprint.DAL.EFCore.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Hide")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Path")
@@ -243,31 +258,35 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("be6609b5-3ed6-475f-9a7d-1e1818b6eae4"),
+                            Id = new Guid("3db35716-5ad4-4b5f-81ba-5b6d126a2c42"),
                             Hide = false,
+                            IsDeleted = false,
                             Path = "tbd",
-                            TrainerId = new Guid("2e6378df-ca0c-45f1-a38f-93f173d430b8")
+                            TrainerId = new Guid("e845ff5f-c15f-4b7b-80d0-0e1007509182")
                         },
                         new
                         {
-                            Id = new Guid("b34056fc-20ca-4b37-9854-6d0dcb86b38d"),
+                            Id = new Guid("7ee87a44-cd5c-47ac-8f3a-77c44bffbc18"),
                             Hide = false,
+                            IsDeleted = false,
                             Path = "tbd",
-                            TrainerId = new Guid("2e6378df-ca0c-45f1-a38f-93f173d430b8")
+                            TrainerId = new Guid("e845ff5f-c15f-4b7b-80d0-0e1007509182")
                         },
                         new
                         {
-                            Id = new Guid("f6bea63b-d3db-476f-bb25-3a0cc55bbfee"),
+                            Id = new Guid("cc3eea02-bf82-49cc-95ac-17189f9bba90"),
                             Hide = true,
+                            IsDeleted = false,
                             Path = "tbd",
-                            TrainerId = new Guid("b3125ba5-d393-4b90-9d30-4455a3bdd9c5")
+                            TrainerId = new Guid("7e6e363b-bb24-45e3-bf6f-1362148a2cfd")
                         },
                         new
                         {
-                            Id = new Guid("1d5764b5-fb93-4c6e-a5f5-3e4afec37676"),
+                            Id = new Guid("1df958f8-0f56-4e4f-95e8-2bc0e7ed47f5"),
                             Hide = true,
+                            IsDeleted = false,
                             Path = "tbd",
-                            TrainerId = new Guid("b3125ba5-d393-4b90-9d30-4455a3bdd9c5")
+                            TrainerId = new Guid("7e6e363b-bb24-45e3-bf6f-1362148a2cfd")
                         });
                 });
 
@@ -286,9 +305,6 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.Property<Guid>("TrainerId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("TrainerReviewId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourtReservationId")
@@ -296,31 +312,29 @@ namespace Sprint.DAL.EFCore.Migrations
 
                     b.HasIndex("TrainerId");
 
-                    b.HasIndex("TrainerReviewId");
-
                     b.ToTable("TrainerReservations");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1bcfec30-e02f-4234-9eb0-27e7912fadc2"),
-                            CourtReservationId = new Guid("90b01ce9-bdc2-4444-af48-919381c89329"),
+                            Id = new Guid("8359f2ab-82c2-460f-8c03-fc0354bcc244"),
+                            CourtReservationId = new Guid("b2f0a633-209a-4380-8eee-f44df3a411ff"),
                             IsDeleted = true,
-                            TrainerId = new Guid("2e6378df-ca0c-45f1-a38f-93f173d430b8")
+                            TrainerId = new Guid("e845ff5f-c15f-4b7b-80d0-0e1007509182")
                         },
                         new
                         {
-                            Id = new Guid("a698edf3-5778-4449-93bc-dfe77a74b125"),
-                            CourtReservationId = new Guid("02f36151-3409-4a92-a558-90f1540b907b"),
+                            Id = new Guid("32533c67-87f3-4a52-b720-063a663cbe56"),
+                            CourtReservationId = new Guid("9c0faca5-3bdf-4d9b-8bb6-115ba4e023d7"),
                             IsDeleted = false,
-                            TrainerId = new Guid("2e6378df-ca0c-45f1-a38f-93f173d430b8")
+                            TrainerId = new Guid("e845ff5f-c15f-4b7b-80d0-0e1007509182")
                         },
                         new
                         {
-                            Id = new Guid("b48ee0b2-6413-4486-8573-af648c7f62c0"),
-                            CourtReservationId = new Guid("5a152461-381f-413f-9901-ab29328b9a22"),
+                            Id = new Guid("f90e7507-5e95-4d20-b090-879b3a95ddee"),
+                            CourtReservationId = new Guid("9bc07151-0c8d-4644-a40a-a641f4abf4f1"),
                             IsDeleted = false,
-                            TrainerId = new Guid("b3125ba5-d393-4b90-9d30-4455a3bdd9c5")
+                            TrainerId = new Guid("7e6e363b-bb24-45e3-bf6f-1362148a2cfd")
                         });
                 });
 
@@ -331,6 +345,9 @@ namespace Sprint.DAL.EFCore.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Hide")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Rating")
@@ -345,17 +362,19 @@ namespace Sprint.DAL.EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("ReservationId")
+                        .IsUnique();
 
                     b.ToTable("TrainerReviews");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d8ddc4b6-4a03-4922-8e5a-65abe063b9a8"),
+                            Id = new Guid("db10c392-4c38-49bb-baaa-bee266959084"),
                             Hide = false,
+                            IsDeleted = false,
                             Rating = 5,
-                            ReservationId = new Guid("b48ee0b2-6413-4486-8573-af648c7f62c0"),
+                            ReservationId = new Guid("f90e7507-5e95-4d20-b090-879b3a95ddee"),
                             Text = "tbd"
                         });
                 });
@@ -377,6 +396,9 @@ namespace Sprint.DAL.EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsTrainer")
                         .HasColumnType("INTEGER");
 
@@ -394,6 +416,10 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("SecurityStamp")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -401,75 +427,87 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1dc48374-8e94-433b-b2d1-61ff715d12ec"),
+                            Id = new Guid("4ab6f34d-8f82-4921-8616-1f9d752406cb"),
                             DateOfBirth = new DateTime(2001, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "514329@mail.muni.cz",
                             FirstName = "Adam",
+                            IsDeleted = false,
                             IsTrainer = false,
                             LastName = "Mydla",
                             PasswordHash = "tbd",
                             PhotoPath = "tbd",
-                            Role = 0
+                            Role = 0,
+                            SecurityStamp = "1abcdef"
                         },
                         new
                         {
-                            Id = new Guid("ceaf7cd9-f88e-4c6e-ae17-5ed2772ebcc0"),
+                            Id = new Guid("78445a82-272a-43c6-a094-91ff2062fc2e"),
                             DateOfBirth = new DateTime(1995, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "pppeter@nonexistentmail.com",
                             FirstName = "Peter",
+                            IsDeleted = false,
                             IsTrainer = false,
                             LastName = "Griffin",
                             PasswordHash = "tbd",
                             PhotoPath = "tbd",
-                            Role = 0
+                            Role = 0,
+                            SecurityStamp = "2abcdef"
                         },
                         new
                         {
-                            Id = new Guid("c575ad0c-99f8-4678-ae50-131c07280888"),
+                            Id = new Guid("1f83a261-04ca-41ac-88c4-736e2cd2905d"),
                             DateOfBirth = new DateTime(1955, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "monic@nonexistentmail.com",
                             FirstName = "Monica",
+                            IsDeleted = false,
                             IsTrainer = false,
                             LastName = "Bellucci",
                             PasswordHash = "tbd",
                             PhotoPath = "tbd",
-                            Role = 0
+                            Role = 0,
+                            SecurityStamp = "4abcdef"
                         },
                         new
                         {
-                            Id = new Guid("fd6d8cda-5e37-4085-97ec-3b725a32132a"),
+                            Id = new Guid("663a1513-dd61-454f-8f73-151a18659136"),
                             DateOfBirth = new DateTime(1993, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "rntr@nonexistentmail.com",
                             FirstName = "Roman",
+                            IsDeleted = false,
                             IsTrainer = false,
                             LastName = "NieTenRoman",
                             PasswordHash = "tbd",
                             PhotoPath = "tbd",
-                            Role = 0
+                            Role = 0,
+                            SecurityStamp = "3abcdef"
                         },
                         new
                         {
-                            Id = new Guid("1fa8325a-344e-4ed7-9ca5-1e9a7f459988"),
+                            Id = new Guid("803b7f74-4c34-4024-ba0c-1d23902bf815"),
                             DateOfBirth = new DateTime(1995, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "rhanculak@mail.muni.cz",
                             FirstName = "Radovan",
+                            IsDeleted = false,
                             IsTrainer = true,
                             LastName = "Hančuľák",
                             PasswordHash = "tbd",
                             PhotoPath = "tbd",
-                            Role = 1
+                            Role = 1,
+                            SecurityStamp = "5abcdef"
                         },
                         new
                         {
-                            Id = new Guid("4f681c3c-4a71-4047-871c-e450700d2fab"),
+                            Id = new Guid("b8e71e32-8144-4a9d-b6a1-e30ff73ea570"),
                             DateOfBirth = new DateTime(1995, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "493352@mail.muni.cz",
                             FirstName = "Jitka",
+                            IsDeleted = false,
                             IsTrainer = true,
                             LastName = "Viceníková",
                             PasswordHash = "tbd",
                             PhotoPath = "tbd",
-                            Role = 1
+                            Role = 1,
+                            SecurityStamp = "6abcdef"
                         });
                 });
 
@@ -528,22 +566,16 @@ namespace Sprint.DAL.EFCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sprint.DAL.EFCore.Models.TrainerReview", "TrainerReview")
-                        .WithMany()
-                        .HasForeignKey("TrainerReviewId");
-
                     b.Navigation("CourtReservation");
 
                     b.Navigation("Trainer");
-
-                    b.Navigation("TrainerReview");
                 });
 
             modelBuilder.Entity("Sprint.DAL.EFCore.Models.TrainerReview", b =>
                 {
                     b.HasOne("Sprint.DAL.EFCore.Models.TrainerReservation", "Reservation")
-                        .WithMany()
-                        .HasForeignKey("ReservationId")
+                        .WithOne("TrainerReview")
+                        .HasForeignKey("Sprint.DAL.EFCore.Models.TrainerReview", "ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -565,6 +597,11 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("Sprint.DAL.EFCore.Models.TrainerReservation", b =>
+                {
+                    b.Navigation("TrainerReview");
                 });
 
             modelBuilder.Entity("Sprint.DAL.EFCore.Models.User", b =>
