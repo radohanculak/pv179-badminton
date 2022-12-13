@@ -60,17 +60,16 @@ public class PhotoService : IPhotoService
         return true;
     }
 
-    public byte[] GetProfilePhoto(UserDto user)
+    public string GetProfilePhoto(UserDto user)
     {
-        return user?.PhotoPath == null ? Array.Empty<byte>() : Encoding.ASCII.GetBytes(user.PhotoPath);
+        return user.PhotoPath ?? "";
     }
 
-    public List<byte[]> GetTrainerPhotos(TrainerDto trainer)
+    public List<string> GetTrainerPhotos(TrainerDto trainer)
     {
         return trainer.Photos
             .Where(x => !x.Hide)
             .Select(x => x.Path)
-            .Select(path => Encoding.ASCII.GetBytes(path))
             .ToList();
     }
 

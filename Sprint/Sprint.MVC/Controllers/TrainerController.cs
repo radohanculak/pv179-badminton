@@ -47,22 +47,21 @@ public class TrainerController : Controller
             return NotFound();
         }
 
-        if (trainerRating == null)
-        {
-            trainerRating = 0;
-        }
+        trainerRating ??= 0;
         
         var model = new TrainerInfoViewModel(dto, photosDto, trainerRating);
 
         return View(model);
     }
     
+    /*
     public async Task<IActionResult> InfoUser(Guid userId)
     {
         var x = (await _trainerFacade.GetTrainerByUserIdAsync(userId)).Id;
 
         return await Info(x);
     }
+    */
     
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(Guid id)
