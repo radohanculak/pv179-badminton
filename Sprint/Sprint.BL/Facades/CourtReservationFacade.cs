@@ -55,4 +55,9 @@ public class CourtReservationFacade : ICourtReservationFacade
 
         return _courtReservationService.GetReservations(user, from, to, alsoDeleted);
     }
+
+    public async Task<List<CourtReservationDto>> GetReservationsForDayAsync(DateTime date)
+    {
+        return await _courtReservationService.GetReservationsForDayAsync(date);
+    }
 }

@@ -1,0 +1,64 @@
+@using Sprint.BL.Dto.CourtReservation
+@model Sprint.MVC.Models.CourtReservation.CourtReservationCreate
+
+@{
+    var today = Model.Date.Date;
+}
+
+
+<html>
+<head>
+    <title>Choose timeslot</title>
+</head>
+<body>
+
+<table class="table table-striped-columns">
+    <thead>
+    <tr>
+        <th>Court/Time</th>
+        @for (var i = 8; i < 22; i++)
+        {
+            var time = new DateTime(today.Year, today.Month, today.Day, i, 0, 0);
+            var interval = $"{@time:HH:mm} - {@time.AddHours(1).ToString("HH:mm")}";
+            <th>@interval</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var court in Model.CourtDtos)
+    {
+        <tr>
+            <td>@court.CourtNumber @court.Id.ToString().Substring(0, 4)</td>
+            @{
+                var reservations = Model.CourtReservationDtos.Where(x => x.CourtId == court.Id);
+                for (var i = 8; i < 22; i++)
+                {
+                    var time_from = new DateTime(today.Year, today.Month, today.Day, i, 0, 0);
+                    var time_to = time_from.AddHours(1);
+                    var interval = $"{@time_from:HH} - {@time_to.ToString("HH")}";
+                    
+                    Model.TimeFrom = time_from; Model.TimeTo = time_to; Model.CourtId = court.Id;
+                    if (!reservations.Any(x => (x.From == time_from) || (x.To == time_to)))
+                    {
+                        using (Html.BeginForm("ConfirmReservation", "CourtReservation", Model, FormMethod.Post, true, new { @class = "form-inline" }))
+                        {
+                            <td>
+                                <input type="submit" class="btn btn-sm btn-success" value="@interval"/>
+                            </td>
+                        }
+                    }
+                    else
+                    {
+                        <td>
+                            <input type="submit" class="btn btn-sm btn-danger disabled" value="@interval"/>
+                        </td>
+                    }
+                }
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+</body>
+</html>

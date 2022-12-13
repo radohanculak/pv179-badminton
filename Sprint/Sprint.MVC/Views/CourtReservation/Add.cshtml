@@ -1,0 +1,21 @@
+@model Sprint.MVC.Models.CourtReservation.CourtReservationCreate
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(x => x.Date)
+            @Html.TextBoxFor(x => x.Date, new { @type="date", @class = "form-control datepicker",  @Value = Model.Date.ToString() } )
+            @Html.ValidationMessageFor(x => x.Date, null, new { @class = "text-danger" })
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    }
+</div>
+</body>
+</html>
