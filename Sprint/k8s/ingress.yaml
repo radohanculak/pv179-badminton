@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1                                                
+kind: Ingress                                                                   
+metadata:                                                                       
+  name: pv179-deployment-demo-ingress                                                
+  annotations:                                                                  
+    kuberentes.io/ingress.class: "nginx"                                        
+    kubernetes.io/tls-acme: "true"                                              
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:                                                                           
+  tls:                                                                          
+    - hosts: # Make sure that the domain name does not already exist                                            
+        - "pv179-sprint.dyn.cloud.e-infra.cz"
+      # secretName is the same as domain name, but "." are replaced by "-" 
+      secretName: pv179-sprint-dyn-clout-e-infra-cz-tls                                 
+  rules:                                                                        
+  - host: "pv179-sprint.dyn.cloud.e-infra.cz"                                          
+    http:                                                                       
+      paths:                                                                    
+      - backend:                                                                
+          service:                                                              
+            name: pv179-deployment-demo-svc                                          
+            port:                                                               
+              number: 80
+        pathType: ImplementationSpecific
