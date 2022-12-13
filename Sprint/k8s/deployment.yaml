@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv179-deployment-demo-dep
+  labels:
+    app: pv179-deployment-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pv179-deployment-demo
+  template:
+    metadata:
+      labels:
+        app: pv179-deployment-demo
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+      - name: pv179-deployment-demo
+        image: registry.gitlab.ics.muni.cz:443/492883/pv179-badminton/app:latest
+        ports:
+        - containerPort: 8000
+        env:                                                                    
+        - name: DemoDockerDeployment_Hello__Hello
+          value: Hello
+        - name: DemoDockerDeployment_Database__ConnectionString
+          valueFrom:
+            secretKeyRef:
+              name: pv179-deployment-demo-secret
+              key: connectionString
+# SEE: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+# kubectl create secret docker-registry regcred-l --docker-server=registry.gitlab.ics.muni.cz:443 --docker-username=492883@mail.muni.cz --docker-password=oMr-tBdVzBq7BzHSP2A5 --docker-email=492883@mail.muni.cz
+      imagePullSecrets:
+      - name: regcred

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pv179-deployment-demo-svc
+spec:
+  type: ClusterIP
+  ports:
+  - name: pv179-deployment-demo-port                                                 
+    port: 80                                                                    
+    targetPort: 8000 
+  selector:
+    app: pv179-deployment-demo
