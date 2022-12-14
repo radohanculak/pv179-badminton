@@ -5,6 +5,7 @@ using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
+using Sprint.Infrastructure.Query;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.Services;
@@ -13,11 +14,13 @@ public class TrainerService : ITrainerService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IQueryObject<Trainer> queryObject;
 
-    public TrainerService(IUnitOfWork unitOfWork, IMapper mapper)
+    public TrainerService(IUnitOfWork unitOfWork, IMapper mapper, IQueryObject<Trainer> queryObject)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        this.queryObject = queryObject;
     }
 
     public async Task<TrainerDto> AddTrainerAsync(Guid userId, string description, decimal hourlyRate)
