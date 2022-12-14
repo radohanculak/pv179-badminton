@@ -64,4 +64,9 @@ public class TrainerFacade : ITrainerFacade
         var trainer = _trainerService.GetTrainerByUser(await _userService.GetUserAsync(userId));
         await DeleteTrainerAsync(trainer.Id);
     }
+
+    public async Task<IEnumerable<TrainerDto>> GetAllAvailableTrainers(DateTime timeFrom)
+    {
+        throw new NotImplementedException();
+    }
 }

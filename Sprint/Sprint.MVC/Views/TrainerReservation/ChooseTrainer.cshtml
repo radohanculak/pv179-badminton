@@ -1,0 +1,46 @@
+@model Sprint.MVC.Models.TrainerReservation.TrainerReservationCreateModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Select Trainer</title>
+</head>
+<body>
+<div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width:70%">Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var trainer in Model.TrainerDtos)
+        {
+            @if (!trainer.IsDeleted)
+            {
+                <tr>
+                    <td>@trainer.User.FirstName @trainer.User.LastName</td>
+                    <td>
+                        <a class="btn btn-secondary" href="@Url.Action("Info", "Trainer", new { id = trainer.Id })">Info</a>
+                    </td>
+                    @{
+                        Model.TrainerId = trainer.Id;
+                        using (Html.BeginForm("ConfirmReservation", "TrainerReservation", Model, FormMethod.Post, true, new { @class = "form-inline" }))
+                        {
+                            <td>
+                                <input type="submit" class="btn btn-sm btn-success" value="Book Trainer"/>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

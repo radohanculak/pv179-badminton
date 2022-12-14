@@ -1,6 +1,7 @@
 @using Sprint.BL.Dto.CourtReservation
 @using Sprint.BL.Dto.User
 @using Microsoft.AspNetCore.Identity
+@using Sprint.MVC.Models.TrainerReservation
 @model Sprint.MVC.Models.CourtReservation.CourtReservationIndexViewModel
 
 @{
@@ -42,6 +43,18 @@
             <td>@reservation.To.ToString("HH:mm")</td>
             <td>@reservation.CourtId</td>
             <td>@reservation.TrainerReservation</td>
+            <td>
+            @if (reservation.TrainerReservation == null)
+            {
+                var usrId = Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value);
+                @using (Html.BeginForm("ChooseTrainer", "TrainerReservation",
+                    new TrainerReservationCreateModel { UserId = usrId, CourtId = reservation.CourtId, TimeFrom = reservation.From, TimeTo = reservation.To},
+                    FormMethod.Post, true, new { @class = "form-inline" }))
+                {
+                    <input class="btn btn-info my-1" type="submit" value="Add Trainer"/>
+                }
+            }
+            </td>
             <td>
                 @using (Html.BeginForm("Delete", "CourtReservation", new { id = reservation.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
                 {
