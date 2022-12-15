@@ -18,7 +18,7 @@
             <td>@reservation.From</td>
             <td>@reservation.To</td>
             @* zmenit tu z ID na realne hodnoty ludsky citatelne *@
-            <td>@reservation.CourtId</td>
+            <td>@Model.Courts.Where(x => x.Id == reservation.CourtId).First().CourtNumber</td>
             @if (reservation.TrainerReservation is not null)
             {
                 <td>

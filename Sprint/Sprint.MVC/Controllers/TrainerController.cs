@@ -14,14 +14,16 @@ public class TrainerController : Controller
     private readonly ITrainerReservationFacade _trainerReservationFacade;
     private readonly ITrainerReviewFacade _trainerReviewFacade;
     private readonly IPhotoFacade _photoFacade;
+    private readonly ICourtFacade _courtFacade;
 
     public TrainerController(ITrainerFacade trainerFacade, ITrainerReservationFacade trainerReservationFacade,
-        ITrainerReviewFacade trainerReviewFacade, IPhotoFacade photoFacade)
+        ITrainerReviewFacade trainerReviewFacade, IPhotoFacade photoFacade, ICourtFacade courtFacade)
     {
         _trainerFacade = trainerFacade;
         _trainerReservationFacade = trainerReservationFacade;
         _trainerReviewFacade = trainerReviewFacade;
         _photoFacade = photoFacade;
+        _courtFacade = courtFacade;
     }
     
     [HttpGet("Trainers")]
@@ -89,9 +91,11 @@ public class TrainerController : Controller
     public async Task<IActionResult> Reservations(Guid id)
     {
         var dtos = await _trainerReservationFacade.GetReservationsForTrainerAsync(id, true, false);
-
+        var courts = await _courtFacade.GetCourtsAsync();
+        
         var model = new TrainerReservationsViewModel(id);
         model.Reservations = dtos;
+        model.Courts = courts;
 
         return View(model);
     }

@@ -14,14 +14,16 @@ public class UserController : Controller
     private readonly ICourtReservationFacade _courtResFacade;
     private readonly ITrainerFacade _trainerFacade;
     private readonly IPhotoFacade _photoFacade;
+    private readonly ICourtFacade _courtFacade;
 
     public UserController(IUserFacade userFacade, ICourtReservationFacade courtResFacade,
-        ITrainerFacade trainerFacade, IPhotoFacade photoFacade)
+        ITrainerFacade trainerFacade, IPhotoFacade photoFacade, ICourtFacade courtFacade)
     {
         _userFacade = userFacade;
         _courtResFacade = courtResFacade;
         _trainerFacade = trainerFacade;
         _photoFacade = photoFacade;
+        _courtFacade = courtFacade;
     }
 
     [HttpGet("Users")]
@@ -95,9 +97,11 @@ public class UserController : Controller
     public async Task<IActionResult> Reservations(Guid id)
     {
         var dtos = await _courtResFacade.GetReservationsAsync(id, true, false);
+        var courts = await _courtFacade.GetCourtsAsync();
 
         var model = new UserReservationsViewModel(id);
         model.Reservations = dtos;
+        model.Courts = courts;
 
         return View(model);
     }

@@ -1,4 +1,5 @@
-﻿using Sprint.BL.Dto.TrainerReservation;
+﻿using Sprint.BL.Dto.Court;
+using Sprint.BL.Dto.TrainerReservation;
 using Sprint.BL.Dto.User;
 
 namespace Sprint.MVC.Models.Trainer;
@@ -6,7 +7,11 @@ namespace Sprint.MVC.Models.Trainer;
 public class TrainerReservationsViewModel
 {
     public Guid TrainerId { get; set; }
-    public IEnumerable<TrainerReservationDto> Reservations { get; set; }
+    public List<TrainerReservationDto> Reservations { get; set; }
+    // povinne potom prerobit
+    public List<CourtDto> Courts { get; set; }
+    // povinne potom prerobit
+    
     public DateTime? From { get; set; }
     public DateTime? To { get; set; }
     public bool AlsoDeleted { get; set; }

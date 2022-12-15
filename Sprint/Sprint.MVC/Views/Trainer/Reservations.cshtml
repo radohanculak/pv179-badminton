@@ -18,8 +18,8 @@
             <td>@reservation.CourtReservation.From</td>
             <td>@reservation.CourtReservation.To</td>
             @* zmenit tu z ID na realne hodnoty ludsky citatelne *@
-            <td>@reservation.CourtReservation.CourtId</td>
-            <td>@reservation.CourtReservation.UserId</td>
+            <td>@Model.Courts.Where(x => x.Id == reservation.CourtReservation.CourtId).First().CourtNumber</td>
+            <td><a class="btn btn-secondary my-1" href="@Url.Action("Info", "User",new { id = reservation.CourtReservation.UserId })">Info</a></td>
             @if (reservation.TrainerReview is not null)
             {
                 <td>
