@@ -19,7 +19,7 @@
     }
 }
 
-<h4>Court Reservations</h4>
+<h3>Court Reservations</h3>
 
 <a class="btn btn-primary my-1" href="@Url.Action("Add")">Create New Reservation</a>
 
@@ -31,7 +31,8 @@
         <th>To</th>
         <th>Court</th>
         <th>Trainer</th>
-        <th>Actions</th>
+        <th style="width:10%">Actions</th>
+        <th style="width:10%"></th>
     </tr>
     </thead>
     <tbody>
@@ -70,8 +71,6 @@
                 {
                     <input class="btn btn-danger my-1" type="submit" value="Delete"/>
                 }
-                @* Not needed imo idk *@
-                @* <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a> *@
             }
             </td>
         </tr>

@@ -77,6 +77,15 @@ public class TrainerReservationService : ITrainerReservationService
             .ToList();
     }
 
+    public List<TrainerReservationDto> GetDailyReservationsForTrainer(TrainerDto trainer, DateTime date)
+    {
+        IEnumerable<TrainerReservationDto> reservations = trainer.Reservations;
+
+        return reservations
+            .Where(r => r.CourtReservation.From.Date == date.Date)
+            .ToList();
+    }
+
     public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast, bool alsoDeleted)
     {
         var reservations = (await GetAllReservationsAsync(alsoDeleted))

@@ -4,36 +4,33 @@
 
 @if (User.IsInRole("Admin"))
 {
-    <a class="btn btn-primary" href="@Url.Action("Create")">Create new court</a>
+    <a class="btn btn-primary my-1" href="@Url.Action("Create")">Create new court</a>
 }
 
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th style="width:70%">Court number</th>
-        <th style="width:70%">Hourly rate</th>
-        @if (User.IsInRole("Admin"))
-        {
-            <th>Actions</th>
-        }
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var court in Model.Courts)
-    {
         <tr>
-            <td>@court.CourtNumber</td>
-            <td>@court.HourlyRate</td>
+            <th style="width:70%">Court number</th>
+            <th style="width:20%">Hourly rate</th>
             @if (User.IsInRole("Admin"))
             {
-                <td>
-                    @using (Html.BeginForm("Delete", "Court", new { id = court.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-                    {
-                        <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = court.Id })">Edit</a>
-                    }
-                </td>
+                <th>Actions</th>
             }
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var court in Model.Courts)
+        {
+            <tr>
+                <td>@court.CourtNumber</td>
+                <td>@court.HourlyRate</td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = court.Id })">Edit</a>
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>

@@ -6,8 +6,9 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        var usrId = Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value);
         <li class="nav-item">
-            <span class="nav-link text-light">Hello @User.Identity?.Name!</span>
+            <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Info" asp-route-id="@usrId">Your account</a>
         </li>
         <li class="nav-item">
             @using (Html.BeginForm("Logout", "Identity", new { returnUrl = Url.Action("Index", "Home") }, FormMethod.Post))

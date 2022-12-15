@@ -2,34 +2,36 @@
 @using System.Security.Claims
 @model Sprint.MVC.Models.Trainer.TrainerIndexViewModel
 
-<h4>Trainers</h4>
+<h3>Trainers</h3>
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th style="width:70%">Name</th>
-        <th>Actions</th>
-    </tr>
+        <tr>
+            <th style="width:80%">Name</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var trainer in Model.Trainers)
-    {
-        @if (!trainer.IsDeleted)
+        @foreach (var trainer in Model.Trainers)
         {
-            <tr>
-                <td>@trainer.User.FirstName @trainer.User.LastName</td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        @*@using (Html.BeginForm("Delete", "Trainer", new { id = trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-                        {*@
+            @if (!trainer.IsDeleted)
+            {
+                <tr>
+                    <td>@trainer.User.FirstName @trainer.User.LastName</td>
+                    <td>
+                        @if (User.IsInRole("Admin"))
+                        {
                             <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = trainer.Id })">Edit</a>
-                            <a class="btn btn-secondary my-1" href="@Url.Action("Delete", "User", new { id = trainer.User.Id })">Delete</a>                                                                                    
-                        @*}*@
-                    }
-                    <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a>
-                </td>
-            </tr>
+                        }
+
+                        <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="btn btn-danger my-1" href="@Url.Action("Delete", "User", new { id = trainer.User.Id })">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
         }
-    }
     </tbody>
 </table>
