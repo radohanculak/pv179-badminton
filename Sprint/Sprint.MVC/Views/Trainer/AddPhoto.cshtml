@@ -1,0 +1,14 @@
+﻿@model Sprint.MVC.Models.Trainer.TrainerPhotoAddViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(x => x.PhotoPath)
+        @Html.TextBoxFor(x => x.PhotoPath, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.PhotoPath, null, new { @class = "text-danger" })
+    </div>
+
+    @Html.HiddenFor(x => x.TrainerId)
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

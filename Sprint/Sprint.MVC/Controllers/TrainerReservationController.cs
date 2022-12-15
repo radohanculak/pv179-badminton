@@ -32,8 +32,7 @@ public class TrainerReservationController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ConfirmReservation(TrainerReservationCreateModel model)
     {
-        await _trainerReservationFacade.AddReservationAsync(model.UserId, model.TrainerId, model.CourtId,
-            model.TimeFrom, model.TimeTo);
+        await _trainerReservationFacade.AddReservationAsync(model.CourtResId, model.TrainerId);
 
         return RedirectToAction("Index", "CourtReservation");
     }

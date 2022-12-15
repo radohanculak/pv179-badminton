@@ -1,7 +1,7 @@
 ﻿@model Sprint.MVC.Models.Trainer.TrainerReservationsViewModel
 
 @* vyrobit rozne typy nahladu (podla casu, ukazat aj odstranene, ukazat iba aktualne, atd) a strankovanie*@
-<h4>Reservations</h4>
+<h4>Trainer reservations</h4>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -20,7 +20,6 @@
             @* zmenit tu z ID na realne hodnoty ludsky citatelne *@
             <td>@reservation.CourtReservation.CourtId</td>
             <td>@reservation.CourtReservation.UserId</td>
-            @* treba vyriesit, ze si bude treba znacit v reservation, ze uz je priradena review*@
             @if (reservation.TrainerReview is not null)
             {
                 <td>
@@ -34,3 +33,5 @@
     }
     </tbody>
 </table>
+
+<a class="btn btn-secondary my-1" href="@Url.Action("GetSchedule",new { id = Model.TrainerId })">Get daily schedule</a>

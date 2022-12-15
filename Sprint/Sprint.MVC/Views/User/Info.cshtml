@@ -19,10 +19,13 @@
         <td>@Model.User.Age</td>
     </tr>
     
-    <tr>
-        <td>Photo</td>
-        <td><img src="/@Model.User.PhotoPath" class="detailImage" /></td>
-    </tr>
+    @if (Model.User.PhotoPath is not null)
+    {
+        <tr>
+            <td>Photo</td>
+            <td><img src="@Html.Raw(Model.User.PhotoPath)" height="180" width="320" alt="a description of the image"></td>
+        </tr>
+    }
     
     @if (Model.User.Role == UserRole.Trainer)
     {
@@ -47,5 +50,5 @@
 
 @using (Html.BeginForm("Delete", "Trainer", new { id = Model.User.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
 {
-    <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.User.Id })">Reservations</a>
+    <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.User.Id })">Court reservations</a>
 }

@@ -52,8 +52,8 @@ public class TrainerService : ITrainerService
         _unitOfWork.UserRepository.Update(user);
 
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.UserRepository.Detach(userId);
-        await _unitOfWork.TrainerRepository.Detach(trainerId);
+        _unitOfWork.UserRepository.ClearTracking();
+        _unitOfWork.TrainerRepository.ClearTracking();
 
         return await GetTrainerAsync(trainerId);
     }
@@ -67,6 +67,7 @@ public class TrainerService : ITrainerService
             throw new InvalidOperationException($"Trainer with id {trainerId} does not exist");
         }
 
+        
         return _mapper.Map<TrainerDto>(trainer);
     }
 
@@ -101,7 +102,7 @@ public class TrainerService : ITrainerService
         
         _unitOfWork.TrainerRepository.Update(trainer);
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.TrainerRepository.Detach(trainerId);
+        _unitOfWork.TrainerRepository.ClearTracking();
     }
 
     public async Task DeleteTrainerAsync(Guid trainerId)
@@ -112,6 +113,6 @@ public class TrainerService : ITrainerService
 
         _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.TrainerRepository.Detach(trainerId);
+        _unitOfWork.TrainerRepository.ClearTracking();
     }
 }

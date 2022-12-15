@@ -20,11 +20,11 @@
                 <td>
                     @if (User.IsInRole("Admin"))
                     {
-                        @using (Html.BeginForm("Delete", "Trainer", new { id = trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-                        {
+                        @*@using (Html.BeginForm("Delete", "Trainer", new { id = trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
+                        {*@
                             <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = trainer.Id })">Edit</a>
                             <a class="btn btn-secondary my-1" href="@Url.Action("Delete", "User", new { id = trainer.User.Id })">Delete</a>                                                                                    
-                        }
+                        @*}*@
                     }
                     <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a>
                 </td>

@@ -42,13 +42,21 @@
             <td>@reservation.From.ToString("HH:mm")</td>
             <td>@reservation.To.ToString("HH:mm")</td>
             <td>@reservation.CourtId</td>
-            <td>@reservation.TrainerReservation</td>
+            @if (reservation.TrainerReservation != null)
+            {
+                <td>@reservation.TrainerReservation.Trainer.User.FirstName @reservation.TrainerReservation.Trainer.User.LastName</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            
             <td>
             @if (reservation.TrainerReservation == null)
             {
                 var usrId = Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value);
                 @using (Html.BeginForm("ChooseTrainer", "TrainerReservation",
-                    new TrainerReservationCreateModel { UserId = usrId, CourtId = reservation.CourtId, TimeFrom = reservation.From, TimeTo = reservation.To},
+                    new TrainerReservationCreateModel {CourtResId = reservation.Id, TimeFrom = reservation.From, TimeTo = reservation.To},
                     FormMethod.Post, true, new { @class = "form-inline" }))
                 {
                     <input class="btn btn-info my-1" type="submit" value="Add Trainer"/>
@@ -56,12 +64,15 @@
             }
             </td>
             <td>
+            @if (reservation.From > DateTime.Today.AddDays(1) || User.IsInRole("Admin"))
+            {
                 @using (Html.BeginForm("Delete", "CourtReservation", new { id = reservation.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
                 {
                     <input class="btn btn-danger my-1" type="submit" value="Delete"/>
                 }
                 @* Not needed imo idk *@
                 @* <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { id = trainer.Id })">Info</a> *@
+            }
             </td>
         </tr>
     }

@@ -53,7 +53,7 @@ public class UserService : IUserService
 
         var userId = await _unitOfWork.UserRepository.InsertAsync(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.UserRepository.Detach(userId);
+        _unitOfWork.UserRepository.ClearTracking();
         
         return await GetUserAsync(userId);
     }
@@ -97,7 +97,7 @@ public class UserService : IUserService
         
         _unitOfWork.UserRepository.Update(user);
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.UserRepository.Detach(userId);
+        _unitOfWork.UserRepository.ClearTracking();
     }
     
     /// <summary>
@@ -129,7 +129,7 @@ public class UserService : IUserService
         _unitOfWork.UserRepository.Update(user);
 
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.UserRepository.Detach(userId);
+        _unitOfWork.UserRepository.ClearTracking();
     }
 
     public async Task DeleteUserAsync(Guid userId)
@@ -139,8 +139,10 @@ public class UserService : IUserService
         user.IsDeleted = true;
         user.Email = "deleted user";
 
+        _unitOfWork.UserRepository.ClearTracking();
+        _unitOfWork.TrainerRepository.ClearTracking();
         _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.TrainerRepository.Detach(userId);
+        _unitOfWork.UserRepository.ClearTracking();
     }
 }

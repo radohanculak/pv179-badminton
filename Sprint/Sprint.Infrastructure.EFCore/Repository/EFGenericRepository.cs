@@ -68,6 +68,11 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
         }
     }
 
+    public virtual void ClearTracking()
+    {
+        _dbContext.ChangeTracker.Clear();
+    }
+
     public virtual async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();

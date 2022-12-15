@@ -40,7 +40,7 @@ public class CourtReservationService : ICourtReservationService
             .InsertAsync(_mapper.Map<CourtReservation>(courtReservation));
 
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.CourtReservationRepository.Detach(reservationId);
+        _unitOfWork.CourtReservationRepository.ClearTracking();
 
         return await GetReservationAsync(reservationId);
     }
@@ -109,6 +109,7 @@ public class CourtReservationService : ICourtReservationService
 
         _unitOfWork.CourtReservationRepository.Update(_mapper.Map<CourtReservation>(reservation));
         await _unitOfWork.CommitAsync();
+        _unitOfWork.CourtReservationRepository.ClearTracking();
     }
 
     public async Task<List<CourtReservationDto>> GetReservationsForDayAsync(DateTime date)
