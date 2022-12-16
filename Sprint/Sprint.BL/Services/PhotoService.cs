@@ -26,7 +26,7 @@ public class PhotoService : IPhotoService
 
         _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.UserRepository.Detach(user.Id);
+        _unitOfWork.UserRepository.ClearTracking();
     }
 
     public async Task<bool> AddTrainerPhotosAsync(TrainerDto trainer, List<string> paths)
@@ -44,18 +44,16 @@ public class PhotoService : IPhotoService
                 Path = path,
                 TrainerId = trainer.Id,
             };
+            await _unitOfWork.TrainerPhotoRepository
+                .InsertAsync(_mapper.Map<TrainerPhoto>(newPhoto));
+            
             trainer.Photos.Add(newPhoto);
         }
-
-        await _unitOfWork.TrainerPhotoRepository
-            .InsertAsync(
-                _mapper.Map<TrainerPhoto>(trainer.Photos)
-            );
-
-        _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
+        
+        //_unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         await _unitOfWork.CommitAsync();
-        //await _unitOfWork.TrainerPhotoRepository.Detach();
-        await _unitOfWork.TrainerRepository.Detach(trainer.Id);
+        _unitOfWork.TrainerPhotoRepository.ClearTracking();
+        //_unitOfWork.TrainerRepository.ClearTracking();
 
         return true;
     }
@@ -79,6 +77,7 @@ public class PhotoService : IPhotoService
 
         _unitOfWork.UserRepository.Update(_mapper.Map<User>(user));
         await _unitOfWork.CommitAsync();
+        _unitOfWork.UserRepository.ClearTracking();
     }
 
     public async Task DeleteTrainerPhotosAsync(TrainerDto trainer)
@@ -86,15 +85,18 @@ public class PhotoService : IPhotoService
         foreach (var photo in trainer.Photos)
         {
             photo.Hide = true;
+            _unitOfWork.TrainerPhotoRepository.Update(
+                _mapper.Map<TrainerPhoto>(photo)
+            );
         }
 
-        _unitOfWork.TrainerPhotoRepository.Update(
-            _mapper.Map<TrainerPhoto>(trainer.Photos)
-        );
-        _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
+        
+        //_unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         // all trainer photos should now have hidden attribute set to true
         // trainer.TrainerPhotos will still contain them, but as hidden
 
         await _unitOfWork.CommitAsync();
+        _unitOfWork.TrainerPhotoRepository.ClearTracking();
+        //_unitOfWork.TrainerRepository.ClearTracking();
     }
 }

@@ -28,7 +28,7 @@
     @foreach (var court in Model.CourtDtos)
     {
         <tr>
-            <td>@court.CourtNumber @court.Id.ToString().Substring(0, 4)</td>
+            <td>@court.CourtNumber</td>
             @{
                 var reservations = Model.CourtReservationDtos.Where(x => x.CourtId == court.Id);
                 for (var i = 8; i < 22; i++)

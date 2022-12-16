@@ -14,7 +14,6 @@ public class EFTrainerRepository : EFGenericRepository<Trainer>, ITrainerReposit
     public async virtual Task<Trainer?> GetByIdAsync(Guid id)
     {
         return dbSet
-            
             .Include(t => t.User)
             .Include(t => t.Reservations)
                 .ThenInclude(reservations => reservations.CourtReservation)

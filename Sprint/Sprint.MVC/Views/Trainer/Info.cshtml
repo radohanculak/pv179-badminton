@@ -3,53 +3,48 @@
 <h4>Trainer information</h4>
 <table class="table table-striped">
     <tbody>
-    <tr>
-        <td>Name</td>
-        <td>@Model.Trainer.User.FirstName @Model.Trainer.User.LastName</td>
-    </tr>
+        <tr>
+            <td>Name</td>
+            <td>@Model.Trainer.User.FirstName @Model.Trainer.User.LastName</td>
+        </tr>
 
-    <tr>
-        <td>Hourly rate</td>
-        <td>@Model.Trainer.HourlyRate</td>
-    </tr>
+        <tr>
+            <td>Hourly rate</td>
+            <td>@Model.Trainer.HourlyRate</td>
+        </tr>
 
-    <tr>
-        <td>Description</td>
-        <td>@Model.Trainer.Description</td>
-    </tr>
-    
-    
-    <tr>
-        <td>Rating</td>
-        <td>@Model.TrainerRating</td>
-        
-        @if (User.IsInRole("Admin") || User.IsInRole("User") || User.IsInRole("Trainer"))
-        {
-            <a class="btn btn-secondary my-1" href="@Url.Action("ReviewsGetByTrainer", "TrainerReview", new { trainerId = Model.Trainer.Id })">Trainer Reviews</a>
-            
-        }
-    </tr>
-    
-    <tr>
-        <td>Photos</td>
-        @foreach (var photoPath in Model.PhotoPaths)
-        {
-            <td><img src="/@photoPath" class="detailImage" /></td>
-        }
-    </tr>
-    
+        <tr>
+            <td>Description</td>
+            <td>@Model.Trainer.Description</td>
+        </tr>
+
+
+        <tr>
+            <td>Rating</td>
+            <td>@Model.TrainerRating</td>
+
+            <td>
+                @if (User.IsInRole("Admin") || User.IsInRole("User") || User.IsInRole("Trainer"))
+                {
+                    <a class="btn btn-secondary my-1" href="@Url.Action("ReviewsGetByTrainer", "TrainerReview", new { trainerId = Model.Trainer.Id })">Trainer Reviews</a>
+                }
+            </td>
+        </tr>
     </tbody>
 </table>
 
-@if (User.IsInRole("Admin"))
-{
-    @using (Html.BeginForm("Delete", "Trainer", new { id = Model.Trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-    {
-        <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = Model.Trainer.Id })">Edit</a>
-    }
+<h4>Photos</h4>
+<table class="table table-striped">
+    <tbody>
+        @foreach (var photoPath in Model.PhotoPaths)
+        {
+            <tr><img src="@Html.Raw(photoPath)" height="180" width="320" alt="a description of the image"></tr>
+        }
+    </tbody>
+</table>
 
-    @using (Html.BeginForm("Delete", "Trainer", new { id = Model.Trainer.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-    {
-        <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.Trainer.Id })">Reservations</a>
-    }
+@if (User.IsInRole("Admin") || (User.IsInRole("Trainer") && Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value) == Model.Trainer.User.Id))
+{
+    <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = Model.Trainer.Id })">Edit</a>
+    <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.Trainer.Id })">Trainer reservations</a>
 }

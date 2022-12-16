@@ -45,6 +45,10 @@ public class AutofacInfrastructureConfig : Module
            .As(typeof(IQueryObject<>))
            .InstancePerDependency();
 
+        builder.RegisterType<EFTrainerQueryObject>()
+          .As<ITrainerQueryObject>()
+          .InstancePerDependency();
+
         /////////////////////////////////////////////////////////////////////////////////////////
         // delete before deploy
         builder.RegisterType<SprintDbContext>()

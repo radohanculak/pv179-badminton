@@ -1,0 +1,14 @@
+﻿@model Sprint.MVC.Models.Trainer.TrainerScheduleViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(x => x.Date)
+        @Html.TextBoxFor(x => x.Date, new { @type="date", @class = "form-control datepicker",  @Value = Model.Date.ToString() } )
+        @Html.ValidationMessageFor(x => x.Date, null, new { @class = "text-danger" })
+    </div>
+    
+    @Html.HiddenFor(x => x.TrainerId)
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

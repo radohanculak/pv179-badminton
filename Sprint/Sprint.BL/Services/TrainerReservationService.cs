@@ -30,7 +30,7 @@ public class TrainerReservationService : ITrainerReservationService
         var trainerReservationId = await _unitOfWork.TrainerReservationRepository
             .InsertAsync(_mapper.Map<TrainerReservation>(newTrainerReservation));
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.TrainerReservationRepository.Detach(trainerReservationId);
+        _unitOfWork.TrainerReservationRepository.ClearTracking();
         
         return await GetReservationAsync(trainerReservationId);
     }
@@ -77,6 +77,15 @@ public class TrainerReservationService : ITrainerReservationService
             .ToList();
     }
 
+    public List<TrainerReservationDto> GetDailyReservationsForTrainer(TrainerDto trainer, DateTime date)
+    {
+        IEnumerable<TrainerReservationDto> reservations = trainer.Reservations;
+
+        return reservations
+            .Where(r => r.CourtReservation.From.Date == date.Date)
+            .ToList();
+    }
+
     public async Task<List<TrainerReservationDto>> GetReservationsForUserAsync(Guid userId, bool inPast, bool alsoDeleted)
     {
         var reservations = (await GetAllReservationsAsync(alsoDeleted))
@@ -95,6 +104,7 @@ public class TrainerReservationService : ITrainerReservationService
         return trainer.Reservations?
             .Where(r => !r.IsDeleted)
             .Where(r => r.CourtReservation.From.Date == date.Date)
+            .OrderBy(r => r.CourtReservation.From)
             .ToList();
     }
 
@@ -104,5 +114,6 @@ public class TrainerReservationService : ITrainerReservationService
 
         _unitOfWork.TrainerReservationRepository.Update(_mapper.Map<TrainerReservation>(reservation));
         await _unitOfWork.CommitAsync();
+        _unitOfWork.TrainerReservationRepository.ClearTracking();
     }
 }

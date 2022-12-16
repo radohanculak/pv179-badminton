@@ -24,6 +24,8 @@ public class CourtReservationController : Controller
         {
             CourtReservations = await _courtReservationFacade.GetAllReservationsAsync(alsoDeleted: false)
         };
+
+        model.Courts = await _courtFacade.GetCourtsAsync();
         return View(model);
     }
 

@@ -18,3 +18,7 @@
     @Html.HiddenFor(x => x.Id)
     <button type="submit" class="btn btn-primary">Submit</button>
 }
+
+<a class="btn btn-secondary my-1" href="@Url.Action("AddPhoto", new { id = Model.Id })">Add photos</a>
+<a class="btn btn-secondary my-1" href="@Url.Action("DeletePhotos", new { id = Model.Id })">Delete photos</a>
+

@@ -1,46 +1,66 @@
+@using Sprint.BL.Dto.CourtReservation
+@using Sprint.BL.Dto.User
+@using Microsoft.AspNetCore.Identity
+@using Sprint.MVC.Models.TrainerReservation
 @model Sprint.MVC.Models.TrainerReservation.TrainerReservationCreateModel
 
 <!DOCTYPE html>
 
 <html>
-<head>
-    <title>Select Trainer</title>
-</head>
+
+<h3>Select trainer</h3>
+
 <body>
-<div>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th style="width:70%">Name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var trainer in Model.TrainerDtos)
+    <h5>Filters</h5>
+    <div>
+        @using (Html.BeginForm("ChooseTrainer", "TrainerReservation", Model,
+        FormMethod.Post, true, new { @class = "form-inline" }))
         {
-            @if (!trainer.IsDeleted)
-            {
-                <tr>
-                    <td>@trainer.User.FirstName @trainer.User.LastName</td>
-                    <td>
-                        <a class="btn btn-secondary" href="@Url.Action("Info", "Trainer", new { id = trainer.Id })">Info</a>
-                    </td>
-                    @{
-                        Model.TrainerId = trainer.Id;
-                        using (Html.BeginForm("ConfirmReservation", "TrainerReservation", Model, FormMethod.Post, true, new { @class = "form-inline" }))
-                        {
-                            <td>
-                                <input type="submit" class="btn btn-sm btn-success" value="Book Trainer"/>
-                            </td>
-                        }
-                    }
-                </tr>
-            }
-        }
-        </tbody>
-    </table>
+            @Html.LabelFor(m => m.MinRating)
+            @Html.TextBoxFor(i => i.MinRating, new { @type = "number", @min = 0, @max = 10, @class = "form-control" })
 
-</div>
+            @Html.LabelFor(m => m.MinPrice)
+            @Html.TextBoxFor(i => i.MinPrice, new { @type = "number", @min = 0, @max = 5000, @class = "form-control" })
+
+            @Html.LabelFor(m => m.MaxPrice)
+            @Html.TextBoxFor(i => i.MaxPrice, new { @type = "number", @min = 0, @max = 5000, @class = "form-control" })
+
+            <input class="btn btn-success my-1" type="submit" value="Filter" />
+        }
+    </div>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width:80%">Name</th>
+                    <th>Actions</th>
+                    <th style="width:15%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var trainer in Model.TrainerDtos)
+                {
+                    @if (!trainer.IsDeleted)
+                    {
+                        <tr>
+                            <td>@trainer.User.FirstName @trainer.User.LastName</td>
+                            <td>
+                                <a class="btn btn-secondary" href="@Url.Action("Info", "Trainer", new { id = trainer.Id })">Info</a>
+                            </td>
+                            @{
+                                Model.TrainerId = trainer.Id;
+                                using (Html.BeginForm("ConfirmReservation", "TrainerReservation", Model, FormMethod.Post, true, new { @class = "form-inline" }))
+                                {
+                                    <td>
+                                        <input type="submit" class="btn btn-success" value="Book Trainer" />
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

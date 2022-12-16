@@ -1,15 +1,11 @@
 @model Sprint.MVC.Models.User.UserIndexViewModel
 
-@* @{
-    Layout = null;
-} *@
-
 <!DOCTYPE html>
 
 <html>
 
-<h2>Users</h2>
-@* <a class="btn btn-primary" href="@Url.Action("Add")">Add</a> *@
+<h3>Users</h3>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -27,12 +23,9 @@
                     <td>@user.FirstName @user.LastName</td>
                     <td>@user.Role</td>
                     <td>
-                        @using (Html.BeginForm("Delete", "User", new { id = user.Id }, FormMethod.Post, true, new { @class = "form-inline" }))
-                        {
-                            <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { Id = user.Id })">Edit</a>
-                            <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { Id = user.Id })">Info</a>
-                            <a class="btn btn-secondary my-1" href="@Url.Action("Delete", new { Id = user.Id })">Delete</a>
-                        }
+                        <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { Id = user.Id })">Edit</a>
+                        <a class="btn btn-secondary my-1" href="@Url.Action("Info", new { Id = user.Id })">Info</a>
+                        <a class="btn btn-danger my-1" href="@Url.Action("Delete", new { Id = user.Id })">Delete</a>
                     </td>
                 </tr>
             }

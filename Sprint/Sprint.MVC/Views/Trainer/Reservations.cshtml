@@ -1,36 +1,40 @@
 ﻿@model Sprint.MVC.Models.Trainer.TrainerReservationsViewModel
 
 @* vyrobit rozne typy nahladu (podla casu, ukazat aj odstranene, ukazat iba aktualne, atd) a strankovanie*@
-<h4>Reservations</h4>
+<h4>Trainer reservations</h4>
 <table class="table table-striped">
     <thead>
-    <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>Court</th>
-        <th>Trainee</th>
-    </tr>
+        <tr>
+            <th>From</th>
+            <th>To</th>
+            <th style="width:30%">Court</th>
+            <th style="width:10%">Trainee</th>
+            <th style="width:10%">Review</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var reservation in Model.Reservations)
-    {
-        <tr>
-            <td>@reservation.CourtReservation.From</td>
-            <td>@reservation.CourtReservation.To</td>
-            @* zmenit tu z ID na realne hodnoty ludsky citatelne *@
-            <td>@reservation.CourtReservation.CourtId</td>
-            <td>@reservation.CourtReservation.UserId</td>
-            @* treba vyriesit, ze si bude treba znacit v reservation, ze uz je priradena review*@
-            @if (reservation.TrainerReview is not null)
-            {
+        @foreach (var reservation in Model.Reservations)
+        {
+            <tr>
+                <td>@reservation.CourtReservation.From</td>
+                <td>@reservation.CourtReservation.To</td>
+                <td>@Model.Courts.Where(x => x.Id == reservation.CourtReservation.CourtId).First().CourtNumber</td>
                 <td>
-                    @using (Html.BeginForm("Delete", "Trainer", new { id = Model.TrainerId }, FormMethod.Post, true, new { @class = "form-inline" }))
-                    {
-                        <a class="btn btn-secondary my-1" href="@Url.Action("ReviewGet", "TrainerReview",new { trainerReservationId = reservation.Id })">See Review</a>
-                    }
+                    <a class="btn btn-secondary my-1" href="@Url.Action("Info", "User",new { id = reservation.CourtReservation.UserId })">Info</a>
                 </td>
-            }
-        </tr>
-    }
+                @if (reservation.TrainerReview is not null)
+                {
+                    <td>
+                        <a class="btn btn-secondary my-1" href="@Url.Action("ReviewGet", "TrainerReview",new { trainerReservationId = reservation.Id })">See Review</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
+
+<a class="btn btn-secondary my-1" href="@Url.Action("GetSchedule",new { id = Model.TrainerId })">Get daily schedule</a>

@@ -13,13 +13,17 @@ public class UserController : Controller
     private readonly IUserFacade _userFacade;
     private readonly ICourtReservationFacade _courtResFacade;
     private readonly ITrainerFacade _trainerFacade;
+    private readonly IPhotoFacade _photoFacade;
+    private readonly ICourtFacade _courtFacade;
 
     public UserController(IUserFacade userFacade, ICourtReservationFacade courtResFacade,
-        ITrainerFacade trainerFacade)
+        ITrainerFacade trainerFacade, IPhotoFacade photoFacade, ICourtFacade courtFacade)
     {
         _userFacade = userFacade;
         _courtResFacade = courtResFacade;
         _trainerFacade = trainerFacade;
+        _photoFacade = photoFacade;
+        _courtFacade = courtFacade;
     }
 
     [HttpGet("Users")]
@@ -54,7 +58,7 @@ public class UserController : Controller
             return NotFound();
         }
         
-        var model = new UserUpsertModel(dto.Id, dto.FirstName, dto.LastName, dto.Email, dto.Role);
+        var model = new UserUpsertModel(dto.Id, dto.FirstName, dto.LastName, dto.Email, dto.Role, dto.PhotoPath);
 
         return View(model);
     }
@@ -68,7 +72,6 @@ public class UserController : Controller
             return View(model);
         }
 
-        // nejak vyriesit to, ze nemoze sa zmenit naspat rola, zasadne sa musi vymazat a urobit ucet nanovo
         if (model.OldRole != model.Role)
         {
             if (model.Role == UserRole.Trainer)
@@ -78,16 +81,27 @@ public class UserController : Controller
         }
         
         await _userFacade.UpdateUserAsync(model.Id, model.FirstName, model.LastName, model.Email, model.Password, model.Role);
-
-        return RedirectToAction(nameof(Index));
+        
+        if (model.PhotoPath is not null)
+        {
+            await _photoFacade.AddProfilePhotoAsync(model.Id, model.PhotoPath);
+        }
+        else
+        {
+            await _photoFacade.DeleteProfilePhotoAsync(model.Id);
+        }
+        
+        return RedirectToAction(nameof(Info), new {id = model.Id});
     }
 
     public async Task<IActionResult> Reservations(Guid id)
     {
         var dtos = await _courtResFacade.GetReservationsAsync(id, true, false);
+        var courts = await _courtFacade.GetCourtsAsync();
 
         var model = new UserReservationsViewModel(id);
         model.Reservations = dtos;
+        model.Courts = courts;
 
         return View(model);
     }
@@ -105,10 +119,12 @@ public class UserController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    /*
     public async Task<IActionResult> CancelReservation(Guid reservationId)
     {
         await _courtResFacade.DeleteReservationAsync(reservationId);
         
         return RedirectToAction(nameof(Index));
     }
+    */
 }

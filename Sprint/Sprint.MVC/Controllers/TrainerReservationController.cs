@@ -21,7 +21,7 @@ public class TrainerReservationController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChooseTrainer(TrainerReservationCreateModel model)
     {
-        var trainers = await _availableTrainersFacade.GetAllAvailableTrainers(model.TimeFrom);
+        var trainers = await _availableTrainersFacade.GetAllAvailableTrainers(model.TimeFrom, model.MinRating, model.MinPrice, model.MaxPrice);
 
         model.TrainerDtos = trainers;
 
@@ -32,8 +32,7 @@ public class TrainerReservationController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ConfirmReservation(TrainerReservationCreateModel model)
     {
-        await _trainerReservationFacade.AddReservationAsync(model.UserId, model.TrainerId, model.CourtId,
-            model.TimeFrom, model.TimeTo);
+        await _trainerReservationFacade.AddReservationAsync(model.CourtResId, model.TrainerId);
 
         return RedirectToAction("Index", "CourtReservation");
     }

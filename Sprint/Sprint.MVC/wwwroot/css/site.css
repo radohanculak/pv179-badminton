@@ -46,3 +46,13 @@ body {
         opacity: 80%;
         border: none;
     }
+
+.btn-success {
+    color: white;
+    background-color: #06540b;
+}
+
+    .btn-success:hover {
+        background-color: #06540b;
+        opacity: 80%;
+    }

@@ -19,13 +19,15 @@ public class UserUpsertModel
 
     [Required]
     public string Password { get; set; }
+    
+    public string? PhotoPath { get; set; }
 
     public UserRole Role { get; set; }
     
     public UserRole OldRole { get; set; }
 
 
-    public UserUpsertModel(Guid id, string firstName, string lastName, string email, UserRole role)
+    public UserUpsertModel(Guid id, string firstName, string lastName, string email, UserRole role, string? photoPath)
     {
         Id = id;
         FirstName = firstName;
@@ -33,6 +35,7 @@ public class UserUpsertModel
         Email = email;
         Role = role;
         OldRole = role;
+        PhotoPath = photoPath;
     }
 
     public UserUpsertModel()

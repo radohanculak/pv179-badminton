@@ -14,13 +14,13 @@ public class TrainerService : ITrainerService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IQueryObject<Trainer> queryObject;
+    private readonly IQueryObject<Trainer> _queryObject;
 
-    public TrainerService(IUnitOfWork unitOfWork, IMapper mapper, IQueryObject<Trainer> queryObject)
+    public TrainerService(IUnitOfWork unitOfWork, IMapper mapper, ITrainerQueryObject queryObject)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        this.queryObject = queryObject;
+        this._queryObject = queryObject;
     }
 
     public async Task<TrainerDto> AddTrainerAsync(Guid userId, string description, decimal hourlyRate)
@@ -52,8 +52,8 @@ public class TrainerService : ITrainerService
         _unitOfWork.UserRepository.Update(user);
 
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.UserRepository.Detach(userId);
-        await _unitOfWork.TrainerRepository.Detach(trainerId);
+        _unitOfWork.UserRepository.ClearTracking();
+        _unitOfWork.TrainerRepository.ClearTracking();
 
         return await GetTrainerAsync(trainerId);
     }
@@ -67,6 +67,7 @@ public class TrainerService : ITrainerService
             throw new InvalidOperationException($"Trainer with id {trainerId} does not exist");
         }
 
+        
         return _mapper.Map<TrainerDto>(trainer);
     }
 
@@ -101,7 +102,7 @@ public class TrainerService : ITrainerService
         
         _unitOfWork.TrainerRepository.Update(trainer);
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.TrainerRepository.Detach(trainerId);
+        _unitOfWork.TrainerRepository.ClearTracking();
     }
 
     public async Task DeleteTrainerAsync(Guid trainerId)
@@ -112,6 +113,13 @@ public class TrainerService : ITrainerService
 
         _unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         await _unitOfWork.CommitAsync();
-        await _unitOfWork.TrainerRepository.Detach(trainerId);
+        _unitOfWork.TrainerRepository.ClearTracking();
+    }
+
+    public async Task<IEnumerable<TrainerDto>> GetFilteredTrainersAsync(int minPrice, int maxPrice)
+    {
+        var trainers = await _queryObject.Filter(t => t.HourlyRate >= minPrice && t.HourlyRate <= maxPrice).ExecuteAsync();
+
+        return _mapper.Map<IEnumerable<TrainerDto>>(trainers);
     }
 }
