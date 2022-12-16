@@ -43,7 +43,7 @@
     </tbody>
 </table>
 
-@if (User.IsInRole("Admin") || Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value) == Model.Trainer.User.Id)
+@if (User.IsInRole("Admin") || (User.IsInRole("Trainer") && Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value) == Model.Trainer.User.Id))
 {
     <a class="btn btn-secondary my-1" href="@Url.Action("Edit", new { id = Model.Trainer.Id })">Edit</a>
     <a class="btn btn-secondary my-1" href="@Url.Action("Reservations", new { id = Model.Trainer.Id })">Trainer reservations</a>
