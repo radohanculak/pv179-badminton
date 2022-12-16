@@ -4,5 +4,5 @@ namespace Sprint.BL.Facades.Interfaces;
 
 public interface IAvailableTrainersFacade
 {
-    Task<IEnumerable<TrainerDto>> GetAllAvailableTrainers(DateTime timeFrom);
+    Task<IEnumerable<TrainerDto>> GetAllAvailableTrainers(DateTime timeFrom, int minRating, int minPrice, int maxPrice);
 }

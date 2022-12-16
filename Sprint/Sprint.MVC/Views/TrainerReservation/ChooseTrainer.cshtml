@@ -1,14 +1,34 @@
+@using Sprint.BL.Dto.CourtReservation
+@using Sprint.BL.Dto.User
+@using Microsoft.AspNetCore.Identity
+@using Sprint.MVC.Models.TrainerReservation
 @model Sprint.MVC.Models.TrainerReservation.TrainerReservationCreateModel
 
 <!DOCTYPE html>
 
 <html>
-<head>
-    <title>Select Trainer</title>
-</head>
-<body>
-    <div>
 
+<h3>Select trainer</h3>
+
+<body>
+    <h5>Filters</h5>
+    <div>
+        @using (Html.BeginForm("ChooseTrainer", "TrainerReservation", Model,
+        FormMethod.Post, true, new { @class = "form-inline" }))
+        {
+            @Html.LabelFor(m => m.MinRating)
+            @Html.TextBoxFor(i => i.MinRating, new { @type = "number", @min = 0, @max = 10, @class = "form-control" })
+
+            @Html.LabelFor(m => m.MinPrice)
+            @Html.TextBoxFor(i => i.MinPrice, new { @type = "number", @min = 0, @max = 5000, @class = "form-control" })
+
+            @Html.LabelFor(m => m.MaxPrice)
+            @Html.TextBoxFor(i => i.MaxPrice, new { @type = "number", @min = 0, @max = 5000, @class = "form-control" })
+
+            <input class="btn btn-success my-1" type="submit" value="Filter" />
+        }
+    </div>
+    <div>
         <table class="table table-striped">
             <thead>
                 <tr>

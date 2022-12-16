@@ -55,7 +55,6 @@
             <td>
             @if (reservation.TrainerReservation == null)
             {
-                var usrId = Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value);
                 @using (Html.BeginForm("ChooseTrainer", "TrainerReservation",
                     new TrainerReservationCreateModel {CourtResId = reservation.Id, TimeFrom = reservation.From, TimeTo = reservation.To},
                     FormMethod.Post, true, new { @class = "form-inline" }))

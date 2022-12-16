@@ -9,6 +9,7 @@ public interface ITrainerService
     Task<TrainerDto> GetTrainerAsync(Guid trainerId);
     TrainerDto GetTrainerByUser(UserDto user);
     Task<IEnumerable<TrainerDto>> GetAllTrainersAsync();
+    Task<IEnumerable<TrainerDto>> GetFilteredTrainersAsync(int minPrice, int maxPrice);
     Task UpdateTrainerAsync(Guid trainerId, string description, decimal hourlyRate);
     Task DeleteTrainerAsync(Guid trainerId);
 }

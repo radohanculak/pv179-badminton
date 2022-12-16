@@ -8,25 +8,30 @@ namespace Sprint.BL.Facades;
 public class AvailableTrainersFacade : IAvailableTrainersFacade
 {
     private readonly ITrainerService _trainerService;
+    private readonly ITrainerReviewService _trainerReviewService;
     private readonly ITrainerReservationService _trainerReservationService;
 
-    public AvailableTrainersFacade(ITrainerService trainerService,
+    public AvailableTrainersFacade(ITrainerService trainerService, ITrainerReviewService trainerReviewService,
         ITrainerReservationService trainerReservationService)
     {
         _trainerService = trainerService;
+        _trainerReviewService = trainerReviewService;
         _trainerReservationService = trainerReservationService;
     }
 
-    public async Task<IEnumerable<TrainerDto>> GetAllAvailableTrainers(DateTime timeFrom)
+    public async Task<IEnumerable<TrainerDto>> GetAllAvailableTrainers(DateTime timeFrom, int minRating, int minPrice, int maxPrice)
     {
-        var trainers = await _trainerService.GetAllTrainersAsync();
+        var trainers = await _trainerService.GetFilteredTrainersAsync(minPrice, maxPrice);
         var trainerReservations = new List<(TrainerDto trainer, List<TrainerReservationDto> trainerReservations)>();
 
         foreach (var trainer in trainers)
         {
-            var reservations = _trainerReservationService.GetDailyReservationsForTrainer(trainer, timeFrom.Date);
-
-            trainerReservations.Add((trainer, reservations));
+            var rating = await _trainerReviewService.GetRatingAsync(trainer.Id) ?? 0;
+            if (rating >= minRating)
+            {
+                var reservations = _trainerReservationService.GetDailyReservationsForTrainer(trainer, timeFrom.Date);
+                trainerReservations.Add((trainer, reservations));
+            }
         }
 
         var result = new List<TrainerDto>();

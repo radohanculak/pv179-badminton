@@ -21,7 +21,7 @@ public class TrainerReservationController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChooseTrainer(TrainerReservationCreateModel model)
     {
-        var trainers = await _availableTrainersFacade.GetAllAvailableTrainers(model.TimeFrom);
+        var trainers = await _availableTrainersFacade.GetAllAvailableTrainers(model.TimeFrom, model.MinRating, model.MinPrice, model.MaxPrice);
 
         model.TrainerDtos = trainers;
 
