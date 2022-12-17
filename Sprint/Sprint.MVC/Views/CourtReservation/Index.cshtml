@@ -15,7 +15,6 @@
         /// aj ja grcam z tohto riesenia ale ta co uz
         var usrId = Guid.Parse(User.Claims.Single(x => x.Value.Length == 36).Value);
         reservations = Model.CourtReservations.Where(x => x.UserId == usrId);
-        // reservations = Model.CourtReservations.Where(x => x.UserId == User.Identity.Name)
     }
 }
 
@@ -36,13 +35,13 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var reservation in reservations.OrderBy(x => x.Created))
+    @foreach (var reservation in reservations.OrderByDescending(x => x.From))
     {
         <tr>
             <td>@reservation.From.ToString("ddd, dd MMMM yyyy")</td>
             <td>@reservation.From.ToString("HH:mm")</td>
             <td>@reservation.To.ToString("HH:mm")</td>
-            <td>@Model.Courts.Where(x => x.Id == reservation.CourtId).First().CourtNumber</td>
+            <td>@Model.Courts.First(x => x.Id == reservation.CourtId).CourtNumber</td>
             @if (reservation.TrainerReservation != null)
             {
                 <td>@reservation.TrainerReservation.Trainer.User.FirstName @reservation.TrainerReservation.Trainer.User.LastName</td>

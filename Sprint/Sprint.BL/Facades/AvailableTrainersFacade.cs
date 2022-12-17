@@ -51,9 +51,8 @@ public class AvailableTrainersFacade : IAvailableTrainersFacade
             }
 
             // lunch time
-            if (timeFrom.Hour >= 11 &&
-                timeFrom.Hour <= 14 &&
-                reservations.Where(x => x.CourtReservation.From.Hour >= 11 && x.CourtReservation.From.Hour <= 14).Count() >= 2)
+            if (timeFrom.Hour is >= 11 and <= 14 &&
+                reservations.Count(x => x.CourtReservation.From.Hour is >= 11 and <= 14) >= 2)
             {
                 continue;
             }
