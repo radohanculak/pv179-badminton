@@ -22,26 +22,6 @@ public class UserService : IUserService
         _mapper = mapper;
         this.queryObject = queryObject;
     }
-    
-    // public async Task<UserDto> Register(UserDto user)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public async Task<UserDto> Login(UserDto user)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public async Task<bool> Logout(UserDto user)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public async Task<bool> ChangePassword(Guid userId, string hash)
-    // {
-    //     throw new NotImplementedException();
-    // }
 
     public async Task<UserDto> AddUserAsync(UserDto user)
     {

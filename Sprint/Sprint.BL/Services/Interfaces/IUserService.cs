@@ -5,10 +5,6 @@ namespace Sprint.BL.Services.Interfaces;
 
 public interface IUserService
 {
-    // Task<UserDto> Register(UserDto user);
-    // Task<UserDto> Login(UserDto user);
-    // Task<bool> Logout(UserDto user);
-    // Task<bool> ChangePassword(Guid userId, string hash);
     Task<UserDto> GetUserAsync(Guid userId);
     Task<UserDto> AddUserAsync(UserDto user);
     Task<IEnumerable<UserDto>> GetAllUsersAsync();

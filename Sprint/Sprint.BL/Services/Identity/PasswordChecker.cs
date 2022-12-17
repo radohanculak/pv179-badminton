@@ -12,9 +12,9 @@ public class PasswordChecker : IPasswordHasher<UserDto>
 
     public PasswordVerificationResult VerifyHashedPassword(UserDto user, string hashedPassword, string providedPassword)
     {
-        // var hp = new PasswordHasher<UserDto>().HashPassword(null, providedPassword);
-        // return hashedPassword == hp ? PasswordVerificationResult.Success : PasswordVerificationResult.Failed;
-        // TODO Fix hashing!
-        return PasswordVerificationResult.Success;
+        var ph = new PasswordHasher<UserDto>();
+        return ph.VerifyHashedPassword(user, hashedPassword, providedPassword);
+        // Uncomment for testing
+        // return PasswordVerificationResult.Success;
     }
 }
