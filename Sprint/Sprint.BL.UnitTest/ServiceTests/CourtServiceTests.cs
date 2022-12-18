@@ -5,6 +5,7 @@ using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Services;
 using Sprint.DAL.EFCore.Models;
+using Sprint.Infrastructure.Query;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.UnitTest.ServiceTests;
@@ -13,6 +14,7 @@ public class CourtServiceTests
 {
     private Mock<IUnitOfWork> _unitOfWorkMock;
     private Mock<IMapper> _mapperMock;
+    private Mock<IQueryObject<Court>> _queryObjectMock;
     private Court _court;
     private CourtDto _courtDto;
     private List<CourtReservation> _reservations;
@@ -23,6 +25,7 @@ public class CourtServiceTests
     {
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _mapperMock = new Mock<IMapper>();
+        _queryObjectMock = new Mock<IQueryObject<Court>>();
 
         _courtDto = new CourtDto
         {
@@ -99,7 +102,7 @@ public class CourtServiceTests
     [Fact]
     public async Task GetCourtAsync_InvalidId_InvalidOperationException()
     {
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
 
         _unitOfWorkMock
             .Setup(x => x.CourtRepository.GetByIdAsync(_courtGuid))
@@ -122,7 +125,7 @@ public class CourtServiceTests
             .Setup(x => x.Map<CourtDto>(_court))
             .Returns(_courtDto);
 
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
         var courtDtoResult = await service.GetCourtAsync(_courtGuid);
         courtDtoResult.Should().Be(_courtDto);
@@ -132,7 +135,7 @@ public class CourtServiceTests
     [Fact]
     public async Task AddCourtAsync_InvalidRate_ArgumentException()
     {
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
         var action = () => service.AddCourtAsync("1", 0);
         await action.Should().ThrowAsync<ArgumentException>();
@@ -142,7 +145,7 @@ public class CourtServiceTests
     [Fact]
     public async Task AddCourtAsync_InvalidCourtName_ArgumentException()
     {
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
         var action = () => service.AddCourtAsync("     ", 10);
         await action.Should().ThrowAsync<ArgumentException>();
@@ -167,7 +170,7 @@ public class CourtServiceTests
                     court.HourlyRate == _courtDto.HourlyRate && court.CourtNumber == _courtDto.CourtNumber)))
             .Returns(_court);
             
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
         var courtDtoResult = await service.AddCourtAsync("1", 150);
         courtDtoResult.Should().Be(_courtDto);
@@ -187,7 +190,7 @@ public class CourtServiceTests
             .Returns(new List<CourtReservationDto>());
         
         
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         var result = await service.GetDailyScheduleAsync(Guid.NewGuid(), DateTime.Today);
 
         result.Should().HaveCount(0);
@@ -224,7 +227,7 @@ public class CourtServiceTests
             .Returns(new List<CourtReservationDto> {specialReservationDto});
         
         
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         // opravit to, lebo ked pustim vsetky testy, moze to spadnut na race condition
         _reservations.Add(specialReservation);
         var result = (await service.GetDailyScheduleAsync(specialGuid, DateTime.Today)).ToList();
@@ -247,7 +250,7 @@ public class CourtServiceTests
             .Returns(new List<CourtReservationDto>());
         
         
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         var result = (await service.GetDailyScheduleAsync
             (_courtGuid, DateTime.Today)).ToList();
 
@@ -276,7 +279,7 @@ public class CourtServiceTests
             .Returns(new List<CourtReservationDto> {wantedCourtResDto});
         
         
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         var result = (await service.GetDailyScheduleAsync
             (_courtGuid, new DateTime(2020, 1, 2))).ToList();
 
@@ -301,7 +304,7 @@ public class CourtServiceTests
                 new CourtReservationDto(), new CourtReservationDto()});
         
         
-        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object);
+        CourtService service = new CourtService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         var result = (await service.GetDailyScheduleAsync
             (_courtGuid, new DateTime(2020, 1, 1))).ToList();
 
