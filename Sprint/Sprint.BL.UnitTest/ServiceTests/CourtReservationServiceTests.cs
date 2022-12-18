@@ -224,28 +224,10 @@ public class CourtReservationServiceTests
         var result = await service.GetReservationAsync(_reservationGuid);
         result.Should().Be(wantedCourtResDto);
     }
-    
-    
-    [Fact]
-    public async Task GetReservationsAsync_UserIdBoolInvalidId_InvalidOperationException()
-    {
-        Guid userGuid = Guid.NewGuid();
 
-        _userServiceMock
-            .Setup(x => x.GetUserAsync(userGuid))
-            .ThrowsAsync(new InvalidOperationException());
-        
-        CourtReservationService service = new CourtReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
-        
-        var action = () => service.GetReservations(null, false, false);
-        action.Should()
-            .Throw<InvalidOperationException>();
-    }
-    
-    
+
     [Fact]
-    public async Task GetReservationAsync_UserIdPast_SixReservations()
+    public async Task GetReservationAsync_UserPast_SixReservations()
     {
         var user = new UserDto
         {
@@ -260,14 +242,14 @@ public class CourtReservationServiceTests
         CourtReservationService service = new CourtReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         
-        var result = service.GetReservations(_userDto, true, true);
+        var result = service.GetReservations(user, true, true);
         result.Should().HaveCount(6);
         result.Should().Contain(_reservationsDto[0]);
         result.Should().Contain(_reservationsDto[5]);
     }
     
     [Fact]
-    public async Task GetReservationAsync_UserIdNotPast_SixReservations()
+    public async Task GetReservationAsync_UserNotPast_SixReservations()
     {
         var user = new UserDto
         {
@@ -282,7 +264,7 @@ public class CourtReservationServiceTests
         CourtReservationService service = new CourtReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         
-        var result = service.GetReservations(_userDto, false, true);
+        var result = service.GetReservations(user, false, true);
         result.Should().HaveCount(3);
         result.Should().NotContain(_reservationsDto[0]);
         result.Should().Contain(_reservationsDto[5]);
@@ -290,7 +272,7 @@ public class CourtReservationServiceTests
     
     
     [Fact]
-    public async Task GetReservationAsync_UserIdTimespan_ThreeReservations()
+    public async Task GetReservationAsync_UserTimespan_ThreeReservations()
     {
         var user = new UserDto
         {
@@ -305,13 +287,13 @@ public class CourtReservationServiceTests
         CourtReservationService service = new CourtReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
         
-        var result = service.GetReservations(_userDto,true, false);
+        var result = service.GetReservations(user,false, true);
         
         result.Should().HaveCount(3);
         result.Should().NotContain(_reservationsDto[0]);
         result.Should().NotContain(_reservationsDto[1]);
-        result.Should().NotContain(_reservationsDto[3]);
-        result.Should().Contain(_reservationsDto[2]);
+        result.Should().NotContain(_reservationsDto[2]);
+        result.Should().Contain(_reservationsDto[3]);
         result.Should().Contain(_reservationsDto[4]);
         result.Should().Contain(_reservationsDto[5]);
     }

@@ -172,7 +172,7 @@ public class TrainerReservationServiceTests
         TrainerReservationService service = new TrainerReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object);
 
-        var result = await service.AddReservationAsync(_courtResDtos.First(), _trainerGuid);
+        var result = await service.AddReservationAsync(_trainerResDto.CourtReservation, _trainerResDto.Id);
 
         result.Should().Be(_trainerResDto);
     }

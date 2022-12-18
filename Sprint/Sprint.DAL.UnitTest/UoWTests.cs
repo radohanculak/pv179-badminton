@@ -124,10 +124,12 @@ public class UoWTests
         await uow.UserRepository.InsertAsync(userToAdd);
         var user = await uow.UserRepository.GetByIdAsync(userGuidToUpdate);
         user.FirstName = "Mike";
+        uow.UserRepository.Update(user);
 
         await uow.CourtRepository.InsertAsync(courtToAdd);
         var court = await uow.CourtRepository.GetByIdAsync(courtGuidToUpdate);
         court.CourtNumber = "123";
+        uow.CourtRepository.Update(court);
         
         await uow.CommitAsync();
 
