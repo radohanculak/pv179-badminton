@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Sprint.Common.Enums;
 using Sprint.DAL.EFCore.Models;
 
@@ -8,6 +9,10 @@ public static class DataInitializer
 {
     public static void Seeder(this ModelBuilder modelBuilder)
     {
+        var hasher = new PasswordHasher<User>();
+        var passwordHash = hasher.HashPassword(null, "password");
+        const string photo = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg";
+
         var Adam = new User
         {
             Id = Guid.NewGuid(),
@@ -15,8 +20,8 @@ public static class DataInitializer
             LastName = "Mydla",
             DateOfBirth = new DateTime(2001, 5, 31),
             Email = "514329@mail.muni.cz",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = false,
             SecurityStamp = "1abcdef",
             Role = UserRole.User,
@@ -30,8 +35,8 @@ public static class DataInitializer
             LastName = "Griffin",
             DateOfBirth = new DateTime(1995, 5, 31),
             Email = "pppeter@nonexistentmail.com",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = false,
             SecurityStamp = "2abcdef",
             Role = UserRole.User,
@@ -45,8 +50,8 @@ public static class DataInitializer
             LastName = "NieTenRoman",
             DateOfBirth = new DateTime(1993, 9, 1),
             Email = "rntr@nonexistentmail.com",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = false,
             SecurityStamp = "3abcdef",
             Role = UserRole.User,
@@ -60,8 +65,8 @@ public static class DataInitializer
             LastName = "Bellucci",
             DateOfBirth = new DateTime(1955, 5, 5),
             Email = "monic@nonexistentmail.com",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = false,
             SecurityStamp = "4abcdef",
             Role = UserRole.User,
@@ -75,8 +80,8 @@ public static class DataInitializer
             LastName = "Hančuľák",
             DateOfBirth = new DateTime(1995, 5, 5),
             Email = "rhanculak@mail.muni.cz",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = true,
             SecurityStamp = "5abcdef",
             Role = UserRole.Trainer,
@@ -90,8 +95,8 @@ public static class DataInitializer
             LastName = "Viceníková",
             DateOfBirth = new DateTime(1995, 5, 5),
             Email = "493352@mail.muni.cz",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = true,
             SecurityStamp = "6abcdef",
             Role = UserRole.Trainer,
@@ -105,11 +110,11 @@ public static class DataInitializer
             LastName = "Admin",
             DateOfBirth = new DateTime(1995, 5, 5),
             Email = "admin@sprint.cz",
-            PasswordHash = "tbd",
-            PhotoPath = "tbd",
+            PasswordHash = passwordHash,
+            PhotoPath = photo,
             IsTrainer = true,
             SecurityStamp = "6abcdef",
-            Role = UserRole.Trainer,
+            Role = UserRole.Admin,
             IsDeleted = false
         };
 
@@ -119,6 +124,7 @@ public static class DataInitializer
         modelBuilder.Entity<User>().HasData(Roman);
         modelBuilder.Entity<User>().HasData(Rado);
         modelBuilder.Entity<User>().HasData(Jitka);
+        modelBuilder.Entity<User>().HasData(admin);
 
         var RadoTrainer = new Trainer
         {
@@ -178,10 +184,13 @@ public static class DataInitializer
         modelBuilder.Entity<Court>().HasData(courtC);
         modelBuilder.Entity<Court>().HasData(courtD);
 
+        const string trainerPhotoPath =
+            "https://static8.depositphotos.com/1460388/938/i/600/depositphotos_9388060-stock-photo-next-rally.jpg";
+        
         var RadoTrainerPhoto1 = new TrainerPhoto
         {
             Id = Guid.NewGuid(),
-            Path = "tbd",
+            Path = trainerPhotoPath,
             Hide = false,
             TrainerId = RadoTrainer.Id,
             IsDeleted = false
@@ -190,7 +199,7 @@ public static class DataInitializer
         var RadoTrainerPhoto2 = new TrainerPhoto
         {
             Id = Guid.NewGuid(),
-            Path = "tbd",
+            Path = trainerPhotoPath,
             Hide = false,
             TrainerId = RadoTrainer.Id,
             IsDeleted = false
@@ -199,7 +208,7 @@ public static class DataInitializer
         var JitkaTrainerPhoto1 = new TrainerPhoto
         {
             Id = Guid.NewGuid(),
-            Path = "tbd",
+            Path = trainerPhotoPath,
             Hide = true,
             TrainerId = JitkaTrainer.Id,
             IsDeleted = false
@@ -208,7 +217,7 @@ public static class DataInitializer
         var JitkaTrainerPhoto2 = new TrainerPhoto
         {
             Id = Guid.NewGuid(),
-            Path = "tbd",
+            Path = trainerPhotoPath,
             Hide = true,
             TrainerId = JitkaTrainer.Id,
             IsDeleted = false
@@ -350,7 +359,7 @@ public static class DataInitializer
         {
             Id = Guid.NewGuid(),
             Rating = 5,
-            Text = "tbd",
+            Text = "Awesome!",
             Hide = false,
             ReservationId = JitkaMonica.Id,
             IsDeleted = false
