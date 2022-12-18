@@ -1,4 +1,3 @@
-using System.Text;
 using AutoMapper;
 using FluentAssertions;
 using Moq;

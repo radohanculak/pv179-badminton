@@ -1,6 +1,5 @@
 using Ardalis.GuardClauses;
 using AutoMapper;
-using Sprint.BL.Dto.CourtReservation;
 using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;

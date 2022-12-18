@@ -5,7 +5,6 @@ using Sprint.BL.Dto.User;
 using Sprint.BL.Services.Interfaces;
 using Sprint.DAL.EFCore.Models;
 using Sprint.Infrastructure.UnitOfWork;
-using System.Text;
 
 namespace Sprint.BL.Services;
 
@@ -50,10 +49,8 @@ public class PhotoService : IPhotoService
             trainer.Photos.Add(newPhoto);
         }
         
-        //_unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         await _unitOfWork.CommitAsync();
         _unitOfWork.TrainerPhotoRepository.ClearTracking();
-        //_unitOfWork.TrainerRepository.ClearTracking();
 
         return true;
     }
@@ -89,14 +86,11 @@ public class PhotoService : IPhotoService
                 _mapper.Map<TrainerPhoto>(photo)
             );
         }
-
         
-        //_unitOfWork.TrainerRepository.Update(_mapper.Map<Trainer>(trainer));
         // all trainer photos should now have hidden attribute set to true
         // trainer.TrainerPhotos will still contain them, but as hidden
 
         await _unitOfWork.CommitAsync();
         _unitOfWork.TrainerPhotoRepository.ClearTracking();
-        //_unitOfWork.TrainerRepository.ClearTracking();
     }
 }

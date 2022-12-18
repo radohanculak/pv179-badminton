@@ -1,6 +1,5 @@
 using Sprint.Common.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc.Html;
 
 namespace Sprint.MVC.Models.User;
 

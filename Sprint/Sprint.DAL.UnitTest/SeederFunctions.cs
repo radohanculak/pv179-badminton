@@ -1,12 +1,4 @@
-﻿using Sprint.DAL.EFCore;
-using Sprint.Infrastructure;
-using Sprint.Infrastructure.EFCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Sprint.DAL.EFCore.Data;
-using Sprint.DAL.EFCore.Models;
-using Sprint.Infrastructure.EFCore.Query;
-using Sprint.Infrastructure.EFCore.Repository;
+﻿using Sprint.DAL.EFCore.Models;
 
 namespace Sprint.DAL.UnitTest;
 

@@ -114,8 +114,6 @@ public class UserService : IUserService
 
     public async Task DeleteUserAsync(Guid userId)
     {
-        //var user = await GetUserAsync(userId);
-
         var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
         
         user.IsDeleted = true;
