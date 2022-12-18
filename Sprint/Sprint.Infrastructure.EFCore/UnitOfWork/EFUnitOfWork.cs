@@ -40,6 +40,7 @@ public class EFUnitOfWork : IUnitOfWork
     public async Task CommitAsync()
     {
         await _dbContext.SaveChangesAsync();
+        _dbContext.ChangeTracker.Clear();
     }
 
     public void Dispose()
