@@ -22,16 +22,6 @@ public class UserFacade : IUserFacade
         _trainerResService = trainerResService;
     }
 
-    // public async Task<(UserDto, TrainerDto)> AddTrainerAsync(string firstName, string lastName,
-    //     string email, DateTime dateOfBirth, string description, decimal hourlyRate)
-    // {
-    //     var userDto = await _userService.AddUserAsync(firstName, lastName, email, dateOfBirth);
-    //     
-    //     var trainerDto = await _trainerService.AddTrainerAsync(userDto.Id, description, hourlyRate);
-    //
-    //     return (userDto, trainerDto);
-    // }
-    
     public async Task<(UserDto, TrainerDto)> AddTrainerAsync(UserDto user, string description, decimal hourlyRate)
     {
         var userDto = await _userService.AddUserAsync(user);
@@ -60,26 +50,6 @@ public class UserFacade : IUserFacade
     {
         await _userService.UpdateUserAsync(userId, firstName, lastName, email, password, role);
     }
-
-    // public Task<UserDto> Login(UserCreateDto user)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task<bool> Logout(UserCreateDto user)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task<UserDto> Register(UserCreateDto user)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task<bool> ChangePassword(Guid userId, string hash)
-    // {
-    //     throw new NotImplementedException();
-    // }
     
     public async Task UserChangeRoleAsync(Guid userId, UserRole role)
     {

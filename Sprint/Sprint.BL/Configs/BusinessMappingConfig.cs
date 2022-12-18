@@ -1,5 +1,4 @@
 using AutoMapper;
-// using Microsoft.AspNetCore.Identity;
 using Sprint.BL.Dto.User;
 using Sprint.BL.Dto.Court;
 using Sprint.BL.Dto.CourtReservation;
@@ -39,11 +38,4 @@ public class BusinessMappingConfig
 
     private static int GetAge(DateTime dateOfBirth) =>
         DateTime.Today.Subtract(dateOfBirth).Days / 365;
-
-    /*
-     * UserDto type is not actually used in the function, but it has to be there
-     */
-    // private static string GetPasswordHash(string password) =>
-    //     new PasswordHasher<UserDto>().HashPassword(null!, password);
-
 }

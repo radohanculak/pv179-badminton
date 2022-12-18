@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sprint.BL.Dto.TrainerPhoto;
 
 namespace Sprint.MVC.Models.Trainer;
 

@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Sprint.BL.Facades.Interfaces;
-using Sprint.BL.Services.Interfaces;
 using Sprint.Common.Enums;
-using Sprint.MVC.Models.TrainerReview;
 using Sprint.MVC.Models.User;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 

@@ -1,5 +1,4 @@
 ﻿using Sprint.BL.Dto.Trainer;
-using Sprint.BL.Dto.TrainerReview;
 
 namespace Sprint.MVC.Models.Trainer;
 

@@ -48,9 +48,7 @@ public class AutofacInfrastructureConfig : Module
         builder.RegisterType<EFTrainerQueryObject>()
           .As<ITrainerQueryObject>()
           .InstancePerDependency();
-
-        /////////////////////////////////////////////////////////////////////////////////////////
-        // delete before deploy
+        
         builder.RegisterType<SprintDbContext>()
             .AsSelf()
             .InstancePerLifetimeScope();

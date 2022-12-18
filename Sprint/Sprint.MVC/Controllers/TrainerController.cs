@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sprint.BL.Facades.Interfaces;
 using Sprint.MVC.Models.Trainer;
-using Sprint.MVC.Models.TrainerReview;
 
 namespace Sprint.MVC.Controllers;
 

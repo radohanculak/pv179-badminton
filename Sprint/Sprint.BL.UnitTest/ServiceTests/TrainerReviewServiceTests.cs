@@ -1,9 +1,6 @@
 using AutoMapper;
 using FluentAssertions;
 using Moq;
-using Sprint.BL.Dto.Court;
-using Sprint.BL.Dto.CourtReservation;
-using Sprint.BL.Dto.Trainer;
 using Sprint.BL.Dto.TrainerReservation;
 using Sprint.BL.Dto.TrainerReview;
 using Sprint.BL.Services;
