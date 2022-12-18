@@ -31,6 +31,7 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
 
     public virtual void Delete(TEntity entityToDelete)
     {
+        _dbContext.ChangeTracker.Clear();
         if (_dbContext.Entry(entityToDelete).State == EntityState.Detached)
         {
             dbSet.Attach(entityToDelete);
@@ -41,6 +42,7 @@ public class EFGenericRepository<TEntity> : IRepository<TEntity> where TEntity :
 
     public virtual void Update(TEntity entityToUpdate)
     {
+        _dbContext.ChangeTracker.Clear();
         dbSet.Attach(entityToUpdate);
         _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
     }
