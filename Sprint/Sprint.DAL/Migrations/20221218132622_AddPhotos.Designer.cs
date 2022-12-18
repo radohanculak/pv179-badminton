@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sprint.DAL.EFCore.Data;
 
@@ -10,9 +11,11 @@ using Sprint.DAL.EFCore.Data;
 namespace Sprint.DAL.EFCore.Migrations
 {
     [DbContext(typeof(SprintDbContext))]
-    partial class SprintDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221218132622_AddPhotos")]
+    partial class AddPhotos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -40,28 +43,28 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9f3191c6-1e26-4b7b-8e72-ab567cfffd6a"),
+                            Id = new Guid("4c74390d-31bd-431e-bec5-7478d8bc067a"),
                             CourtNumber = "A",
                             HourlyRate = 1000m,
                             IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("ddbc951b-4266-45fb-a251-2f95a790a70d"),
+                            Id = new Guid("0cdbbff1-2588-4d06-acdb-c9c765763ecd"),
                             CourtNumber = "B",
                             HourlyRate = 800m,
                             IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("355a1a58-e4eb-4ae7-8288-a4ddc36a0134"),
+                            Id = new Guid("21582987-8c62-4c0e-8baa-c9b17bef04a9"),
                             CourtNumber = "C",
                             HourlyRate = 800m,
                             IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("794d2012-dc07-42c9-a2d8-a685b15f3786"),
+                            Id = new Guid("08270c26-6799-4270-a319-533bee854927"),
                             CourtNumber = "D",
                             HourlyRate = 500m,
                             IsDeleted = false
@@ -103,83 +106,83 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dae9a42b-fd8a-47d2-9d38-bd88d0ca1120"),
-                            CourtId = new Guid("9f3191c6-1e26-4b7b-8e72-ab567cfffd6a"),
+                            Id = new Guid("1c4199b5-dffa-4d91-a5d8-b9b7a45ad9f8"),
+                            CourtId = new Guid("4c74390d-31bd-431e-bec5-7478d8bc067a"),
                             Created = new DateTime(2022, 9, 20, 9, 53, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 29, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 29, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("885b4e04-a384-4e97-b7bb-8ba2c5a498c6")
+                            UserId = new Guid("f48f6bc9-42f1-4eeb-b234-e58711a87103")
                         },
                         new
                         {
-                            Id = new Guid("7de69e84-3663-450e-8d93-d3b27ca680f5"),
-                            CourtId = new Guid("355a1a58-e4eb-4ae7-8288-a4ddc36a0134"),
+                            Id = new Guid("60f7e6bc-ceac-4a89-9ed6-e4822ece7d96"),
+                            CourtId = new Guid("21582987-8c62-4c0e-8baa-c9b17bef04a9"),
                             Created = new DateTime(2022, 9, 21, 6, 51, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 30, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 30, 13, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("885b4e04-a384-4e97-b7bb-8ba2c5a498c6")
+                            UserId = new Guid("f48f6bc9-42f1-4eeb-b234-e58711a87103")
                         },
                         new
                         {
-                            Id = new Guid("bc67b007-02d9-4c84-8cad-13d0f058908d"),
-                            CourtId = new Guid("355a1a58-e4eb-4ae7-8288-a4ddc36a0134"),
+                            Id = new Guid("46ca34a1-d8b2-45bd-98dd-c75dc3593e58"),
+                            CourtId = new Guid("21582987-8c62-4c0e-8baa-c9b17bef04a9"),
                             Created = new DateTime(2022, 9, 5, 23, 59, 59, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 11, 17, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = true,
                             To = new DateTime(2022, 11, 17, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("885b4e04-a384-4e97-b7bb-8ba2c5a498c6")
+                            UserId = new Guid("f48f6bc9-42f1-4eeb-b234-e58711a87103")
                         },
                         new
                         {
-                            Id = new Guid("a25e935c-b835-4595-9578-eea7ecb4ffe2"),
-                            CourtId = new Guid("9f3191c6-1e26-4b7b-8e72-ab567cfffd6a"),
+                            Id = new Guid("df96fece-4bd0-46d9-ada9-d1ea7b39bec1"),
+                            CourtId = new Guid("4c74390d-31bd-431e-bec5-7478d8bc067a"),
                             Created = new DateTime(2022, 9, 20, 9, 53, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 29, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 29, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("1b2d9929-0ded-41c5-ab02-2ea77b034b14")
+                            UserId = new Guid("02414384-5f04-4c71-817e-84c9401489af")
                         },
                         new
                         {
-                            Id = new Guid("d42de53a-7788-49ea-a7ba-c07dd5eda7ff"),
-                            CourtId = new Guid("9f3191c6-1e26-4b7b-8e72-ab567cfffd6a"),
+                            Id = new Guid("0d6f904c-09e3-46bb-96a3-71225fc687dd"),
+                            CourtId = new Guid("4c74390d-31bd-431e-bec5-7478d8bc067a"),
                             Created = new DateTime(2022, 9, 28, 19, 19, 19, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 10, 1, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 10, 1, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("1b2d9929-0ded-41c5-ab02-2ea77b034b14")
+                            UserId = new Guid("02414384-5f04-4c71-817e-84c9401489af")
                         },
                         new
                         {
-                            Id = new Guid("daf53428-11a8-45db-8ed0-36b15551e519"),
-                            CourtId = new Guid("ddbc951b-4266-45fb-a251-2f95a790a70d"),
+                            Id = new Guid("4970864a-7db3-4d37-bf25-9136d2ac9852"),
+                            CourtId = new Guid("0cdbbff1-2588-4d06-acdb-c9c765763ecd"),
                             Created = new DateTime(2022, 9, 15, 18, 4, 4, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 16, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 9, 16, 17, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("8a2d90eb-2022-48d9-8382-14cde71351a5")
+                            UserId = new Guid("bcbcb6f0-6f36-4bf4-b44b-81f539030b8d")
                         },
                         new
                         {
-                            Id = new Guid("c83ae353-1c6d-4010-9195-0d9fae4bc521"),
-                            CourtId = new Guid("ddbc951b-4266-45fb-a251-2f95a790a70d"),
+                            Id = new Guid("4869f2a5-5283-4aac-9286-07ffdf64e4b1"),
+                            CourtId = new Guid("0cdbbff1-2588-4d06-acdb-c9c765763ecd"),
                             Created = new DateTime(2022, 9, 16, 9, 53, 34, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 9, 17, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = true,
                             To = new DateTime(2022, 9, 17, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("8a2d90eb-2022-48d9-8382-14cde71351a5")
+                            UserId = new Guid("bcbcb6f0-6f36-4bf4-b44b-81f539030b8d")
                         },
                         new
                         {
-                            Id = new Guid("198b0f1e-11ab-474a-aa44-ae9d3661fd5e"),
-                            CourtId = new Guid("794d2012-dc07-42c9-a2d8-a685b15f3786"),
+                            Id = new Guid("dafc2fa5-40a9-48fc-8864-b99b3bbbcdfa"),
+                            CourtId = new Guid("08270c26-6799-4270-a319-533bee854927"),
                             Created = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             From = new DateTime(2022, 12, 31, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             To = new DateTime(2022, 12, 31, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("aa411737-fd41-4870-83a6-e8dc4044e3b7")
+                            UserId = new Guid("4386b2d9-89ff-453d-8d1e-f8d5ba2eb87b")
                         });
                 });
 
@@ -211,19 +214,19 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d4fbc9d5-1145-4ed9-a73e-c24b0f6374a0"),
+                            Id = new Guid("dfdb5acc-aeb2-4465-a859-8ba250311e38"),
                             Description = "I know how to play, that's all",
                             HourlyRate = 2000m,
                             IsDeleted = false,
-                            UserId = new Guid("01e782c1-5410-4679-a6a0-9b4aa8f29b21")
+                            UserId = new Guid("9a14dd6e-6198-4b43-ba4e-f15319cb66a7")
                         },
                         new
                         {
-                            Id = new Guid("d5d48bf1-dd40-4bf1-a359-49d1294d1b3f"),
+                            Id = new Guid("e97aaae7-f306-418a-bbb0-8172600ca28b"),
                             Description = "I know how to play even better, that's all",
                             HourlyRate = 3485m,
                             IsDeleted = false,
-                            UserId = new Guid("1b0fadba-d4c0-4dda-be29-070698133b26")
+                            UserId = new Guid("b2d6a26e-8cb5-4301-9d6f-6acbd4cdba52")
                         });
                 });
 
@@ -255,35 +258,35 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b36fc384-f8d0-42aa-a352-7b6d9d32ee14"),
+                            Id = new Guid("ff161d88-213e-4958-8059-d97798c69d19"),
                             Hide = false,
                             IsDeleted = false,
-                            Path = "https://static8.depositphotos.com/1460388/938/i/600/depositphotos_9388060-stock-photo-next-rally.jpg",
-                            TrainerId = new Guid("d4fbc9d5-1145-4ed9-a73e-c24b0f6374a0")
+                            Path = "tbd",
+                            TrainerId = new Guid("dfdb5acc-aeb2-4465-a859-8ba250311e38")
                         },
                         new
                         {
-                            Id = new Guid("b772b3a7-238f-487a-bf58-b391cd67ad00"),
+                            Id = new Guid("8bd0b742-4183-4cfa-9704-889d45f9197c"),
                             Hide = false,
                             IsDeleted = false,
-                            Path = "https://static8.depositphotos.com/1460388/938/i/600/depositphotos_9388060-stock-photo-next-rally.jpg",
-                            TrainerId = new Guid("d4fbc9d5-1145-4ed9-a73e-c24b0f6374a0")
+                            Path = "tbd",
+                            TrainerId = new Guid("dfdb5acc-aeb2-4465-a859-8ba250311e38")
                         },
                         new
                         {
-                            Id = new Guid("2cfb41fa-f5d7-4804-be96-7c1aea18885d"),
+                            Id = new Guid("b26b93fc-f4c5-4dbf-b35b-1fa94db26273"),
                             Hide = true,
                             IsDeleted = false,
-                            Path = "https://static8.depositphotos.com/1460388/938/i/600/depositphotos_9388060-stock-photo-next-rally.jpg",
-                            TrainerId = new Guid("d5d48bf1-dd40-4bf1-a359-49d1294d1b3f")
+                            Path = "tbd",
+                            TrainerId = new Guid("e97aaae7-f306-418a-bbb0-8172600ca28b")
                         },
                         new
                         {
-                            Id = new Guid("f3a7c39c-c819-4ab4-8000-978e8d4f5704"),
+                            Id = new Guid("81ed96c7-f207-4952-a889-53ccc5ca0783"),
                             Hide = true,
                             IsDeleted = false,
-                            Path = "https://static8.depositphotos.com/1460388/938/i/600/depositphotos_9388060-stock-photo-next-rally.jpg",
-                            TrainerId = new Guid("d5d48bf1-dd40-4bf1-a359-49d1294d1b3f")
+                            Path = "tbd",
+                            TrainerId = new Guid("e97aaae7-f306-418a-bbb0-8172600ca28b")
                         });
                 });
 
@@ -314,24 +317,24 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("59320dac-3a78-41d2-a962-0252ee865176"),
-                            CourtReservationId = new Guid("c83ae353-1c6d-4010-9195-0d9fae4bc521"),
+                            Id = new Guid("0d3198ef-53c1-45aa-8ae8-670d4e08bf36"),
+                            CourtReservationId = new Guid("4869f2a5-5283-4aac-9286-07ffdf64e4b1"),
                             IsDeleted = true,
-                            TrainerId = new Guid("d4fbc9d5-1145-4ed9-a73e-c24b0f6374a0")
+                            TrainerId = new Guid("dfdb5acc-aeb2-4465-a859-8ba250311e38")
                         },
                         new
                         {
-                            Id = new Guid("4e66c4d2-f30b-4ff3-8178-e42a0f03fa18"),
-                            CourtReservationId = new Guid("daf53428-11a8-45db-8ed0-36b15551e519"),
+                            Id = new Guid("cd658e1a-9056-4966-9af8-9a2b66b293af"),
+                            CourtReservationId = new Guid("4970864a-7db3-4d37-bf25-9136d2ac9852"),
                             IsDeleted = false,
-                            TrainerId = new Guid("d4fbc9d5-1145-4ed9-a73e-c24b0f6374a0")
+                            TrainerId = new Guid("dfdb5acc-aeb2-4465-a859-8ba250311e38")
                         },
                         new
                         {
-                            Id = new Guid("187d320f-e01c-44d5-ab32-9fc344c15888"),
-                            CourtReservationId = new Guid("198b0f1e-11ab-474a-aa44-ae9d3661fd5e"),
+                            Id = new Guid("e6c1928a-e4ca-43df-be38-7beb3596f9dd"),
+                            CourtReservationId = new Guid("dafc2fa5-40a9-48fc-8864-b99b3bbbcdfa"),
                             IsDeleted = false,
-                            TrainerId = new Guid("d5d48bf1-dd40-4bf1-a359-49d1294d1b3f")
+                            TrainerId = new Guid("e97aaae7-f306-418a-bbb0-8172600ca28b")
                         });
                 });
 
@@ -367,12 +370,12 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("05c529ba-e3e1-46ad-9d86-67e00c3db32c"),
+                            Id = new Guid("c86327ad-29f0-4fa4-82f9-fc7b234cabfa"),
                             Hide = false,
                             IsDeleted = false,
                             Rating = 5,
-                            ReservationId = new Guid("187d320f-e01c-44d5-ab32-9fc344c15888"),
-                            Text = "Awesome!"
+                            ReservationId = new Guid("e6c1928a-e4ca-43df-be38-7beb3596f9dd"),
+                            Text = "tbd"
                         });
                 });
 
@@ -424,100 +427,100 @@ namespace Sprint.DAL.EFCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("885b4e04-a384-4e97-b7bb-8ba2c5a498c6"),
+                            Id = new Guid("f48f6bc9-42f1-4eeb-b234-e58711a87103"),
                             DateOfBirth = new DateTime(2001, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "514329@mail.muni.cz",
                             FirstName = "Adam",
                             IsDeleted = false,
                             IsTrainer = false,
                             LastName = "Mydla",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
                             Role = 0,
                             SecurityStamp = "1abcdef"
                         },
                         new
                         {
-                            Id = new Guid("1b2d9929-0ded-41c5-ab02-2ea77b034b14"),
+                            Id = new Guid("02414384-5f04-4c71-817e-84c9401489af"),
                             DateOfBirth = new DateTime(1995, 5, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "pppeter@nonexistentmail.com",
                             FirstName = "Peter",
                             IsDeleted = false,
                             IsTrainer = false,
                             LastName = "Griffin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
                             Role = 0,
                             SecurityStamp = "2abcdef"
                         },
                         new
                         {
-                            Id = new Guid("aa411737-fd41-4870-83a6-e8dc4044e3b7"),
+                            Id = new Guid("4386b2d9-89ff-453d-8d1e-f8d5ba2eb87b"),
                             DateOfBirth = new DateTime(1955, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "monic@nonexistentmail.com",
                             FirstName = "Monica",
                             IsDeleted = false,
                             IsTrainer = false,
                             LastName = "Bellucci",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
                             Role = 0,
                             SecurityStamp = "4abcdef"
                         },
                         new
                         {
-                            Id = new Guid("8a2d90eb-2022-48d9-8382-14cde71351a5"),
+                            Id = new Guid("bcbcb6f0-6f36-4bf4-b44b-81f539030b8d"),
                             DateOfBirth = new DateTime(1993, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "rntr@nonexistentmail.com",
                             FirstName = "Roman",
                             IsDeleted = false,
                             IsTrainer = false,
                             LastName = "NieTenRoman",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
                             Role = 0,
                             SecurityStamp = "3abcdef"
                         },
                         new
                         {
-                            Id = new Guid("01e782c1-5410-4679-a6a0-9b4aa8f29b21"),
+                            Id = new Guid("9a14dd6e-6198-4b43-ba4e-f15319cb66a7"),
                             DateOfBirth = new DateTime(1995, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "rhanculak@mail.muni.cz",
                             FirstName = "Radovan",
                             IsDeleted = false,
                             IsTrainer = true,
                             LastName = "Hančuľák",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
                             Role = 1,
                             SecurityStamp = "5abcdef"
                         },
                         new
                         {
-                            Id = new Guid("1b0fadba-d4c0-4dda-be29-070698133b26"),
+                            Id = new Guid("b2d6a26e-8cb5-4301-9d6f-6acbd4cdba52"),
                             DateOfBirth = new DateTime(1995, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "493352@mail.muni.cz",
                             FirstName = "Jitka",
                             IsDeleted = false,
                             IsTrainer = true,
                             LastName = "Viceníková",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
                             Role = 1,
                             SecurityStamp = "6abcdef"
                         },
                         new
                         {
-                            Id = new Guid("38a0f66e-4357-4d08-90bc-6c001fab8248"),
+                            Id = new Guid("2b4f490b-78c6-4d78-8052-14095a47a7dd"),
                             DateOfBirth = new DateTime(1995, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@sprint.cz",
                             FirstName = "Admin",
                             IsDeleted = false,
                             IsTrainer = true,
                             LastName = "Admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYvse/qqhU35jl44zZBhM9bCpnX2o80uv2Q7NpynUUcTSL+TO6dSU258h/1muym4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHXEV2HCDjz7mVo6WFzIKS1rWts0VQwNFiYGj8JnBHlmD3xeqwMBBYvH4RhQITs5qQ==",
                             PhotoPath = "https://img3.stockfresh.com/files/w/wavebreak_media/m/12/8944331_stock-photo-badminton-player-holding-racket-and-shuttlecock.jpg",
-                            Role = 2,
+                            Role = 1,
                             SecurityStamp = "6abcdef"
                         });
                 });
