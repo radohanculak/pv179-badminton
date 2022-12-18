@@ -110,7 +110,7 @@ public class PhotoServiceTests
         );
 
         var path = service.GetProfilePhoto(_userDto);
-        path.Should().Equal(Encoding.ASCII.GetBytes(_profilePhotoPath));
+        path.Should().Be(_profilePhotoPath);
     }
 
     [Fact]
@@ -137,7 +137,7 @@ public class PhotoServiceTests
 
         var path = service.GetProfilePhoto(_userDto);
           
-        path.Should().Equal(Encoding.ASCII.GetBytes(_profilePhotoPath));
+        path.Should().Be(_profilePhotoPath);
     }
 
     [Fact]
@@ -166,7 +166,8 @@ public class PhotoServiceTests
 
         var path = service.GetProfilePhoto(_userDto);
 
-        path.Should().Equal(Array.Empty<byte>());
+        path.Should().Be("");
+        //path.Should().Equal(new string(""));
     }
 
     [Fact]

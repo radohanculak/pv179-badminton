@@ -4,6 +4,7 @@ using Moq;
 using Sprint.BL.Dto.User;
 using Sprint.BL.Services;
 using Sprint.DAL.EFCore.Models;
+using Sprint.Infrastructure.Query;
 using Sprint.Infrastructure.UnitOfWork;
 
 namespace Sprint.BL.UnitTest.ServiceTests;
@@ -12,6 +13,7 @@ public class UserServiceTests
 {
     private Mock<IUnitOfWork> _unitOfWorkMock;
     private Mock<IMapper> _mapperMock;
+    private Mock<IQueryObject<User>> _queryObjectMock;
     private User _user;
     private UserDto _userDto;
     
@@ -25,6 +27,7 @@ public class UserServiceTests
     {
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _mapperMock = new Mock<IMapper>();
+        _queryObjectMock = new Mock<IQueryObject<User>>();
 
         _user = new User
         {
@@ -45,54 +48,95 @@ public class UserServiceTests
         };
     }
     
+    
     [Fact]
     public async Task AddUserAsync_InvalidFirstName_ArgumentException()
     {
-        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object);
-    
-        var action = () => service.AddUserAsync("  ", "Biden", "asd@asd.com", DateTime.Now);
+        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
+
+        var userDto = new UserDto
+        {
+            FirstName = "  ",
+            LastName = "Biden",
+            Email = "asd@asd.com",
+            DateOfBirth = DateTime.Now,
+        };
+        
+        var action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
     }
     
     [Fact]
     public async Task AddUserAsync_InvalidLastName_ArgumentException()
     {
-        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object);
+        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
-        var action = () => service.AddUserAsync("Joe", "\n", "asd@asd.com", DateTime.Now);
+        var userDto = new UserDto
+        {
+            FirstName = "Joe",
+            LastName = "\n",
+            Email = "asd@asd.com",
+            DateOfBirth = DateTime.Now,
+        };
+        
+        var action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
     }
     
     [Fact]
     public async Task AddUserAsync_InvalidMail_ArgumentException()
     {
-        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object);
+        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
-        var action = () => service.AddUserAsync("Joe", "Biden", "asd@asdcom", DateTime.Now);
-        await action.Should().ThrowAsync<ArgumentException>();
+        var userDto = new UserDto
+        {
+            FirstName = "Joe",
+            LastName = "Biden",
+            Email = "asd@asdcom",
+            DateOfBirth = DateTime.Now,
+        };
         
-        action = () => service.AddUserAsync("Joe", "Biden", "asdasd.com", DateTime.Now);
+        var action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
-        
-        action = () => service.AddUserAsync("Joe", "Biden", "asdasdcom", DateTime.Now);
+
+        userDto.Email = "asdasd.com";
+        action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
-        
-        action = () => service.AddUserAsync("Joe", "Biden", "asd@", DateTime.Now);
+
+        userDto.Email = "asdasdcom";
+        action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
-        
-        action = () => service.AddUserAsync("Joe", "Biden", "asd@asd.", DateTime.Now);
+
+        userDto.Email = "asd@";
+        action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
-        
-        action = () => service.AddUserAsync("Joe", "Biden", "@asd.com", DateTime.Now);
+
+        userDto.Email = "asd@asd.";
+        action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
-        
-        action = () => service.AddUserAsync("Joe", "Biden", "asd@.com", DateTime.Now);
+
+        userDto.Email = "@asd.com";
+        action = () => service.AddUserAsync(userDto);
+        await action.Should().ThrowAsync<ArgumentException>();
+
+        userDto.Email = "asd@.com";
+        action = () => service.AddUserAsync(userDto);
         await action.Should().ThrowAsync<ArgumentException>();
     }
+    
+    
     
     [Fact]
     public async Task AddUserAsync_Valid_NewUser()
     {
+        var userDto = new UserDto
+        {
+            FirstName = _firstName,
+            LastName = _lastName,
+            Email = _email,
+            DateOfBirth = _dateOfBirth,
+        };
+
         _unitOfWorkMock
             .Setup(x => x.UserRepository.GetByIdAsync(_userGuid))
             .ReturnsAsync(_user);
@@ -104,11 +148,13 @@ public class UserServiceTests
             .Setup(x => x.Map<UserDto>(_user))
             .Returns(_userDto);
         
-        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object);
+        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
-        var returnUser = await service.AddUserAsync(_firstName, _lastName, _email, _dateOfBirth);
+        var returnUser = await service.AddUserAsync(userDto);
         returnUser.Should().Be(_userDto);
     }
+    
+    
 
 
     [Fact]
@@ -118,7 +164,7 @@ public class UserServiceTests
             .Setup(x => x.UserRepository.GetByIdAsync(_userGuid))
             .ReturnsAsync((User?)null);
         
-        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object);
+        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
         var action = () => service.GetUserAsync(_userGuid);
         await action.Should()
@@ -137,7 +183,7 @@ public class UserServiceTests
             .Setup(x => x.Map<UserDto>(_user))
             .Returns(_userDto);
         
-        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object);
+        UserService service = new UserService(_unitOfWorkMock.Object, _mapperMock.Object, _queryObjectMock.Object);
     
         var returnUser = await service.GetUserAsync(_userGuid);
         returnUser.Should().Be(_userDto);

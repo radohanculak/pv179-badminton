@@ -147,30 +147,9 @@ public class TrainerReservationServiceTests
 
 
     [Fact]
-    public async Task AddReservationAsync_InvalidTrainerId_ArgumentException()
-    {
-        _trainerServiceMock
-            .Setup(x => x.GetTrainerAsync(It.IsAny<Guid>()))
-            .ThrowsAsync(new InvalidOperationException());
-        
-        TrainerReservationService service = new TrainerReservationService(
-            _unitOfWorkMock.Object, _mapperMock.Object);
-
-        var action = () => service.AddReservationAsync(_courtResDtos.First(), new Guid());
-        await action.Should()
-            .ThrowAsync<InvalidOperationException>();
-    }
-
-
-    [Fact]
     public async Task AddReservationAsync_Valid_NewReservation()
     {
         var courtResGuid = Guid.NewGuid();
-        
-        _courtReservationServiceMock
-            .Setup(x => x.AddReservationAsync(It.IsAny<Guid>(), It.IsAny<Guid>(),
-                It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new CourtReservationDto {Id = courtResGuid});
 
         _unitOfWorkMock
             .Setup(x => x.TrainerReservationRepository.InsertAsync(_trainerRes))
@@ -178,7 +157,7 @@ public class TrainerReservationServiceTests
 
         _mapperMock
             .Setup(x => x.Map<TrainerReservation>(It.Is<TrainerReservationCreateDto>
-                (x => x.TrainerId == _trainerGuid && x.CourtReservationId == courtResGuid)))
+                (x => x.TrainerId == _trainerResDto.Id && x.CourtReservationId == _trainerResDto.CourtReservation.Id)))
             .Returns(_trainerRes);
 
         _unitOfWorkMock
@@ -193,7 +172,7 @@ public class TrainerReservationServiceTests
         TrainerReservationService service = new TrainerReservationService(
             _unitOfWorkMock.Object, _mapperMock.Object);
 
-        var result = await service.AddReservationAsync(_courtResDtos.First(), _trainerGuid);
+        var result = await service.AddReservationAsync(_trainerResDto.CourtReservation, _trainerResDto.Id);
 
         result.Should().Be(_trainerResDto);
     }

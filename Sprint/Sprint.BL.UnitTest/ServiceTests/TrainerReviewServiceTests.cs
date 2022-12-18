@@ -277,14 +277,18 @@ public class TrainerReviewServiceTests
     [Fact]
     public async Task GetTrainerReviewsAsync_InvalidTrainerId_InvalidOperationException()
     {
-        _trainerServiceMock
-            .Setup(x => x.GetTrainerAsync(_trainerGuid))
-            .ThrowsAsync(new InvalidOperationException());
+        _unitOfWorkMock
+            .Setup(x => x.TrainerReviewRepository.GetAllAsync())
+            .ReturnsAsync(_reviews);
         
+        _mapperMock
+            .Setup(x => x.Map<IEnumerable<TrainerReviewDto>>(new List<TrainerReview>()))
+            .Returns(new List<TrainerReviewDto>());
+
         var service = new TrainerReviewService(_unitOfWorkMock.Object, _mapperMock.Object);
         
-        var action = () => service.GetTrainerReviewsAsync(_trainerGuid);
-        await action.Should().ThrowAsync<InvalidOperationException>();
+        var result = await service.GetTrainerReviewsAsync(new Guid());
+        result.Should().BeEmpty();
     }
     
     
